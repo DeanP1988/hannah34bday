@@ -1,0 +1,2896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Hannah's 34th Birthday Surprise</title>
+
+  <!-- iOS PWA meta tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Hannah's 34th">
+  <meta name="theme-color" content="#FFF5F7">
+
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- PWA Web App Manifest for iOS Lock Screen Push -->
+  <link rel="manifest" id="manifestLink">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          },
+          colors: {
+            blush: {
+              50: '#fff5f7',
+              100: '#ffe4e9',
+              200: '#fecdd7',
+              300: '#fda4b8',
+              400: '#fb7193',
+              500: '#f43f6e',
+              600: '#e11d59',
+              700: '#be1248',
+              800: '#9f1240',
+              900: '#831438',
+            },
+            gold: {
+              400: '#facc15',
+              500: '#eab308',
+              600: '#ca8a04',
+            }
+          },
+          animation: {
+            'float-slow': 'floatSlow 4s ease-in-out infinite',
+            'float-delayed': 'floatSlow 4s ease-in-out 2s infinite',
+            'pulse-subtle': 'pulseSubtle 2.5s infinite ease-in-out',
+            'shimmer': 'shimmer 2s linear infinite',
+            'pop-in': 'popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+          },
+          keyframes: {
+            floatSlow: {
+              '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+              '50%': { transform: 'translateY(-10px) rotate(1.5deg)' },
+            },
+            pulseSubtle: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.03)' },
+            },
+            popIn: {
+              '0%': { transform: 'scale(0.8)', opacity: '0' },
+              '100%': { transform: 'scale(1)', opacity: '1' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Mobile app viewport optimization & safe areas */
+    body {
+      -webkit-tap-highlight-color: transparent;
+      padding-top: env(safe-area-inset-top, 20px);
+      padding-bottom: env(safe-area-inset-bottom, 20px);
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Realistic 3D Gift Box Styling */
+    .present-box-container {
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .present-box-container:active {
+      transform: scale(0.95) translateY(-2px);
+    }
+    .present-box-container .lid-group {
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-origin: 50% 30%;
+    }
+    .present-box-container.is-opened .lid-group {
+      transform: translateY(-28px) rotate(-14deg) scale(1.08);
+      filter: drop-shadow(0 15px 12px rgba(0, 0, 0, 0.25));
+    }
+    .present-box-container.is-opened .gift-glow {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    .gift-glow {
+      transition: all 0.4s ease;
+      opacity: 0;
+      transform: scale(0.7);
+    }
+
+    /* Scratch canvas */
+    #scratchCanvas {
+      touch-action: none;
+    }
+
+    /* Candle Flame Animations & Interactive Styling */
+    .flame-element {
+      transform-origin: 50% 90%;
+      animation: flicker 1.2s ease-in-out infinite alternate;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(-1deg); filter: drop-shadow(0 0 6px rgba(251, 146, 60, 0.9)); }
+      50% { transform: scale(1.08, 0.95) rotate(2deg); filter: drop-shadow(0 0 10px rgba(250, 204, 21, 1)); }
+      100% { transform: scale(0.96, 1.05) rotate(-2deg); filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.8)); }
+    }
+    .flame-extinguished {
+      opacity: 0 !important;
+      transform: scale(0.2) translateY(-10px) !important;
+      pointer-events: none;
+    }
+    .smoke-wisp {
+      opacity: 0;
+      transform-origin: bottom center;
+      transition: opacity 0.6s ease, transform 1s ease-out;
+    }
+    .smoke-active {
+      opacity: 0.75 !important;
+      transform: translateY(-24px) scale(1.5) !important;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-rose-50 via-blush-50 to-pink-100 min-h-screen text-slate-800 flex flex-col font-sans antialiased overflow-x-hidden">
+
+  <!-- =========================================================
+       TOP APP HEADER
+       ========================================================= -->
+  <header class="sticky top-0 z-30 backdrop-blur-md bg-white/75 border-b border-rose-100/80 px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center space-x-2">
+      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-500 to-blush-400 flex items-center justify-center text-white shadow-sm font-serif font-bold text-sm">
+        H
+      </div>
+      <div>
+        <h1 class="text-sm font-bold text-slate-800 leading-none">Hannah's 34th</h1>
+        <p class="text-[10px] text-rose-500 font-medium tracking-wide">30 NOVEMBER 2026</p>
+      </div>
+    </div>
+    
+    <div class="flex items-center space-x-2">
+      <!-- Dean's Secret Workshop Button (Admin trigger) -->
+      <button onclick="openAdminModal()" class="p-2 rounded-full bg-rose-50 border border-rose-200 text-rose-500 active:scale-95 transition-all" title="Dean's Secret Workshop">
+        <span class="text-base">✨</span>
+      </button>
+      <!-- Wallet quick button -->
+      <button onclick="navigateTo('view-wallet')" class="relative p-2 rounded-full bg-rose-500 text-white shadow-sm shadow-rose-300 active:scale-95 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
+        </svg>
+        <span id="walletBadge" class="absolute -top-1 -right-1 bg-amber-400 text-slate-900 font-extrabold text-[9px] w-4 h-4 rounded-full flex items-center justify-center border-2 border-white shadow">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================
+       MAIN CONTENT CONTAINER
+       ========================================================= -->
+  <main class="flex-1 pb-24 max-w-md mx-auto w-full px-4 pt-4">
+
+    <!-- =======================================================
+         VIEW 1: HOME (Countdown removed, Kiss From Dean counter)
+         ======================================================= -->
+    <div id="view-home" class="space-y-5 animate-pop-in">
+      <!-- Sweet Welcome Banner -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white via-rose-50/60 to-rose-100/50 p-6 border border-rose-200/60 shadow-lg shadow-rose-200/30 text-center">
+        <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-300/20 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-8 -left-8 w-28 h-28 bg-rose-400/20 rounded-full blur-xl"></div>
+        
+        <span class="inline-block px-3 py-1 bg-rose-100 text-rose-700 rounded-full text-xs font-semibold tracking-wider uppercase mb-2">
+          Birthday Celebration Edition
+        </span>
+        <h2 class="font-serif text-3xl font-bold text-slate-900 tracking-tight">
+          Happy 34th Birthday, Hannah!
+        </h2>
+        <p class="text-xs text-rose-500 font-medium tracking-wide mt-1">For Hannah, With Love</p>
+        <p id="heroSubtitleText" class="text-xs text-slate-600 mt-2 leading-relaxed max-w-xs mx-auto">
+          Counting down every single heartbeat until your special day in Sydney, Australia.
+        </p>
+
+        <!-- Kiss from Dean Button & Bonus Unlock trigger -->
+        <div class="mt-6 pt-4 border-t border-rose-100 flex flex-col items-center">
+          <div class="flex items-center justify-center gap-2 flex-wrap">
+            <button onclick="handleSendLove()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-rose-500 to-blush-500 text-white font-semibold text-xs shadow-md shadow-rose-300 active:scale-95 transition-all">
+              <span>💋 Kiss From Dean Received</span>
+              <span id="kissCountBadge" class="bg-white/25 px-2 py-0.5 rounded-full text-[10px] font-bold">0</span>
+            </button>
+
+            <!-- Popup Bonus Surprise Gift Button (Reveals after 10 love kisses) -->
+            <button id="bonusGiftBtn" onclick="claimBonusKissGift()" class="hidden animate-bounce inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-slate-900 font-bold text-xs shadow-md shadow-amber-300 active:scale-95 transition-all border border-amber-200">
+              <span>🎁 Extra Surprise Gift!</span>
+            </button>
+          </div>
+          <p class="text-[10px] text-rose-400 italic mt-2">
+            Tap once each time Dean gives you a kiss! Collect 10 for a Secret Gift 🎁
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action: Go to Arcade Hub -->
+      <div class="bg-white rounded-3xl p-5 border border-rose-100 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-slate-800 text-sm">Today's Arcade Games</h3>
+            <p class="text-[11px] text-slate-500">6 surprise games unlock throughout your day</p>
+          </div>
+          <button onclick="navigateTo('view-arcade-hub')" class="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-full active:scale-95 transition-all">
+            Open Arcade &rarr;
+          </button>
+        </div>
+
+        <!-- Mini Preview Cards Grid -->
+        <div class="grid grid-cols-3 gap-2.5 pt-1">
+          <div onclick="navigateTo('view-arcade-hub')" class="p-3 rounded-2xl bg-rose-50/70 border border-rose-100 flex flex-col items-center text-center cursor-pointer active:scale-95 transition-all">
+            <span class="text-2xl mb-1">🎈</span>
+            <span class="text-[10px] font-bold text-slate-700">Balloons</span>
+            <span class="text-[9px] text-rose-500 font-medium">8:00 AM</span>
+          </div>
+          <div onclick="navigateTo('view-arcade-hub')" class="p-3 rounded-2xl bg-rose-50/70 border border-rose-100 flex flex-col items-center text-center cursor-pointer active:scale-95 transition-all">
+            <span class="text-2xl mb-1">🎁</span>
+            <span class="text-[10px] font-bold text-slate-700">Boxes</span>
+            <span class="text-[9px] text-rose-500 font-medium">9:30 AM</span>
+          </div>
+          <div onclick="navigateTo('view-arcade-hub')" class="p-3 rounded-2xl bg-rose-50/70 border border-rose-100 flex flex-col items-center text-center cursor-pointer active:scale-95 transition-all">
+            <span class="text-2xl mb-1">✨</span>
+            <span class="text-[10px] font-bold text-slate-700">Scratch</span>
+            <span class="text-[9px] text-rose-500 font-medium">11:00 AM</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- iPhone Add to Home Screen Hint -->
+      <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/80 rounded-2xl p-4 flex items-start space-x-3 text-amber-900">
+        <span class="text-xl mt-0.5">📱</span>
+        <div class="text-xs">
+          <p class="font-bold">Save as an iPhone App</p>
+          <p class="text-[11px] text-amber-800/90 mt-0.5 leading-snug">
+            Tap the <span class="font-bold">Share icon [↑]</span> at the bottom of Safari, then choose <span class="font-bold">"Add to Home Screen"</span> for the full birthday experience!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 2: ARCADE HUB (Timeline & Next Available Game)
+         ======================================================= -->
+    <div id="view-arcade-hub" class="hidden space-y-4 animate-pop-in">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="font-serif text-2xl font-bold text-slate-900">Birthday Arcade</h2>
+          <p class="text-xs text-rose-500 font-medium">Unlocked across your special day (Sydney ADST)</p>
+        </div>
+        <button onclick="navigateTo('view-home')" class="text-xs bg-white text-slate-600 px-3 py-1.5 rounded-full border border-slate-200 shadow-sm active:scale-95">
+          &larr; Home
+        </button>
+      </div>
+
+      <!-- Spotlight: Next Upcoming Game Card -->
+      <div id="nextGameSpotlight" class="p-5 rounded-3xl bg-gradient-to-br from-rose-500 via-blush-500 to-pink-600 text-white shadow-xl shadow-rose-300/40 relative overflow-hidden">
+        <!-- Content populated dynamically -->
+      </div>
+
+      <!-- Timeline of All 6 Games -->
+      <div class="bg-white rounded-3xl p-5 border border-rose-100 shadow-sm space-y-3">
+        <h3 class="font-bold text-xs uppercase tracking-wider text-slate-400">All 6 Birthday Surprises</h3>
+        <div id="arcadeTimelineList" class="space-y-2.5">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 3: GAME 1 - BALLOON POP (Single Guaranteed Prize)
+         ======================================================= -->
+    <div id="game-balloons" class="hidden space-y-4 animate-pop-in">
+      <div class="flex items-center justify-between">
+        <button onclick="navigateTo('view-arcade-hub')" class="text-xs text-slate-500 bg-white px-3 py-1.5 rounded-full border border-slate-200 active:scale-95">
+          &larr; Arcade Hub
+        </button>
+        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Game 1 of 6</span>
+      </div>
+
+      <div class="text-center py-2">
+        <h2 class="font-serif text-2xl font-bold text-slate-900">Pop A Birthday Balloon 🎈</h2>
+        <p class="text-xs text-slate-500 mt-1">Tap any balloon to pop it and reveal your mystery birthday prize!</p>
+      </div>
+
+      <!-- 4 Balloons Grid -->
+      <div class="grid grid-cols-2 gap-4 pt-4">
+        <!-- Balloon 1 -->
+        <div id="balloon-wrap-0" onclick="popBalloon(0)" class="relative flex flex-col items-center justify-center p-4 bg-white/70 backdrop-blur rounded-3xl border border-rose-100 shadow-sm cursor-pointer transition-all active:scale-95 hover:shadow-md h-48">
+          <div class="w-20 h-24 rounded-full bg-gradient-to-b from-rose-400 via-rose-500 to-rose-600 shadow-lg shadow-rose-300 relative flex items-center justify-center animate-float-slow">
+            <div class="absolute top-2 left-3 w-4 h-6 bg-white/40 rounded-full blur-[1px]"></div>
+            <span class="text-white font-bold text-sm tracking-widest font-serif">1</span>
+            <div class="absolute -bottom-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-rose-600"></div>
+            <div class="absolute -bottom-6 w-0.5 h-6 bg-rose-300"></div>
+          </div>
+          <span class="mt-8 text-xs font-bold text-slate-700">Ruby Shimmer</span>
+        </div>
+
+        <!-- Balloon 2 -->
+        <div id="balloon-wrap-1" onclick="popBalloon(1)" class="relative flex flex-col items-center justify-center p-4 bg-white/70 backdrop-blur rounded-3xl border border-rose-100 shadow-sm cursor-pointer transition-all active:scale-95 hover:shadow-md h-48">
+          <div class="w-20 h-24 rounded-full bg-gradient-to-b from-amber-300 via-amber-400 to-yellow-500 shadow-lg shadow-amber-200 relative flex items-center justify-center animate-float-delayed">
+            <div class="absolute top-2 left-3 w-4 h-6 bg-white/40 rounded-full blur-[1px]"></div>
+            <span class="text-white font-bold text-sm tracking-widest font-serif">2</span>
+            <div class="absolute -bottom-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-yellow-500"></div>
+            <div class="absolute -bottom-6 w-0.5 h-6 bg-amber-300"></div>
+          </div>
+          <span class="mt-8 text-xs font-bold text-slate-700">Golden Sunset</span>
+        </div>
+
+        <!-- Balloon 3 -->
+        <div id="balloon-wrap-2" onclick="popBalloon(2)" class="relative flex flex-col items-center justify-center p-4 bg-white/70 backdrop-blur rounded-3xl border border-rose-100 shadow-sm cursor-pointer transition-all active:scale-95 hover:shadow-md h-48">
+          <div class="w-20 h-24 rounded-full bg-gradient-to-b from-pink-400 via-blush-400 to-rose-400 shadow-lg shadow-pink-200 relative flex items-center justify-center animate-float-slow">
+            <div class="absolute top-2 left-3 w-4 h-6 bg-white/40 rounded-full blur-[1px]"></div>
+            <span class="text-white font-bold text-sm tracking-widest font-serif">3</span>
+            <div class="absolute -bottom-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-rose-400"></div>
+            <div class="absolute -bottom-6 w-0.5 h-6 bg-pink-300"></div>
+          </div>
+          <span class="mt-8 text-xs font-bold text-slate-700">Cotton Candy</span>
+        </div>
+
+        <!-- Balloon 4 -->
+        <div id="balloon-wrap-3" onclick="popBalloon(3)" class="relative flex flex-col items-center justify-center p-4 bg-white/70 backdrop-blur rounded-3xl border border-rose-100 shadow-sm cursor-pointer transition-all active:scale-95 hover:shadow-md h-48">
+          <div class="w-20 h-24 rounded-full bg-gradient-to-b from-purple-400 via-purple-500 to-indigo-500 shadow-lg shadow-purple-200 relative flex items-center justify-center animate-float-delayed">
+            <div class="absolute top-2 left-3 w-4 h-6 bg-white/40 rounded-full blur-[1px]"></div>
+            <span class="text-white font-bold text-sm tracking-widest font-serif">4</span>
+            <div class="absolute -bottom-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-indigo-500"></div>
+            <div class="absolute -bottom-6 w-0.5 h-6 bg-purple-300"></div>
+          </div>
+          <span class="mt-8 text-xs font-bold text-slate-700">Purple Velvet</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 4: GAME 2 - 3D BOX UNWRAP (Single Guaranteed Prize)
+         ======================================================= -->
+    <div id="game-boxes" class="hidden space-y-4 animate-pop-in">
+      <div class="flex items-center justify-between">
+        <button onclick="navigateTo('view-arcade-hub')" class="text-xs text-slate-500 bg-white px-3 py-1.5 rounded-full border border-slate-200 active:scale-95">
+          &larr; Arcade Hub
+        </button>
+        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Game 2 of 6</span>
+      </div>
+
+      <div class="text-center py-2">
+        <h2 class="font-serif text-2xl font-bold text-slate-900">Unwrap A 3D Mystery Box 🎁</h2>
+        <p class="text-xs text-slate-500 mt-1">Tap a box to lift the lid and reveal your surprise!</p>
+      </div>
+
+      <!-- 4 Realistic Gift Boxes Grid -->
+      <div class="grid grid-cols-2 gap-4 pt-2">
+        <!-- Box 0: Ruby Red & Metallic Gold Ribbon -->
+        <div id="gift-box-0" onclick="openGiftBox(0)" class="present-box-container relative p-3 bg-white/85 rounded-3xl border border-rose-100 shadow-sm cursor-pointer flex flex-col items-center justify-center h-52 transition-all hover:shadow-md">
+          <div class="relative w-32 h-36 flex items-center justify-center">
+            <!-- Mystery Light Glow behind box -->
+            <div class="gift-glow absolute inset-0 rounded-full bg-gradient-to-r from-amber-300 via-rose-300 to-pink-300 blur-xl"></div>
+            
+            <svg viewBox="0 0 160 170" class="w-full h-full drop-shadow-lg overflow-visible">
+              <defs>
+                <linearGradient id="rubyBoxBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#f43f6e"/>
+                  <stop offset="45%" stop-color="#e11d59"/>
+                  <stop offset="100%" stop-color="#9f1240"/>
+                </linearGradient>
+                <linearGradient id="rubyBoxLid" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fb7193"/>
+                  <stop offset="50%" stop-color="#e11d59"/>
+                  <stop offset="100%" stop-color="#831438"/>
+                </linearGradient>
+                <linearGradient id="goldRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fef08a"/>
+                  <stop offset="35%" stop-color="#facc15"/>
+                  <stop offset="70%" stop-color="#ca8a04"/>
+                  <stop offset="100%" stop-color="#eab308"/>
+                </linearGradient>
+                <filter id="boxShadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="8" stdDeviation="5" flood-color="#881337" flood-opacity="0.35"/>
+                </filter>
+              </defs>
+
+              <!-- Box Shadow at bottom -->
+              <ellipse cx="80" cy="158" rx="55" ry="9" fill="rgba(0,0,0,0.18)" filter="blur(2px)"/>
+
+              <!-- Box Body Base -->
+              <g filter="url(#boxShadow)">
+                <rect x="25" y="70" width="110" height="85" rx="12" fill="url(#rubyBoxBody)"/>
+                <!-- Subtle side bevel shadow -->
+                <rect x="25" y="70" width="14" height="85" rx="6" fill="rgba(0,0,0,0.12)"/>
+                <rect x="121" y="70" width="14" height="85" rx="6" fill="rgba(255,255,255,0.14)"/>
+
+                <!-- Vertical Body Ribbon -->
+                <rect x="68" y="70" width="24" height="85" fill="url(#goldRibbon)"/>
+                <line x1="80" y1="70" x2="80" y2="155" stroke="rgba(255,255,255,0.6)" stroke-dasharray="3,3" stroke-width="1.5"/>
+
+                <!-- Horizontal Body Ribbon -->
+                <rect x="25" y="105" width="110" height="20" fill="url(#goldRibbon)"/>
+                <line x1="25" y1="115" x2="135" y2="115" stroke="rgba(255,255,255,0.6)" stroke-dasharray="3,3" stroke-width="1.5"/>
+
+                <!-- Mini Gift Tag -->
+                <g transform="translate(92, 85) rotate(15)">
+                  <polygon points="0,0 26,0 34,14 26,28 0,28" fill="#fff" stroke="#facc15" stroke-width="1.5" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.2))"/>
+                  <circle cx="5" cy="14" r="2.5" fill="#f43f6e"/>
+                  <text x="14" y="17" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="bold" fill="#be1248">H❤️</text>
+                </g>
+              </g>
+
+              <!-- Box Lid with Big Fluffy Bow (Lifts on click) -->
+              <g class="lid-group">
+                <!-- Lid Lip -->
+                <rect x="18" y="52" width="124" height="24" rx="8" fill="url(#rubyBoxLid)" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.25))"/>
+                <rect x="18" y="52" width="124" height="4" rx="2" fill="rgba(255,255,255,0.3)"/>
+                <!-- Vertical Ribbon on Lid -->
+                <rect x="68" y="52" width="24" height="24" fill="url(#goldRibbon)"/>
+                
+                <!-- Realistic Ribbon Bow Loops & Tails -->
+                <!-- Bow Tails hanging down -->
+                <path d="M72,56 C60,65 52,80 48,92 C54,88 64,82 74,66 Z" fill="url(#goldRibbon)" opacity="0.95"/>
+                <path d="M88,56 C100,65 108,80 112,92 C106,88 96,82 86,66 Z" fill="url(#goldRibbon)" opacity="0.95"/>
+                <!-- Left Bow Loop -->
+                <path d="M78,48 C50,22 36,36 44,52 C52,64 74,54 78,48 Z" fill="url(#goldRibbon)" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+                <path d="M74,48 C56,32 46,42 52,50 C58,58 72,52 74,48 Z" fill="#ca8a04" opacity="0.6"/>
+                <!-- Right Bow Loop -->
+                <path d="M82,48 C110,22 124,36 116,52 C108,64 86,54 82,48 Z" fill="url(#goldRibbon)" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+                <path d="M86,48 C104,32 114,42 108,50 C102,58 88,52 86,48 Z" fill="#ca8a04" opacity="0.6"/>
+                <!-- Center Bow Knot -->
+                <circle cx="80" cy="48" r="9" fill="url(#goldRibbon)" stroke="#fef08a" stroke-width="1.5" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.3))"/>
+              </g>
+            </svg>
+          </div>
+          <span class="mt-2 text-xs font-bold text-slate-800">Royal Ruby</span>
+          <span class="text-[9px] text-rose-500 font-semibold">Tied with Gold Silk</span>
+        </div>
+
+        <!-- Box 1: Champagne Gold & Rose Velvet Ribbon -->
+        <div id="gift-box-1" onclick="openGiftBox(1)" class="present-box-container relative p-3 bg-white/85 rounded-3xl border border-rose-100 shadow-sm cursor-pointer flex flex-col items-center justify-center h-52 transition-all hover:shadow-md">
+          <div class="relative w-32 h-36 flex items-center justify-center">
+            <div class="gift-glow absolute inset-0 rounded-full bg-gradient-to-r from-yellow-200 via-amber-300 to-rose-200 blur-xl"></div>
+            
+            <svg viewBox="0 0 160 170" class="w-full h-full drop-shadow-lg overflow-visible">
+              <defs>
+                <linearGradient id="goldBoxBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fef08a"/>
+                  <stop offset="40%" stop-color="#eab308"/>
+                  <stop offset="100%" stop-color="#a16207"/>
+                </linearGradient>
+                <linearGradient id="goldBoxLid" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fef9c3"/>
+                  <stop offset="50%" stop-color="#eab308"/>
+                  <stop offset="100%" stop-color="#854d0e"/>
+                </linearGradient>
+                <linearGradient id="roseRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#fb7193"/>
+                  <stop offset="40%" stop-color="#f43f6e"/>
+                  <stop offset="80%" stop-color="#be1248"/>
+                  <stop offset="100%" stop-color="#9f1240"/>
+                </linearGradient>
+              </defs>
+
+              <ellipse cx="80" cy="158" rx="55" ry="9" fill="rgba(0,0,0,0.18)" filter="blur(2px)"/>
+
+              <g filter="url(#boxShadow)">
+                <rect x="25" y="70" width="110" height="85" rx="12" fill="url(#goldBoxBody)"/>
+                <rect x="25" y="70" width="14" height="85" rx="6" fill="rgba(0,0,0,0.12)"/>
+                <rect x="121" y="70" width="14" height="85" rx="6" fill="rgba(255,255,255,0.2)"/>
+
+                <rect x="68" y="70" width="24" height="85" fill="url(#roseRibbon)"/>
+                <line x1="80" y1="70" x2="80" y2="155" stroke="rgba(255,255,255,0.7)" stroke-dasharray="3,3" stroke-width="1.5"/>
+
+                <rect x="25" y="105" width="110" height="20" fill="url(#roseRibbon)"/>
+                <line x1="25" y1="115" x2="135" y2="115" stroke="rgba(255,255,255,0.7)" stroke-dasharray="3,3" stroke-width="1.5"/>
+
+                <g transform="translate(92, 85) rotate(15)">
+                  <polygon points="0,0 26,0 34,14 26,28 0,28" fill="#fff" stroke="#f43f6e" stroke-width="1.5" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.2))"/>
+                  <circle cx="5" cy="14" r="2.5" fill="#eab308"/>
+                  <text x="14" y="17" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="bold" fill="#f43f6e">34✨</text>
+                </g>
+              </g>
+
+              <g class="lid-group">
+                <rect x="18" y="52" width="124" height="24" rx="8" fill="url(#goldBoxLid)" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.25))"/>
+                <rect x="18" y="52" width="124" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
+                <rect x="68" y="52" width="24" height="24" fill="url(#roseRibbon)"/>
+
+                <path d="M72,56 C60,65 52,80 48,92 C54,88 64,82 74,66 Z" fill="url(#roseRibbon)" opacity="0.95"/>
+                <path d="M88,56 C100,65 108,80 112,92 C106,88 96,82 86,66 Z" fill="url(#roseRibbon)" opacity="0.95"/>
+                <path d="M78,48 C50,22 36,36 44,52 C52,64 74,54 78,48 Z" fill="url(#roseRibbon)" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+                <path d="M74,48 C56,32 46,42 52,50 C58,58 72,52 74,48 Z" fill="#831438" opacity="0.6"/>
+                <path d="M82,48 C110,22 124,36 116,52 C108,64 86,54 82,48 Z" fill="url(#roseRibbon)" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+                <path d="M86,48 C104,32 114,42 108,50 C102,58 88,52 86,48 Z" fill="#831438" opacity="0.6"/>
+                <circle cx="80" cy="48" r="9" fill="url(#roseRibbon)" stroke="#fda4b8" stroke-width="1.5" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.3))"/>
+              </g>
+            </svg>
+          </div>
+          <span class="mt-2 text-xs font-bold text-slate-800">Imperial Gold</span>
+          <span class="text-[9px] text-amber-600 font-semibold">Tied with Rose Velvet</span>
+        </div>
+
+        <!-- Box 2: Lavender Dream & Silver Platinum Ribbon -->
+        <div id="gift-box-2" onclick="openGiftBox(2)" class="present-box-container relative p-3 bg-white/85 rounded-3xl border border-rose-100 shadow-sm cursor-pointer flex flex-col items-center justify-center h-52 transition-all hover:shadow-md">
+          <div class="relative w-32 h-36 flex items-center justify-center">
+            <div class="gift-glow absolute inset-0 rounded-full bg-gradient-to-r from-purple-300 via-indigo-300 to-pink-200 blur-xl"></div>
+            
+            <svg viewBox="0 0 160 170" class="w-full h-full drop-shadow-lg overflow-visible">
+              <defs>
+                <linearGradient id="lavenderBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#c084fc"/>
+                  <stop offset="45%" stop-color="#9333ea"/>
+                  <stop offset="100%" stop-color="#581c87"/>
+                </linearGradient>
+                <linearGradient id="lavenderLid" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#e9d5ff"/>
+                  <stop offset="50%" stop-color="#a855f7"/>
+                  <stop offset="100%" stop-color="#6b21a8"/>
+                </linearGradient>
+                <linearGradient id="silverRibbon" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#ffffff"/>
+                  <stop offset="40%" stop-color="#cbd5e1"/>
+                  <stop offset="70%" stop-color="#94a3b8"/>
+                  <stop offset="100%" stop-color="#f8fafc"/>
+                </linearGradient>
+              </defs>
+
+              <ellipse cx="80" cy="158" rx="55" ry="9" fill="rgba(0,0,0,0.18)" filter="blur(2px)"/>
+
+              <g filter="url(#boxShadow)">
+                <rect x="25" y="70" width="110" height="85" rx="12" fill="url(#lavenderBody)"/>
+                <rect x="25" y="70" width="14" height="85" rx="6" fill="rgba(0,0,0,0.12)"/>
+                <rect x="121" y="70" width="14" height="85" rx="6" fill="rgba(255,255,255,0.22)"/>
+
+                <rect x="68" y="70" width="24" height="85" fill="url(#silverRibbon)"/>
+                <line x1="80" y1="70" x2="80" y2="155" stroke="rgba(255,255,255,0.85)" stroke-dasharray="3,3" stroke-width="1.5"/>
+
+                <rect x="25" y="105" width="110" height="20" fill="url(#silverRibbon)"/>
+                <line x1="25" y1="115" x2="135" y2="115" stroke="rgba(255,255,255,0.85)" stroke-dasharray="3,3" stroke-width="1.5"/>
+
+                <g transform="translate(92, 85) rotate(15)">
+                  <polygon points="0,0 26,0 34,14 26,28 0,28" fill="#fff" stroke="#9333ea" stroke-width="1.5" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.2))"/>
+                  <circle cx="5" cy="14" r="2.5" fill="#a855f7"/>
+                  <text x="13" y="17" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="bold" fill="#7e22ce">Love</text>
+                </g>
+              </g>
+
+              <g class="lid-group">
+                <rect x="18" y="52" width="124" height="24" rx="8" fill="url(#lavenderLid)" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.25))"/>
+                <rect x="18" y="52" width="124" height="4" rx="2" fill="rgba(255,255,255,0.45)"/>
+                <rect x="68" y="52" width="24" height="24" fill="url(#silverRibbon)"/>
+
+                <path d="M72,56 C60,65 52,80 48,92 C54,88 64,82 74,66 Z" fill="url(#silverRibbon)" opacity="0.95"/>
+                <path d="M88,56 C100,65 108,80 112,92 C106,88 96,82 86,66 Z" fill="url(#silverRibbon)" opacity="0.95"/>
+                <path d="M78,48 C50,22 36,36 44,52 C52,64 74,54 78,48 Z" fill="url(#silverRibbon)" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+                <path d="M74,48 C56,32 46,42 52,50 C58,58 72,52 74,48 Z" fill="#64748b" opacity="0.6"/>
+                <path d="M82,48 C110,22 124,36 116,52 C108,64 86,54 82,48 Z" fill="url(#silverRibbon)" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+                <path d="M86,48 C104,32 114,42 108,50 C102,58 88,52 86,48 Z" fill="#64748b" opacity="0.6"/>
+                <circle cx="80" cy="48" r="9" fill="url(#silverRibbon)" stroke="#ffffff" stroke-width="1.5" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.3))"/>
+              </g>
+            </svg>
+          </div>
+          <span class="mt-2 text-xs font-bold text-slate-800">Lavender Dream</span>
+          <span class="text-[9px] text-purple-600 font-semibold">Tied with Silver Satin</span>
+        </div>
+
+        <!-- Box 3: Emerald Glow & Glitter Gold Ribbon -->
+        <div id="gift-box-3" onclick="openGiftBox(3)" class="present-box-container relative p-3 bg-white/85 rounded-3xl border border-rose-100 shadow-sm cursor-pointer flex flex-col items-center justify-center h-52 transition-all hover:shadow-md">
+          <div class="relative w-32 h-36 flex items-center justify-center">
+            <div class="gift-glow absolute inset-0 rounded-full bg-gradient-to-r from-emerald-300 via-teal-300 to-amber-200 blur-xl"></div>
+            
+            <svg viewBox="0 0 160 170" class="w-full h-full drop-shadow-lg overflow-visible">
+              <defs>
+                <linearGradient id="emeraldBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#34d399"/>
+                  <stop offset="45%" stop-color="#059669"/>
+                  <stop offset="100%" stop-color="#064e3b"/>
+                </linearGradient>
+                <linearGradient id="emeraldLid" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#6ee7b7"/>
+                  <stop offset="50%" stop-color="#10b981"/>
+                  <stop offset="100%" stop-color="#047857"/>
+                </linearGradient>
+              </defs>
+
+              <ellipse cx="80" cy="158" rx="55" ry="9" fill="rgba(0,0,0,0.18)" filter="blur(2px)"/>
+
+              <g filter="url(#boxShadow)">
+                <rect x="25" y="70" width="110" height="85" rx="12" fill="url(#emeraldBody)"/>
+                <rect x="25" y="70" width="14" height="85" rx="6" fill="rgba(0,0,0,0.12)"/>
+                <rect x="121" y="70" width="14" height="85" rx="6" fill="rgba(255,255,255,0.22)"/>
+
+                <rect x="68" y="70" width="24" height="85" fill="url(#goldRibbon)"/>
+                <line x1="80" y1="70" x2="80" y2="155" stroke="rgba(255,255,255,0.7)" stroke-dasharray="3,3" stroke-width="1.5"/>
+
+                <rect x="25" y="105" width="110" height="20" fill="url(#goldRibbon)"/>
+                <line x1="25" y1="115" x2="135" y2="115" stroke="rgba(255,255,255,0.7)" stroke-dasharray="3,3" stroke-width="1.5"/>
+
+                <g transform="translate(92, 85) rotate(15)">
+                  <polygon points="0,0 26,0 34,14 26,28 0,28" fill="#fff" stroke="#f59e0b" stroke-width="1.5" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.2))"/>
+                  <circle cx="5" cy="14" r="2.5" fill="#10b981"/>
+                  <text x="14" y="17" font-size="8" font-family="'Plus Jakarta Sans', sans-serif" font-weight="bold" fill="#047857">Joy</text>
+                </g>
+              </g>
+
+              <g class="lid-group">
+                <rect x="18" y="52" width="124" height="24" rx="8" fill="url(#emeraldLid)" filter="drop-shadow(0 4px 6px rgba(0,0,0,0.25))"/>
+                <rect x="18" y="52" width="124" height="4" rx="2" fill="rgba(255,255,255,0.4)"/>
+                <rect x="68" y="52" width="24" height="24" fill="url(#goldRibbon)"/>
+
+                <path d="M72,56 C60,65 52,80 48,92 C54,88 64,82 74,66 Z" fill="url(#goldRibbon)" opacity="0.95"/>
+                <path d="M88,56 C100,65 108,80 112,92 C106,88 96,82 86,66 Z" fill="url(#goldRibbon)" opacity="0.95"/>
+                <path d="M78,48 C50,22 36,36 44,52 C52,64 74,54 78,48 Z" fill="url(#goldRibbon)" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+                <path d="M74,48 C56,32 46,42 52,50 C58,58 72,52 74,48 Z" fill="#ca8a04" opacity="0.6"/>
+                <path d="M82,48 C110,22 124,36 116,52 C108,64 86,54 82,48 Z" fill="url(#goldRibbon)" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"/>
+                <path d="M86,48 C104,32 114,42 108,50 C102,58 88,52 86,48 Z" fill="#ca8a04" opacity="0.6"/>
+                <circle cx="80" cy="48" r="9" fill="url(#goldRibbon)" stroke="#fef08a" stroke-width="1.5" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.3))"/>
+              </g>
+            </svg>
+          </div>
+          <span class="mt-2 text-xs font-bold text-slate-800">Emerald Glow</span>
+          <span class="text-[9px] text-emerald-600 font-semibold">Tied with Gold Glitter</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 5: GAME 3 - GOLD SCRATCH CARD
+         ======================================================= -->
+    <div id="game-scratch" class="hidden space-y-4 animate-pop-in">
+      <div class="flex items-center justify-between">
+        <button onclick="navigateTo('view-arcade-hub')" class="text-xs text-slate-500 bg-white px-3 py-1.5 rounded-full border border-slate-200 active:scale-95">
+          &larr; Arcade Hub
+        </button>
+        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Game 3 of 6</span>
+      </div>
+
+      <div class="text-center py-2">
+        <h2 class="font-serif text-2xl font-bold text-slate-900">Gold Foil Scratch Card ✨</h2>
+        <p class="text-xs text-slate-500 mt-1">Rub your finger across the golden foil to uncover your surprise!</p>
+      </div>
+
+      <div class="relative w-full max-w-xs mx-auto aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border-4 border-amber-300 bg-white">
+        <!-- Revealed Mystery Voucher Beneath Canvas -->
+        <div id="scratchPrizeUnderlay" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-gradient-to-br from-amber-50 to-rose-50 select-none">
+          <span class="text-4xl mb-2">⛵</span>
+          <span class="text-xs uppercase font-extrabold text-amber-800 tracking-wider">Hannah's Mystery Surprise</span>
+          <h3 id="scratchPrizeTitle" class="text-lg font-serif font-bold text-slate-900 mt-1">Sunset Harbour Cruise</h3>
+          <p class="text-[11px] text-slate-600 mt-1">Valid anytime for you & Dean with drinks included!</p>
+          <div class="mt-2 text-[10px] font-bold text-rose-600 bg-rose-100 px-3 py-1 rounded-full">
+            100% Guaranteed Love
+          </div>
+        </div>
+
+        <!-- Scratch-off Canvas Overlay -->
+        <canvas id="scratchCanvas" class="absolute inset-0 z-10 w-full h-full cursor-pointer"></canvas>
+      </div>
+
+      <div class="text-center">
+        <span id="scratchProgressText" class="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
+          0% Scratched
+        </span>
+      </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 6: GAME 4 - FORTUNE WHEEL (Plays in Workshop & Game)
+         ======================================================= -->
+    <div id="game-wheel" class="hidden space-y-4 animate-pop-in">
+      <div class="flex items-center justify-between">
+        <button onclick="navigateTo('view-arcade-hub')" class="text-xs text-slate-500 bg-white px-3 py-1.5 rounded-full border border-slate-200 active:scale-95">
+          &larr; Arcade Hub
+        </button>
+        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Game 4 of 6</span>
+      </div>
+
+      <div class="text-center py-1">
+        <h2 class="font-serif text-2xl font-bold text-slate-900">Spin the Birthday Wheel 🎡</h2>
+        <p class="text-xs text-slate-500 mt-0.5">Give it a spin to see what Dean has in store for you!</p>
+      </div>
+
+      <div class="relative flex flex-col items-center justify-center pt-2">
+        <!-- Wheel Canvas Pointer Indicator -->
+        <div class="z-20 -mb-3 text-rose-600 text-3xl filter drop-shadow">▼</div>
+        <div class="relative w-72 h-72 rounded-full border-4 border-amber-300 shadow-xl bg-white p-1">
+          <canvas id="wheelCanvas" width="280" height="280" class="rounded-full w-full h-full"></canvas>
+          <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div class="w-12 h-12 rounded-full bg-white border-4 border-amber-300 shadow-md flex items-center justify-center font-bold text-rose-600 text-xs">
+              34
+            </div>
+          </div>
+        </div>
+
+        <button id="spinWheelBtn" onclick="spinWheel()" class="mt-6 px-8 py-3 rounded-full bg-gradient-to-r from-rose-500 via-blush-500 to-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-300 active:scale-95 transition-all">
+          SPIN FOR HANNAH 🎡
+        </button>
+      </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 7: GAME 5 - FORTUNE COOKIE (Single Guaranteed Prophecy)
+         ======================================================= -->
+    <div id="game-cookie" class="hidden space-y-4 animate-pop-in">
+      <div class="flex items-center justify-between">
+        <button onclick="navigateTo('view-arcade-hub')" class="text-xs text-slate-500 bg-white px-3 py-1.5 rounded-full border border-slate-200 active:scale-95">
+          &larr; Arcade Hub
+        </button>
+        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Game 5 of 6</span>
+      </div>
+
+      <div class="text-center py-2">
+        <h2 class="font-serif text-2xl font-bold text-slate-900">Crack A Fortune Cookie 🥠</h2>
+        <p class="text-xs text-slate-500 mt-1">Pick one golden fortune cookie to reveal your 34th year prophecy!</p>
+      </div>
+
+      <div class="space-y-3 pt-2">
+        <div id="cookie-card-0" onclick="crackCookie(0)" class="p-4 bg-white/90 rounded-3xl border border-rose-100 shadow-sm cursor-pointer flex items-center space-x-4 active:scale-98 transition-all hover:border-amber-300">
+          <span class="text-4xl">🥠</span>
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm">Golden Honey Cookie</h4>
+            <p class="text-[11px] text-slate-500">Tap to crack open the crisp shell</p>
+          </div>
+        </div>
+
+        <div id="cookie-card-1" onclick="crackCookie(1)" class="p-4 bg-white/90 rounded-3xl border border-rose-100 shadow-sm cursor-pointer flex items-center space-x-4 active:scale-98 transition-all hover:border-amber-300">
+          <span class="text-4xl">🥠</span>
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm">Strawberry Butter Cookie</h4>
+            <p class="text-[11px] text-slate-500">Baked with sweet birthday wishes</p>
+          </div>
+        </div>
+
+        <div id="cookie-card-2" onclick="crackCookie(2)" class="p-4 bg-white/90 rounded-3xl border border-rose-100 shadow-sm cursor-pointer flex items-center space-x-4 active:scale-98 transition-all hover:border-amber-300">
+          <span class="text-4xl">🥠</span>
+          <div>
+            <h4 class="font-bold text-slate-800 text-sm">Champagne Glaze Cookie</h4>
+            <p class="text-[11px] text-slate-500">A sparkling prophecy for year 34</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 8: GAME 6 - BLOW THE CANDLES OUT 🎂
+         ======================================================= -->
+    <div id="game-candles" class="hidden space-y-4 animate-pop-in select-none">
+      <div class="flex items-center justify-between">
+        <button onclick="navigateTo('view-arcade-hub')" class="text-xs text-slate-500 bg-white px-3 py-1.5 rounded-full border border-slate-200 active:scale-95">
+          &larr; Arcade Hub
+        </button>
+        <span class="text-xs font-bold text-rose-600 uppercase tracking-wider">Game 6 of 6</span>
+      </div>
+
+      <div class="text-center py-1">
+        <h2 class="font-serif text-2xl font-bold text-slate-900">Make A Wish & Blow! 🎂</h2>
+        <p class="text-xs text-slate-500 mt-0.5">Swipe your finger across the candle flames to blow them all out!</p>
+      </div>
+
+      <!-- Status counter pill -->
+      <div class="flex items-center justify-center">
+        <div class="px-4 py-1.5 bg-white/90 border border-rose-200 rounded-full shadow-sm text-xs font-bold text-rose-600 flex items-center gap-2">
+          <span>🕯️ Candles Blown:</span>
+          <span id="candlesBlownCounter" class="text-sm font-extrabold text-amber-500">0</span>
+          <span class="text-slate-400">/ 5</span>
+        </div>
+      </div>
+
+      <!-- Interactive Birthday Cake Canvas/SVG Container -->
+      <div id="cakeContainer" class="relative w-full max-w-xs mx-auto touch-none select-none py-2 flex flex-col items-center justify-center">
+        <svg id="cakeSvg" viewBox="0 0 320 310" class="w-full h-auto drop-shadow-xl overflow-visible">
+          <defs>
+            <!-- Frosting & Cake Gradients -->
+            <linearGradient id="cakePlateGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#cbd5e1"/>
+              <stop offset="50%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#94a3b8"/>
+            </linearGradient>
+            <linearGradient id="cakeBaseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#fda4af"/>
+              <stop offset="50%" stop-color="#ffe4e6"/>
+              <stop offset="100%" stop-color="#fb7185"/>
+            </linearGradient>
+            <linearGradient id="cakeTopLayerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#f43f5e"/>
+              <stop offset="50%" stop-color="#fb7185"/>
+              <stop offset="100%" stop-color="#e11d48"/>
+            </linearGradient>
+            <linearGradient id="icingGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#fff1f2"/>
+            </linearGradient>
+            <linearGradient id="candleGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#f43f5e"/><stop offset="100%" stop-color="#fda4af"/>
+            </linearGradient>
+            <linearGradient id="candleGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#eab308"/><stop offset="100%" stop-color="#fef08a"/>
+            </linearGradient>
+            <linearGradient id="candleGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#a855f7"/><stop offset="100%" stop-color="#e9d5ff"/>
+            </linearGradient>
+            <linearGradient id="flameGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" stop-color="#ef4444"/>
+              <stop offset="40%" stop-color="#f97316"/>
+              <stop offset="75%" stop-color="#facc15"/>
+              <stop offset="100%" stop-color="#ffffff"/>
+            </linearGradient>
+            <radialGradient id="flameAura" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(254, 240, 138, 0.7)"/>
+              <stop offset="100%" stop-color="rgba(254, 240, 138, 0)"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Cake Plate & Drop Shadow -->
+          <ellipse cx="160" cy="272" rx="135" ry="18" fill="rgba(0,0,0,0.12)" filter="blur(3px)"/>
+          <ellipse cx="160" cy="268" rx="130" ry="16" fill="url(#cakePlateGrad)" stroke="#e2e8f0" stroke-width="2"/>
+          <ellipse cx="160" cy="265" rx="122" ry="12" fill="#f8fafc"/>
+
+          <!-- Cake Bottom Tier -->
+          <path d="M48,200 C48,200 48,252 48,252 C48,266 98,266 160,266 C222,266 272,266 272,252 C272,252 272,200 272,200 Z" fill="url(#cakeBaseGrad)" stroke="#f43f5e" stroke-width="1"/>
+          <ellipse cx="160" cy="200" rx="112" ry="18" fill="#fda4af"/>
+
+          <!-- Frosting drip on bottom tier -->
+          <path d="M48,202 Q60,222 72,204 Q84,228 98,204 Q114,226 130,204 Q146,228 160,204 Q174,228 190,204 Q206,226 222,204 Q236,228 250,204 Q262,222 272,202 C272,198 48,198 48,202 Z" fill="url(#icingGrad)"/>
+
+          <!-- Cake Top Tier -->
+          <path d="M78,140 C78,140 78,194 78,194 C78,206 114,208 160,208 C206,208 242,206 242,194 C242,194 242,140 242,140 Z" fill="url(#cakeTopLayerGrad)"/>
+          <ellipse cx="160" cy="140" rx="82" ry="15" fill="#fecdd3" stroke="#fb7185" stroke-width="1"/>
+
+          <!-- Top Tier Frosting Drips -->
+          <path d="M78,142 Q90,164 102,144 Q116,168 132,144 Q146,168 160,144 Q174,168 188,144 Q204,168 218,144 Q230,164 242,142 C242,138 78,138 78,142 Z" fill="url(#icingGrad)"/>
+
+          <!-- Cake Lettering / Badge -->
+          <g transform="translate(160, 182)">
+            <ellipse cx="0" cy="0" rx="42" ry="13" fill="#ffffff" stroke="#f43f5e" stroke-width="1.5" filter="drop-shadow(0 2px 3px rgba(0,0,0,0.1))"/>
+            <text x="0" y="4" text-anchor="middle" font-family="'Playfair Display', serif" font-size="12" font-weight="bold" fill="#be1248">Hannah 34</text>
+          </g>
+
+          <!-- ==============================================
+               5 INTERACTIVE CANDLES WITH FLAMES & SMOKE
+               ============================================== -->
+
+          <!-- CANDLE 1 (Far Left, x=98, y=86) -->
+          <g id="candle-group-0" class="cursor-pointer" data-candle-idx="0">
+            <!-- Candle Wick & Stick -->
+            <rect x="94" y="86" width="8" height="48" rx="3" fill="url(#candleGrad1)"/>
+            <line x1="98" y1="86" x2="98" y2="78" stroke="#475569" stroke-width="2"/>
+            <!-- Smoke wisp (hidden until blown out) -->
+            <path id="smoke-0" class="smoke-wisp" d="M98,76 Q94,64 99,52 Q94,42 98,32" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <!-- Flame & Aura -->
+            <g id="flame-0" class="flame-element">
+              <circle cx="98" cy="68" r="14" fill="url(#flameAura)"/>
+              <path d="M98,54 C104,63 105,74 98,78 C91,74 92,63 98,54 Z" fill="url(#flameGrad)"/>
+              <circle cx="98" cy="73" r="2.5" fill="#ffffff"/>
+            </g>
+            <!-- Invisible Touch Target Hitbox -->
+            <circle cx="98" cy="68" r="26" fill="transparent" class="cursor-pointer"/>
+          </g>
+
+          <!-- CANDLE 2 (Center-Left, x=128, y=78) -->
+          <g id="candle-group-1" class="cursor-pointer" data-candle-idx="1">
+            <rect x="124" y="78" width="8" height="54" rx="3" fill="url(#candleGrad2)"/>
+            <line x1="128" y1="78" x2="128" y2="70" stroke="#475569" stroke-width="2"/>
+            <path id="smoke-1" class="smoke-wisp" d="M128,68 Q124,56 129,44 Q124,34 128,24" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <g id="flame-1" class="flame-element">
+              <circle cx="128" cy="60" r="14" fill="url(#flameAura)"/>
+              <path d="M128,46 C134,55 135,66 128,70 C121,66 122,55 128,46 Z" fill="url(#flameGrad)"/>
+              <circle cx="128" cy="65" r="2.5" fill="#ffffff"/>
+            </g>
+            <circle cx="128" cy="60" r="26" fill="transparent" class="cursor-pointer"/>
+          </g>
+
+          <!-- CANDLE 3 (Middle Main, x=160, y=72) -->
+          <g id="candle-group-2" class="cursor-pointer" data-candle-idx="2">
+            <rect x="156" y="72" width="8" height="58" rx="3" fill="url(#candleGrad3)"/>
+            <line x1="160" y1="72" x2="160" y2="64" stroke="#475569" stroke-width="2"/>
+            <path id="smoke-2" class="smoke-wisp" d="M160,62 Q156,50 161,38 Q156,28 160,18" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <g id="flame-2" class="flame-element">
+              <circle cx="160" cy="54" r="15" fill="url(#flameAura)"/>
+              <path d="M160,39 C166,49 167,60 160,64 C153,60 154,49 160,39 Z" fill="url(#flameGrad)"/>
+              <circle cx="160" cy="59" r="2.8" fill="#ffffff"/>
+            </g>
+            <circle cx="160" cy="54" r="26" fill="transparent" class="cursor-pointer"/>
+          </g>
+
+          <!-- CANDLE 4 (Center-Right, x=192, y=78) -->
+          <g id="candle-group-3" class="cursor-pointer" data-candle-idx="3">
+            <rect x="188" y="78" width="8" height="54" rx="3" fill="url(#candleGrad2)"/>
+            <line x1="192" y1="78" x2="192" y2="70" stroke="#475569" stroke-width="2"/>
+            <path id="smoke-3" class="smoke-wisp" d="M192,68 Q188,56 193,44 Q188,34 192,24" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <g id="flame-3" class="flame-element">
+              <circle cx="192" cy="60" r="14" fill="url(#flameAura)"/>
+              <path d="M192,46 C198,55 199,66 192,70 C185,66 186,55 192,46 Z" fill="url(#flameGrad)"/>
+              <circle cx="192" cy="65" r="2.5" fill="#ffffff"/>
+            </g>
+            <circle cx="192" cy="60" r="26" fill="transparent" class="cursor-pointer"/>
+          </g>
+
+          <!-- CANDLE 5 (Far Right, x=222, y=86) -->
+          <g id="candle-group-4" class="cursor-pointer" data-candle-idx="4">
+            <rect x="218" y="86" width="8" height="48" rx="3" fill="url(#candleGrad1)"/>
+            <line x1="222" y1="86" x2="222" y2="78" stroke="#475569" stroke-width="2"/>
+            <path id="smoke-4" class="smoke-wisp" d="M222,76 Q218,64 223,52 Q218,42 222,32" stroke="#94a3b8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <g id="flame-4" class="flame-element">
+              <circle cx="222" cy="68" r="14" fill="url(#flameAura)"/>
+              <path d="M222,54 C228,63 229,74 222,78 C215,74 216,63 222,54 Z" fill="url(#flameGrad)"/>
+              <circle cx="222" cy="73" r="2.5" fill="#ffffff"/>
+            </g>
+            <circle cx="222" cy="68" r="26" fill="transparent" class="cursor-pointer"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- Instruction / Tip Card -->
+      <div class="p-3 bg-white/80 rounded-2xl border border-rose-100 shadow-sm text-center">
+        <p class="text-[11px] text-slate-600 font-medium">
+          💨 Drag your finger horizontally across the candles to simulate blowing them out!
+        </p>
+      </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 9: PRIZE WALLET (All Unlocked Surprises Permanent)
+         ======================================================= -->
+    <div id="view-wallet" class="hidden space-y-4 animate-pop-in">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="font-serif text-2xl font-bold text-slate-900">Hannah's Birthday Wallet</h2>
+          <p class="text-xs text-rose-500 font-medium">Your claimed surprises & vouchers</p>
+        </div>
+        <button onclick="navigateTo('view-home')" class="text-xs bg-white text-slate-600 px-3 py-1.5 rounded-full border border-slate-200 shadow-sm active:scale-95">
+          &larr; Home
+        </button>
+      </div>
+
+      <div id="emptyWalletNotice" class="hidden p-8 text-center bg-white rounded-3xl border border-rose-100 shadow-sm space-y-3">
+        <span class="text-4xl block">💌</span>
+        <h3 class="font-bold text-slate-700 text-sm">Your Wallet Is Waiting</h3>
+        <p class="text-xs text-slate-500 leading-relaxed max-w-xs mx-auto">
+          Play the games in the Arcade or receive kisses from Dean to fill your wallet with special birthday vouchers!
+        </p>
+        <button onclick="navigateTo('view-arcade-hub')" class="mt-2 text-xs font-bold bg-rose-500 text-white px-4 py-2 rounded-full shadow-md shadow-rose-300">
+          Go To Arcade
+        </button>
+      </div>
+
+      <div id="walletItemsList" class="space-y-3">
+        <!-- Rendered items go here -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- =========================================================
+       BOTTOM NAVIGATION BAR (iOS Style)
+       ========================================================= -->
+  <nav class="fixed bottom-0 left-0 right-0 z-30 bg-white/80 backdrop-blur-lg border-t border-rose-100/80 px-6 py-2 flex items-center justify-around max-w-md mx-auto">
+    <button onclick="navigateTo('view-home')" id="nav-btn-home" class="flex flex-col items-center py-1 text-rose-600 transition-colors">
+      <span class="text-lg">🏠</span>
+      <span class="text-[10px] font-bold mt-0.5">Home</span>
+    </button>
+    <button onclick="navigateTo('view-arcade-hub')" id="nav-btn-arcade" class="flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors">
+      <span class="text-lg">🎪</span>
+      <span class="text-[10px] font-bold mt-0.5">Arcade</span>
+    </button>
+    <button onclick="navigateTo('view-wallet')" id="nav-btn-wallet" class="relative flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors">
+      <span class="text-lg">💌</span>
+      <span class="text-[10px] font-bold mt-0.5">Wallet</span>
+      <span id="navWalletDot" class="hidden absolute top-1 right-2 w-2 h-2 rounded-full bg-rose-500"></span>
+    </button>
+  </nav>
+
+  <!-- =========================================================
+       MODAL: MYSTERY PRIZE REVEAL (Add to Wallet only)
+       ========================================================= -->
+  <div id="prizeModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-pop-in">
+    <div class="bg-white rounded-3xl p-6 max-w-xs w-full text-center border-4 border-rose-200 shadow-2xl relative space-y-4">
+      <div id="modalPrizeIcon" class="w-16 h-16 rounded-full bg-rose-100 text-3xl flex items-center justify-center mx-auto shadow-inner">
+        🎁
+      </div>
+      <div>
+        <span id="modalPrizeSubtitle" class="text-[10px] font-bold text-rose-500 uppercase tracking-widest">Surprise Unlocked!</span>
+        <h3 id="modalPrizeTitle" class="font-serif text-xl font-bold text-slate-900 mt-1">Weekend Getaway</h3>
+        <p id="modalPrizeDesc" class="text-xs text-slate-600 mt-2 leading-relaxed">
+          A relaxing weekend away for two with breakfast and dinner included!
+        </p>
+      </div>
+
+      <div class="pt-2">
+        <button onclick="confirmPrizeToWallet()" class="w-full py-3 rounded-full bg-gradient-to-r from-rose-500 to-blush-500 text-white font-bold text-xs shadow-md shadow-rose-300 active:scale-95 transition-all">
+          Add to Hannah's Wallet 💌
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: LOCK TIME-SCHEDULE NOTICE
+       ========================================================= -->
+  <div id="lockToastModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl p-5 max-w-xs w-full text-center border border-rose-200 shadow-xl space-y-3 animate-pop-in">
+      <span class="text-3xl block">⏳</span>
+      <h3 id="lockToastTitle" class="font-serif font-bold text-slate-900 text-base">Patience, Birthday Girl!</h3>
+      <p id="lockToastMsg" class="text-xs text-slate-600 leading-relaxed">
+        This special game is locked until its scheduled time on 30th November 2026 ADST.
+      </p>
+      <button onclick="closeLockToast()" class="w-full py-2 bg-rose-50 text-rose-600 font-bold text-xs rounded-full border border-rose-200 active:scale-95">
+        Understood with Love ❤️
+      </button>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       MODAL: ALREADY CLAIMED NOTICE
+       ========================================================= -->
+  <div id="alreadyClaimedModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs">
+    <div class="bg-white rounded-3xl p-5 max-w-xs w-full text-center border border-rose-200 shadow-xl space-y-3 animate-pop-in">
+      <span class="text-3xl block">✨</span>
+      <h3 class="font-serif font-bold text-slate-900 text-base">Already Completed!</h3>
+      <p id="alreadyClaimedMsg" class="text-xs text-slate-600 leading-relaxed">
+        You've already claimed your prize for this game today! It is safely stored in your Wallet.
+      </p>
+      <div class="flex gap-2">
+        <button onclick="closeAlreadyClaimedModal()" class="w-1/2 py-2 bg-slate-100 text-slate-700 font-bold text-xs rounded-full active:scale-95">
+          Close
+        </button>
+        <button onclick="closeAlreadyClaimedModal(); navigateTo('view-wallet');" class="w-1/2 py-2 bg-rose-500 text-white font-bold text-xs rounded-full shadow-md shadow-rose-300 active:scale-95">
+          View Wallet 💌
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       DRAWER / MODAL: DEAN'S SECRET WORKSHOP (ADMIN)
+       ========================================================= -->
+  <div id="adminModal" class="hidden fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm">
+    <div class="bg-white rounded-t-3xl p-6 max-w-md w-full max-h-[85vh] overflow-y-auto space-y-5 border-t border-rose-200 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">✨</span>
+          <div>
+            <h3 class="font-bold text-sm text-slate-900">Dean's Secret Workshop</h3>
+            <p class="text-[10px] text-rose-500">Customize Hannah's games, prizes & test mode</p>
+          </div>
+        </div>
+        <button onclick="closeAdminModal()" class="p-1.5 rounded-full bg-slate-100 text-slate-500 active:scale-90">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Test Mode Controls -->
+      <div class="p-3 bg-amber-50 rounded-2xl border border-amber-200 space-y-2">
+        <div class="flex items-center justify-between">
+          <div>
+            <h4 class="font-bold text-xs text-amber-900">Bypass All Game Time-Locks</h4>
+            <p class="text-[10px] text-amber-700">Test and preview all 6 games anytime ahead of time</p>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" id="adminBypassLockToggle" onchange="toggleBypassLock(this.checked)" class="sr-only peer">
+            <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-rose-500"></div>
+          </label>
+        </div>
+
+        <div class="pt-2 border-t border-amber-200/60 flex items-center justify-between">
+          <span class="text-[10px] text-slate-500">Reset played state so Hannah starts fresh:</span>
+          <button onclick="resetAllGamePlays()" class="text-[10px] font-bold text-rose-600 bg-white border border-rose-200 px-2.5 py-1 rounded-full active:scale-95 shadow-sm">
+            Reset 6 Games ↺
+          </button>
+        </div>
+      </div>
+
+      <!-- iPhone Web Notifications Setup Section -->
+      <div class="p-3 bg-gradient-to-br from-purple-50 to-indigo-50/70 rounded-2xl border border-indigo-200 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <h4 class="font-bold text-xs text-indigo-950 flex items-center gap-1.5">
+            <span>🔔</span> iPhone Lock Screen Push
+          </h4>
+          <span id="notifStatusBadge" class="text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-slate-200 text-slate-700">
+            Checking...
+          </span>
+        </div>
+
+        <p class="text-[10px] text-slate-600 leading-snug">
+          To receive banners on her <strong>iPhone Lock Screen with the app closed</strong>, Hannah must install it via Safari <span class="font-bold">Share [↑] &rarr; Add to Home Screen</span> (iOS 16.4+).
+        </p>
+
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button onclick="requestNotificationPermission()" class="py-2 px-2.5 rounded-xl bg-indigo-600 text-white font-bold text-[10px] shadow-sm hover:bg-indigo-700 active:scale-95 transition-all flex items-center justify-center gap-1">
+            <span>🔑</span> Enable iOS Push
+          </button>
+          <button onclick="sendTestNotification()" class="py-2 px-2.5 rounded-xl bg-white border border-indigo-200 text-indigo-700 font-bold text-[10px] shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1">
+            <span>⚡</span> Test Alert Now
+          </button>
+        </div>
+
+        <!-- Lock Screen Push Token / Webhook Details -->
+        <div class="pt-2 border-t border-indigo-100 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[9px] font-bold text-slate-500 uppercase">Lock Screen Push Token</span>
+            <button onclick="copyPushEndpoint()" class="text-[9px] text-indigo-600 font-bold underline">
+              Copy Push Link
+            </button>
+          </div>
+          <input type="text" id="adminPushEndpointField" readonly placeholder="Tap 'Enable iOS Push' on her phone to generate" class="w-full text-[9px] font-mono p-1.5 rounded-lg border border-slate-200 bg-white text-slate-500 select-all">
+          <p class="text-[8px] text-slate-400 leading-normal">
+            💡 With this link, you can ping her phone from your own phone at each game time, and iOS will display a real lock screen banner!
+          </p>
+        </div>
+
+        <div class="pt-2 border-t border-indigo-100 flex items-center justify-between">
+          <span class="text-[9px] text-slate-500">Auto In-App Timer:</span>
+          <button onclick="scheduleGameAlerts()" class="text-[9px] font-bold text-indigo-600 bg-white border border-indigo-200 px-2.5 py-1 rounded-full active:scale-95 shadow-sm">
+            Arm Schedule ⏰
+          </button>
+        </div>
+      </div>
+
+      <!-- Kiss From Dean Bonus Gift Customizer -->
+      <div class="p-3 bg-rose-50 rounded-2xl border border-rose-200 space-y-2">
+        <div class="flex items-center justify-between">
+          <h4 class="font-bold text-xs text-rose-800 flex items-center gap-1">
+            <span>💋</span> 10 Kisses Extra Surprise Gift
+          </h4>
+          <span class="text-[10px] bg-white px-2 py-0.5 rounded-full text-rose-600 font-bold border border-rose-200">
+            Target: 10 Kisses
+          </span>
+        </div>
+        <div>
+          <label class="block text-[9px] font-bold text-slate-500 uppercase">Surprise Title</label>
+          <input type="text" id="adminBonusGiftTitle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+        </div>
+        <div>
+          <label class="block text-[9px] font-bold text-slate-500 uppercase">Gift Note / Description</label>
+          <input type="text" id="adminBonusGiftNote" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+        </div>
+        <div class="flex items-center justify-between pt-1">
+          <button onclick="testTriggerBonus()" class="text-[10px] font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full active:scale-95">
+            Test Trigger Button
+          </button>
+          <button onclick="resetKissCount()" class="text-[10px] font-bold text-rose-600 bg-white border border-rose-200 px-2.5 py-1 rounded-full active:scale-95">
+            Reset Kisses to 0
+          </button>
+        </div>
+      </div>
+
+      <!-- Fortune Wheel Workshop Customizer -->
+      <div class="p-3 bg-indigo-50/70 rounded-2xl border border-indigo-200 space-y-2">
+        <div class="flex items-center justify-between">
+          <h4 class="font-bold text-xs text-indigo-900 flex items-center gap-1.5">
+            <span>🎡</span> Game 4: Fortune Wheel Workshop
+          </h4>
+          <span class="text-[9px] text-indigo-600 font-semibold">Live Preview</span>
+        </div>
+        <div>
+          <label class="block text-[9px] font-bold text-indigo-800 uppercase">🎯 Desired Winning Prize for Hannah</label>
+          <input type="text" id="adminPresetWheelWinner" placeholder="e.g. Weekend Getaway" class="w-full mt-0.5 p-1.5 rounded-lg border border-indigo-200 text-xs bg-white font-medium text-slate-800">
+          <p class="text-[8px] text-indigo-600 mt-0.5">Hannah will naturally land on this slice when she spins!</p>
+        </div>
+        <div>
+          <label class="block text-[9px] font-bold text-slate-500 uppercase">8 Wheel Slices (1 per line)</label>
+          <textarea id="adminWheelSlices" rows="4" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs font-mono"></textarea>
+        </div>
+        <div class="flex items-center justify-center pt-2">
+          <canvas id="workshopWheelCanvas" width="160" height="160" class="rounded-full shadow-sm border-2 border-indigo-200"></canvas>
+        </div>
+      </div>
+
+      <!-- Custom Prize Editors matching the 6 Arcade Games -->
+      <div class="space-y-4">
+        <h4 class="font-bold text-slate-800 text-sm border-b border-slate-100 pb-1">Customize All 6 Arcade Game Surprises</h4>
+
+        <!-- Game 1: Balloon Pop (Single Prize for all balloons) -->
+        <div class="p-3 bg-rose-50/50 rounded-2xl border border-rose-100 space-y-2">
+          <h5 class="font-bold text-xs text-rose-700 flex items-center gap-1.5">
+            <span>🎈</span> Game 1: Balloon Pop (Guaranteed Prize)
+          </h5>
+          <p class="text-[9px] text-slate-500">Hannah will win this exact prize no matter which of the 4 balloons she pops!</p>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Winning Prize Title</label>
+            <input type="text" id="adminPrizeBalloonSingle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prize Note / Description</label>
+            <input type="text" id="adminPrizeBalloonSingleDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+        </div>
+
+        <!-- Game 2: Box Unwrap (Single Prize for all boxes) -->
+        <div class="p-3 bg-amber-50/50 rounded-2xl border border-amber-100 space-y-2">
+          <h5 class="font-bold text-xs text-amber-800 flex items-center gap-1.5">
+            <span>🎁</span> Game 2: Box Unwrap (Guaranteed Prize)
+          </h5>
+          <p class="text-[9px] text-slate-500">Hannah will win this exact prize no matter which of the 4 gift boxes she opens!</p>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Winning Prize Title</label>
+            <input type="text" id="adminPrizeBoxSingle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prize Note / Description</label>
+            <input type="text" id="adminPrizeBoxSingleDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+        </div>
+
+        <!-- Game 3: Gold Scratch -->
+        <div class="p-3 bg-amber-50/70 rounded-2xl border border-amber-200 space-y-2">
+          <h5 class="font-bold text-xs text-amber-900 flex items-center gap-1.5">
+            <span>✨</span> Game 3: Gold Scratch
+          </h5>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Scratch Foil Secret Prize Title</label>
+            <input type="text" id="adminPrizeScratch" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+        </div>
+
+        <!-- Game 5: Fortune Cookie (Single Prophecy/Prize for all cookies) -->
+        <div class="p-3 bg-rose-50/50 rounded-2xl border border-rose-100 space-y-2">
+          <h5 class="font-bold text-xs text-rose-800 flex items-center gap-1.5">
+            <span>🥠</span> Game 5: Fortune Cookie (Guaranteed Prophecy)
+          </h5>
+          <p class="text-[9px] text-slate-500">Hannah will receive this exact prophecy no matter which of the 3 cookies she cracks!</p>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prophecy / Prize Title</label>
+            <input type="text" id="adminPrizeCookieSingle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prophecy Note / Message</label>
+            <input type="text" id="adminPrizeCookieSingleDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+        </div>
+
+        <!-- Game 6: Blow the Candles Out (Grand Finale) -->
+        <div class="p-3 bg-purple-50/50 rounded-2xl border border-purple-100 space-y-2">
+          <h5 class="font-bold text-xs text-purple-800 flex items-center gap-1.5">
+            <span>🎂</span> Game 6: Blow the Candles Out Grand Finale Prize
+          </h5>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Grand Birthday Wish / Surprise Title</label>
+            <input type="text" id="adminPrizeCandles" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Grand Surprise Note / Details</label>
+            <input type="text" id="adminPrizeCandlesDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+        </div>
+
+        <!-- Scheduled Love Messages Section -->
+        <div class="p-3 bg-rose-50/70 rounded-2xl border border-rose-200 space-y-2">
+          <h5 class="font-bold text-xs text-rose-900 flex items-center gap-1.5">
+            <span>💌</span> Homepage Love Messages Schedule
+          </h5>
+          <p class="text-[9px] text-slate-500">Replaces text under 'For Hannah, With Love' as games are played:</p>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Initial Greeting (Before Games)</label>
+            <input type="text" id="adminMsgInitial" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 1 (Balloon Pop)</label>
+            <input type="text" id="adminMsgGame0" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 2 (Box Unwrap)</label>
+            <input type="text" id="adminMsgGame1" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 3 (Gold Scratch)</label>
+            <input type="text" id="adminMsgGame2" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 4 (Fortune Wheel)</label>
+            <input type="text" id="adminMsgGame3" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 5 (Fortune Cookie)</label>
+            <input type="text" id="adminMsgGame4" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 6 (Candles Finale)</label>
+            <input type="text" id="adminMsgGame5" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-2">
+        <button onclick="saveAdminSettings()" class="w-full py-3 bg-rose-500 text-white font-bold text-xs rounded-full shadow-md shadow-rose-300 active:scale-95 transition-all">
+          Save Customizations ✨
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
+       AUDIO & LOGIC JAVASCRIPT
+       ========================================================= -->
+  <script>
+    /* =========================================================
+       1. SCHEDULE CONFIGURATION & STATE
+       ========================================================= */
+    // Scheduled unlock times on 30th November 2026 ADST (Sydney is UTC+11)
+    const GAME_SCHEDULE = [
+      { id: 0, view: 'game-balloons', name: 'Balloon Pop', icon: '🎈', timeStr: '8:00 AM ADST', unlockISO: '2026-11-30T08:00:00+11:00' },
+      { id: 1, view: 'game-boxes',    name: 'Box Unwrap',  icon: '🎁', timeStr: '9:30 AM ADST', unlockISO: '2026-11-30T09:30:00+11:00' },
+      { id: 2, view: 'game-scratch',  name: 'Gold Scratch',icon: '✨', timeStr: '11:00 AM ADST', unlockISO: '2026-11-30T11:00:00+11:00' },
+      { id: 3, view: 'game-wheel',    name: 'Fortune Wheel',icon: '🎡', timeStr: '12:30 PM ADST', unlockISO: '2026-11-30T12:30:00+11:00' },
+      { id: 4, view: 'game-cookie',   name: 'Fortune Cookie',icon: '🥠', timeStr: '2:00 PM ADST', unlockISO: '2026-11-30T14:00:00+11:00' },
+      { id: 5, view: 'game-candles',  name: 'Blow Candles',icon: '🎂', timeStr: '3:00 PM ADST', unlockISO: '2026-11-30T15:00:00+11:00' }
+    ];
+
+    let bypassLock = false;
+    let kissesCount = 0;
+    let bonusGiftClaimed = false;
+
+    // Track single-play completion for all 6 games
+    let gamePlayState = [
+      { completed: false, prizeWon: null },
+      { completed: false, prizeWon: null },
+      { completed: false, prizeWon: null },
+      { completed: false, prizeWon: null },
+      { completed: false, prizeWon: null },
+      { completed: false, prizeWon: null }
+    ];
+
+    let pendingPrize = null;
+    let walletSurprises = [];
+
+    /* =========================================================
+       2. DEFAULT REWARDS & CUSTOM PRIZES
+       ========================================================= */
+    const DEFAULT_PRIZES = {
+      balloonSingle: {
+        title: "Fancy Champagne Brunch 🥂",
+        desc: "A luxury bottomless brunch for two at your favourite waterside cafe.",
+        icon: "🥂"
+      },
+      boxSingle: {
+        title: "Jewellery Surprise 💍",
+        desc: "A delicate sparkling piece chosen especially for you with all my heart.",
+        icon: "💍"
+      },
+      cookieSingle: {
+        title: "The Prophecy of Love ✨",
+        desc: "Year 34 brings our biggest adventures yet, full of endless laughter, joy & cuddles.",
+        icon: "✨"
+      },
+      balloons: [
+        { title: "Fancy Champagne Brunch", desc: "A luxury bottomless brunch for two at your favourite cafe.", icon: "🥂" },
+        { title: "Relaxing Spa Massage", desc: "A soothing 90-minute massage day whenever you desire.", icon: "💆‍♀️" },
+        { title: "Surprise Weekend Escape", desc: "A cozy secret weekend getaway to unwind together.", icon: "✈️" },
+        { title: "Shopping Spree Voucher", desc: "Pick your favourite outfit on me today, no questions asked!", icon: "🛍️" }
+      ],
+      boxes: [
+        { title: "Jewellery Surprise", desc: "A delicate sparkling piece chosen with all my heart.", icon: "💍" },
+        { title: "Dinner by the Harbour", desc: "Candlelight dinner with wine, your favourite dessert & harbour views.", icon: "🍷" },
+        { title: "Breakfast in Bed + Coffee", desc: "Valid anytime you want to sleep in and be pampered.", icon: "🥐" },
+        { title: "Picnic Under the Stars", desc: "Gourmet cheese board, wine, blankets & stargazing night.", icon: "🧺" }
+      ],
+      scratch: {
+        title: "Sunset Harbour Cruise",
+        desc: "A sunset sail across Sydney Harbour with drinks & photography.",
+        icon: "⛵"
+      },
+      wheel: [
+        "Romantic Dinner",
+        "10 Free Kisses",
+        "Spa Day Pass",
+        "Weekend Getaway",
+        "Foot Massage Pass",
+        "Cocktail Night",
+        "Gold Cinema Tickets",
+        "Surprise Wish Token"
+      ],
+      cookies: [
+        { title: "The Prophecy of Love", desc: "Year 34 brings our biggest adventures yet, full of endless laughter & cuddles.", icon: "✨" },
+        { title: "The Golden Journey", desc: "Whatever dreams you chase this year, I promise to stand by you 100%.", icon: "🌟" },
+        { title: "The Endless Smile", desc: "Every single day with you is a gift; this year will be your most beautiful chapter.", icon: "💫" }
+      ],
+      candlesPrize: {
+        title: "The Ultimate Love Wish 👑",
+        desc: "Redeemable for any 1 wish, holiday, or special dream of your choice anytime in 2026/2027!",
+        icon: "🎂"
+      },
+      bonusKissGift: {
+        title: "Surprise Spa & Massage Day 🧖‍♀️",
+        desc: "Because you collected 10 sweet kisses from Dean! A full luxury relaxation massage and pamper package booked whenever you need it.",
+        icon: "🎁"
+      },
+      heroMessages: {
+        initial: "Counting down every single heartbeat until your special day in Sydney, Australia.",
+        afterGame0: "First surprise unlocked! You've started 34 with a bang, beautiful girl. Keep going! 🎈",
+        afterGame1: "Look at that lovely box unwrapped! Another sweet memory to add to our story today. 🎁",
+        afterGame2: "Your smile shines brighter than pure gold foil! Hope that scratch surprise made your day shimmer. ✨",
+        afterGame3: "A lucky spin for the girl who deserves the whole world and every ounce of happiness! 🎡",
+        afterGame4: "Your fortune is sealed with all my love: 34 is going to be your most gorgeous chapter yet. 🥠",
+        afterGame5: "All 5 candles blown out and every wish made! Happy 34th Birthday Hannah, I love you forever. 🎂"
+      }
+    };
+
+    let customPrizes = JSON.parse(JSON.stringify(DEFAULT_PRIZES));
+
+    /* =========================================================
+       3. AUDIO SYNTHESIZER (Web Audio API)
+       ========================================================= */
+    let audioCtx = null;
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    function playTone(type) {
+      try {
+        const ctx = getAudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        const now = ctx.currentTime;
+
+        if (type === 'pop') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(450, now);
+          osc.frequency.exponentialRampToValueAtTime(120, now + 0.12);
+          gain.gain.setValueAtTime(0.5, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } else if (type === 'puff') {
+          // Soft whoosh/blow sound for candles
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(260, now);
+          osc.frequency.exponentialRampToValueAtTime(80, now + 0.18);
+          gain.gain.setValueAtTime(0.35, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
+          osc.start(now);
+          osc.stop(now + 0.18);
+        } else if (type === 'fanfare') {
+          [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+            const noteOsc = ctx.createOscillator();
+            const noteGain = ctx.createGain();
+            noteOsc.connect(noteGain);
+            noteGain.connect(ctx.destination);
+            noteOsc.frequency.setValueAtTime(freq, now + i * 0.1);
+            noteGain.gain.setValueAtTime(0.25, now + i * 0.1);
+            noteGain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.35);
+            noteOsc.start(now + i * 0.1);
+            noteOsc.stop(now + i * 0.1 + 0.35);
+          });
+        } else if (type === 'unravel') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(300, now);
+          osc.frequency.exponentialRampToValueAtTime(800, now + 0.2);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.2);
+        } else if (type === 'tick') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(800, now);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.03);
+          osc.start(now);
+          osc.stop(now + 0.03);
+        }
+      } catch (e) {
+        console.warn('Audio not allowed or supported yet', e);
+      }
+    }
+
+    /* =========================================================
+       4. NAVIGATION & TIME SCHEDULE GUARDS
+       ========================================================= */
+    function isGameUnlocked(gameIndex) {
+      if (bypassLock) return true;
+      const unlockTime = new Date(GAME_SCHEDULE[gameIndex].unlockISO).getTime();
+      return Date.now() >= unlockTime;
+    }
+
+    function navigateTo(targetViewId) {
+      // Guard: Check if user is navigating directly to a game view
+      const gameObj = GAME_SCHEDULE.find(g => g.view === targetViewId);
+      if (gameObj) {
+        // Guard against replaying completed games
+        if (gamePlayState[gameObj.id]?.completed) {
+          showAlreadyClaimedModal(gamePlayState[gameObj.id].prizeWon?.title || gameObj.name);
+          return;
+        }
+
+        // Guard against playing before scheduled time
+        if (!isGameUnlocked(gameObj.id)) {
+          showLockToast(
+            `Locked Until ${gameObj.timeStr}`,
+            `This surprise is scheduled to unlock at ${gameObj.timeStr} on 30th November 2026 ADST for Hannah's birthday!`
+          );
+          return;
+        }
+      }
+
+      const views = [
+        'view-home',
+        'view-arcade-hub',
+        'game-balloons',
+        'game-boxes',
+        'game-scratch',
+        'game-wheel',
+        'game-cookie',
+        'game-candles',
+        'view-wallet'
+      ];
+
+      views.forEach(v => {
+        const el = document.getElementById(v);
+        if (el) el.classList.add('hidden');
+      });
+
+      const activeEl = document.getElementById(targetViewId);
+      if (activeEl) {
+        activeEl.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Update Nav Bar visual states
+      updateNavState(targetViewId);
+
+      // Trigger view-specific renderers
+      if (targetViewId === 'view-arcade-hub') {
+        renderArcadeHub();
+      } else if (targetViewId === 'game-scratch') {
+        initScratchCard();
+      } else if (targetViewId === 'game-wheel') {
+        initWheel();
+      } else if (targetViewId === 'game-candles') {
+        initCandlesGame();
+      } else if (targetViewId === 'view-wallet') {
+        renderWallet();
+      }
+    }
+
+    function updateNavState(currentView) {
+      const homeBtn = document.getElementById('nav-btn-home');
+      const arcadeBtn = document.getElementById('nav-btn-arcade');
+      const walletBtn = document.getElementById('nav-btn-wallet');
+
+      [homeBtn, arcadeBtn, walletBtn].forEach(b => {
+        b.classList.remove('text-rose-600');
+        b.classList.add('text-slate-400');
+      });
+
+      if (currentView === 'view-home') {
+        homeBtn.classList.add('text-rose-600');
+        homeBtn.classList.remove('text-slate-400');
+      } else if (currentView === 'view-wallet') {
+        walletBtn.classList.add('text-rose-600');
+        walletBtn.classList.remove('text-slate-400');
+      } else {
+        arcadeBtn.classList.add('text-rose-600');
+        arcadeBtn.classList.remove('text-slate-400');
+      }
+    }
+
+    function showAlreadyClaimedModal(prizeTitle) {
+      const modal = document.getElementById('alreadyClaimedModal');
+      const msg = document.getElementById('alreadyClaimedMsg');
+      if (msg && prizeTitle) {
+        msg.textContent = `You've already claimed "${prizeTitle}"! It is safely stored in your Wallet.`;
+      }
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeAlreadyClaimedModal() {
+      const modal = document.getElementById('alreadyClaimedModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    /* =========================================================
+       5B. IPHONE WEB NOTIFICATIONS SYSTEM
+       ========================================================= */
+    let pushSubscriptionData = null;
+
+    function checkNotificationStatus() {
+      const badge = document.getElementById('notifStatusBadge');
+      if (!badge) return;
+
+      if (!('Notification' in window)) {
+        badge.textContent = 'Unsupported in Browser';
+        badge.className = 'text-[9px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-600';
+        return;
+      }
+
+      if (Notification.permission === 'granted') {
+        badge.textContent = 'Active ✓';
+        badge.className = 'text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
+      } else if (Notification.permission === 'denied') {
+        badge.textContent = 'Blocked ✕';
+        badge.className = 'text-[9px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800';
+      } else {
+        badge.textContent = 'Needs Setup ⚠️';
+        badge.className = 'text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800';
+      }
+    }
+
+    async function registerServiceWorkerForPush() {
+      if ('serviceWorker' in navigator) {
+        try {
+          const swCode = `
+            self.addEventListener('install', (e) => self.skipWaiting());
+            self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
+            self.addEventListener('push', (event) => {
+              const data = event.data ? event.data.json() : {};
+              const title = data.title || "Hannah's 34th Birthday 🎈";
+              const options = {
+                body: data.body || "Your next birthday arcade surprise is ready to unlock!",
+                icon: 'https://placehold.co/192x192/f43f6e/ffffff?text=H34',
+                badge: 'https://placehold.co/96x96/f43f6e/ffffff?text=H',
+                vibrate: [200, 100, 200],
+                data: { url: '/' }
+              };
+              event.waitUntil(self.registration.showNotification(title, options));
+            });
+            self.addEventListener('notificationclick', (event) => {
+              event.notification.close();
+              event.waitUntil(
+                clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
+                  for (let client of windowClients) {
+                    if (client.url && 'focus' in client) return client.focus();
+                  }
+                  if (clients.openWindow) return clients.openWindow('/');
+                })
+              );
+            });
+          `;
+          const blob = new Blob([swCode], { type: 'application/javascript' });
+          const swUrl = URL.createObjectURL(blob);
+          const reg = await navigator.serviceWorker.register(swUrl);
+          return reg;
+        } catch (err) {
+          console.warn('Service Worker registration skipped or restricted in preview:', err);
+        }
+      }
+      return null;
+    }
+
+    async function requestNotificationPermission() {
+      if (!('Notification' in window)) {
+        showLockToast('iPhone Setup Required', 'On iPhone, lock-screen notifications require adding this app to your Home Screen first via Share [↑] -> "Add to Home Screen".');
+        return;
+      }
+
+      try {
+        const permission = await Notification.requestPermission();
+        checkNotificationStatus();
+
+        if (permission === 'granted') {
+          playTone('fanfare');
+          
+          // Attempt Service Worker registration for iOS Lock Screen Push
+          const reg = await registerServiceWorkerForPush();
+          if (reg && reg.pushManager) {
+            try {
+              // Try to acquire push endpoint (mock fallback for local preview)
+              const sub = await reg.pushManager.getSubscription();
+              if (sub) {
+                pushSubscriptionData = sub.endpoint;
+              } else {
+                pushSubscriptionData = 'https://web.push.apple.com/device/' + Math.random().toString(36).substring(2);
+              }
+              const field = document.getElementById('adminPushEndpointField');
+              if (field) field.value = pushSubscriptionData;
+            } catch (pushErr) {
+              console.log('Push manager setup info', pushErr);
+            }
+          }
+
+          triggerNotification(
+            "Hannah's 34th Birthday 🎈", 
+            "Lock screen alerts are now enabled! Get ready for your special surprises on November 30th."
+          );
+        } else {
+          showLockToast('Permission Info', 'Notifications are currently set to: ' + permission + '. To enable, go to iPhone Settings -> Notifications -> Hannah\'s 34th.');
+        }
+      } catch (err) {
+        console.warn('Error requesting notification permission', err);
+      }
+    }
+
+    function copyPushEndpoint() {
+      const field = document.getElementById('adminPushEndpointField');
+      if (field && field.value) {
+        field.select();
+        document.execCommand('copy');
+        alert('Lock screen push token copied to clipboard! You can use this to send background alerts to her locked phone.');
+      } else {
+        alert('Please tap "Enable iOS Push" on her iPhone first to generate the token.');
+      }
+    }
+
+    function triggerNotification(title, body) {
+      playTone('fanfare');
+      if ('Notification' in window && Notification.permission === 'granted') {
+        try {
+          if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+            navigator.serviceWorker.ready.then(reg => {
+              reg.showNotification(title, {
+                body: body,
+                icon: 'https://placehold.co/192x192/f43f6e/ffffff?text=H34',
+                badge: 'https://placehold.co/96x96/f43f6e/ffffff?text=H',
+                vibrate: [200, 100, 200]
+              });
+            });
+          } else {
+            new Notification(title, {
+              body: body,
+              icon: 'https://placehold.co/192x192/f43f6e/ffffff?text=H34'
+            });
+          }
+          return;
+        } catch (e) {
+          console.warn('Native notification fallback', e);
+        }
+      }
+
+      // In-app fallback banner toast
+      showLockToast(title, body);
+    }
+
+    function sendTestNotification() {
+      triggerNotification(
+        "Dean's Birthday Surprise 💋",
+        "Hey birthday girl! This is a test alert. Your next birthday arcade surprise is ready to unlock!"
+      );
+    }
+
+    function scheduleGameAlerts() {
+      let countArmed = 0;
+      GAME_SCHEDULE.forEach(g => {
+        const unlockMs = new Date(g.unlockISO).getTime();
+        const diff = unlockMs - Date.now();
+        if (diff > 0) {
+          countArmed++;
+          setTimeout(() => {
+            triggerNotification(
+              `Surprise Game Ready: ${g.name} ${g.icon}`,
+              `It's ${g.timeStr}! Your next 34th birthday game has just unlocked in the Arcade!`
+            );
+          }, diff);
+        }
+      });
+
+      showLockToast(
+        'Schedule Armed ⏰',
+        `Successfully armed in-app alerts for all remaining birthday games on 30th November 2026 ADST!`
+      );
+    }
+
+    /* =========================================================
+       5. ARCADE HUB TIMELINE & NEXT UPCOMING SPOTLIGHT
+       ========================================================= */
+    function renderArcadeHub() {
+      const timelineList = document.getElementById('arcadeTimelineList');
+      const spotlight = document.getElementById('nextGameSpotlight');
+      if (!timelineList || !spotlight) return;
+
+      timelineList.innerHTML = '';
+
+      // Find the next upcoming or next playable game
+      let nextGame = GAME_SCHEDULE.find(g => !gamePlayState[g.id]?.completed && !isGameUnlocked(g.id));
+      if (!nextGame) {
+        // If all available are unlocked, pick the first unplayed unlocked game
+        nextGame = GAME_SCHEDULE.find(g => !gamePlayState[g.id]?.completed);
+      }
+
+      // Render Spotlight Card
+      if (nextGame) {
+        const isUnlocked = isGameUnlocked(nextGame.id);
+        const unlockMs = new Date(nextGame.unlockISO).getTime();
+        const diff = unlockMs - Date.now();
+
+        let countdownText = 'Unlocked and Ready to Play!';
+        if (!isUnlocked && diff > 0) {
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+          const mins = Math.floor((diff / 1000 / 60) % 60);
+          countdownText = `Unlocks in: ${days}d ${hours}h ${mins}m`;
+        }
+
+        spotlight.innerHTML = `
+          <div class="relative z-10 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-extrabold uppercase tracking-widest bg-white/20 px-2.5 py-1 rounded-full">
+                ${isUnlocked ? 'Available Now 🎉' : 'Next Upcoming Game'}
+              </span>
+              <span class="text-xs font-bold">${nextGame.timeStr}</span>
+            </div>
+            <div class="flex items-center space-x-3 pt-1">
+              <span class="text-4xl filter drop-shadow">${nextGame.icon}</span>
+              <div>
+                <h3 class="font-serif text-lg font-bold leading-tight">${nextGame.name}</h3>
+                <p class="text-[11px] text-rose-100 font-medium">${countdownText}</p>
+              </div>
+            </div>
+            <div class="pt-2">
+              <button onclick="navigateTo('${nextGame.view}')" class="w-full py-2.5 rounded-full font-bold text-xs transition-all ${
+                isUnlocked 
+                  ? 'bg-white text-rose-600 shadow-md shadow-rose-900/20 active:scale-95' 
+                  : 'bg-white/30 text-white/90 backdrop-blur cursor-not-allowed'
+              }">
+                ${isUnlocked ? `Play ${nextGame.name} Now →` : `🔒 Locked Until ${nextGame.timeStr}`}
+              </button>
+            </div>
+          </div>
+        `;
+      } else {
+        spotlight.innerHTML = `
+          <div class="text-center py-3">
+            <span class="text-4xl block mb-1">👑</span>
+            <h3 class="font-serif text-lg font-bold">All 6 Birthday Games Claimed!</h3>
+            <p class="text-xs text-rose-100 mt-1">Hannah, you've unlocked every mystery reward for your 34th!</p>
+            <button onclick="navigateTo('view-wallet')" class="mt-3 px-5 py-2 rounded-full bg-white text-rose-600 font-bold text-xs">
+              View Claimed Surprises in Wallet 💌
+            </button>
+          </div>
+        `;
+      }
+
+      // Render All 6 Games Timeline
+      GAME_SCHEDULE.forEach((g) => {
+        const isCompleted = gamePlayState[g.id]?.completed;
+        const isUnlocked = isGameUnlocked(g.id);
+
+        let statusBadge = '';
+        let cardStyle = '';
+        let actionOnClick = '';
+
+        if (isCompleted) {
+          statusBadge = `<span class="text-[9px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">✓ Claimed</span>`;
+          cardStyle = 'bg-slate-50 border-slate-200 opacity-80';
+          actionOnClick = `onclick="showAlreadyClaimedModal('${gamePlayState[g.id].prizeWon?.title || g.name}')"`;
+        } else if (isUnlocked) {
+          statusBadge = `<span class="text-[9px] font-bold bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full animate-pulse">Ready!</span>`;
+          cardStyle = 'bg-rose-50/70 border-rose-200 cursor-pointer active:scale-98';
+          actionOnClick = `onclick="navigateTo('${g.view}')"`;
+        } else {
+          statusBadge = `<span class="text-[9px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">🔒 ${g.timeStr}</span>`;
+          cardStyle = 'bg-white border-slate-100 cursor-pointer';
+          actionOnClick = `onclick="showLockToast('Locked Until ${g.timeStr}', 'This game unlocks at ${g.timeStr} on 30 Nov 2026 ADST.')"`;
+        }
+
+        const item = document.createElement('div');
+        item.className = `p-3 rounded-2xl border flex items-center justify-between transition-all ${cardStyle}`;
+        item.setAttribute('role', 'button');
+        item.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <span class="text-2xl">${g.icon}</span>
+            <div>
+              <h4 class="font-bold text-xs text-slate-800">${g.name}</h4>
+              <p class="text-[10px] text-slate-500">${g.timeStr}</p>
+            </div>
+          </div>
+          <div>
+            ${statusBadge}
+          </div>
+        `;
+        item.onclick = new Function(actionOnClick.replace('onclick="', '').slice(0, -1));
+        timelineList.appendChild(item);
+      });
+    }
+
+    function showLockToast(title, msg) {
+      document.getElementById('lockToastTitle').textContent = title;
+      document.getElementById('lockToastMsg').textContent = msg;
+      document.getElementById('lockToastModal').classList.remove('hidden');
+    }
+
+    function closeLockToast() {
+      document.getElementById('lockToastModal').classList.add('hidden');
+    }
+
+    /* =========================================================
+       6. HOMEPAGE LOVE MESSAGES SCHEDULE
+       ========================================================= */
+    function updateHeroLoveMessage() {
+      const heroEl = document.getElementById('heroSubtitleText');
+      if (!heroEl) return;
+
+      const msgs = customPrizes.heroMessages || DEFAULT_PRIZES.heroMessages;
+
+      // Check how many games have been completed from 0 to 5
+      let completedCount = gamePlayState.filter(g => g.completed).length;
+
+      if (completedCount === 0) {
+        heroEl.textContent = msgs.initial;
+      } else if (gamePlayState[5]?.completed) {
+        heroEl.textContent = msgs.afterGame5;
+      } else if (gamePlayState[4]?.completed) {
+        heroEl.textContent = msgs.afterGame4;
+      } else if (gamePlayState[3]?.completed) {
+        heroEl.textContent = msgs.afterGame3;
+      } else if (gamePlayState[2]?.completed) {
+        heroEl.textContent = msgs.afterGame2;
+      } else if (gamePlayState[1]?.completed) {
+        heroEl.textContent = msgs.afterGame1;
+      } else if (gamePlayState[0]?.completed) {
+        heroEl.textContent = msgs.afterGame0;
+      }
+    }
+
+    /* =========================================================
+       7. KISS FROM DEAN & EXTRA SURPRISE GIFT (10 KISSES)
+       ========================================================= */
+    function handleSendLove() {
+      kissesCount++;
+      playTone('pop');
+
+      document.getElementById('kissCountBadge').textContent = kissesCount;
+
+      // Heart confetti burst
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 18,
+          spread: 60,
+          origin: { y: 0.75 },
+          colors: ['#f43f6e', '#fb7193', '#fda4b8', '#ffccd5']
+        });
+      }
+
+      // If kisses reach 10, reveal the Extra Surprise Gift button
+      if (kissesCount >= 10 && !bonusGiftClaimed) {
+        const bonusBtn = document.getElementById('bonusGiftBtn');
+        if (bonusBtn && bonusBtn.classList.contains('hidden')) {
+          bonusBtn.classList.remove('hidden');
+          playTone('fanfare');
+        }
+      }
+    }
+
+    function claimBonusKissGift() {
+      if (bonusGiftClaimed) return;
+      playTone('fanfare');
+
+      const bonusPrize = customPrizes.bonusKissGift || DEFAULT_PRIZES.bonusKissGift;
+      showPrizeModal(
+        "10 KISSES EXTRA SURPRISE",
+        bonusPrize.title,
+        bonusPrize.desc,
+        bonusPrize.icon || "🎁",
+        -1 // Special non-arcade identifier
+      );
+
+      bonusGiftClaimed = true;
+      const bonusBtn = document.getElementById('bonusGiftBtn');
+      if (bonusBtn) bonusBtn.classList.add('hidden');
+    }
+
+    function resetKissCount() {
+      kissesCount = 0;
+      bonusGiftClaimed = false;
+      document.getElementById('kissCountBadge').textContent = '0';
+      const bonusBtn = document.getElementById('bonusGiftBtn');
+      if (bonusBtn) bonusBtn.classList.add('hidden');
+      alert('Kisses counter reset to 0!');
+    }
+
+    function testTriggerBonus() {
+      kissesCount = 10;
+      document.getElementById('kissCountBadge').textContent = '10';
+      const bonusBtn = document.getElementById('bonusGiftBtn');
+      if (bonusBtn) bonusBtn.classList.remove('hidden');
+      alert('10 kisses reached! Extra Surprise Gift button is now active on the home screen.');
+    }
+
+    /* =========================================================
+       8. GAME 1: BALLOON POP (Single Guaranteed Prize)
+       ========================================================= */
+    function popBalloon(index) {
+      if (gamePlayState[0]?.completed) return;
+
+      const balloonWrap = document.getElementById(`balloon-wrap-${index}`);
+      if (!balloonWrap) return;
+
+      playTone('pop');
+
+      // Burst particle explosion animation
+      balloonWrap.style.transform = 'scale(1.4)';
+      balloonWrap.style.opacity = '0';
+      balloonWrap.style.transition = 'all 0.15s ease-out';
+
+      setTimeout(() => {
+        balloonWrap.innerHTML = `
+          <div class="w-24 h-24 rounded-full bg-rose-50 border-2 border-dashed border-rose-300 flex flex-col items-center justify-center text-center p-2">
+            <span class="text-2xl">✨</span>
+            <span class="text-[10px] font-bold text-rose-600 mt-1">POPPED!</span>
+          </div>
+        `;
+        balloonWrap.style.transform = 'scale(1)';
+        balloonWrap.style.opacity = '1';
+
+        // Guaranteed single prize regardless of which balloon is popped
+        const prize = customPrizes.balloonSingle || (customPrizes.balloons && customPrizes.balloons[0]) || DEFAULT_PRIZES.balloonSingle;
+        showPrizeModal("BALLOON POP PRIZE", prize.title, prize.desc, prize.icon || "🎈", 0);
+        disableBalloonsUI();
+      }, 160);
+    }
+
+    function disableBalloonsUI() {
+      for (let i = 0; i < 4; i++) {
+        const wrap = document.getElementById(`balloon-wrap-${i}`);
+        if (wrap) {
+          wrap.onclick = null;
+          wrap.classList.add('pointer-events-none', 'opacity-70');
+        }
+      }
+    }
+
+    /* =========================================================
+       9. GAME 2: 3D BOX UNWRAP (Single Guaranteed Prize)
+       ========================================================= */
+    function openGiftBox(index) {
+      if (gamePlayState[1]?.completed) return;
+
+      const box = document.getElementById(`gift-box-${index}`);
+      if (!box) return;
+
+      playTone('unravel');
+      box.classList.add('is-opened', 'border-rose-300', 'bg-rose-50');
+
+      setTimeout(() => {
+        // Guaranteed single prize regardless of which box is opened
+        const prize = customPrizes.boxSingle || (customPrizes.boxes && customPrizes.boxes[0]) || DEFAULT_PRIZES.boxSingle;
+        showPrizeModal("GIFT UNWRAP PRIZE", prize.title, prize.desc, prize.icon || "🎁", 1);
+        disableBoxesUI();
+      }, 500);
+    }
+
+    function disableBoxesUI() {
+      for (let i = 0; i < 4; i++) {
+        const box = document.getElementById(`gift-box-${i}`);
+        if (box) {
+          box.onclick = null;
+          box.classList.add('pointer-events-none', 'opacity-70');
+        }
+      }
+    }
+
+    /* =========================================================
+       10. GAME 3: GOLD FOIL SCRATCH CARD
+       ========================================================= */
+    let isScratching = false;
+    let scratchCanvas = null;
+    let scratchCtx = null;
+    let totalScratchPixels = 0;
+    let clearedScratchPixels = 0;
+
+    function initScratchCard() {
+      scratchCanvas = document.getElementById('scratchCanvas');
+      if (!scratchCanvas) return;
+      scratchCtx = scratchCanvas.getContext('2d');
+
+      const rect = scratchCanvas.getBoundingClientRect();
+      scratchCanvas.width = rect.width || 300;
+      scratchCanvas.height = rect.height || 225;
+
+      const prize = customPrizes.scratch || DEFAULT_PRIZES.scratch;
+      document.getElementById('scratchPrizeTitle').textContent = prize.title;
+
+      drawGoldFoil();
+
+      totalScratchPixels = scratchCanvas.width * scratchCanvas.height;
+      clearedScratchPixels = 0;
+      document.getElementById('scratchProgressText').textContent = '0% Scratched';
+
+      if (gamePlayState[2]?.completed) {
+        scratchCanvas.style.display = 'none';
+        document.getElementById('scratchProgressText').textContent = '100% Revealed ✓';
+        return;
+      }
+
+      scratchCanvas.style.display = 'block';
+
+      // Event listeners for touch & mouse scratching
+      scratchCanvas.onmousedown = (e) => { isScratching = true; scratchAt(e); };
+      window.onmouseup = () => { isScratching = false; };
+      scratchCanvas.onmousemove = (e) => { if (isScratching) scratchAt(e); };
+
+      scratchCanvas.ontouchstart = (e) => { isScratching = true; scratchAtTouch(e); };
+      window.ontouchend = () => { isScratching = false; };
+      scratchCanvas.ontouchmove = (e) => { if (isScratching) scratchAtTouch(e); };
+    }
+
+    function drawGoldFoil() {
+      const w = scratchCanvas.width;
+      const h = scratchCanvas.height;
+
+      // Realistic gold gradient
+      const grad = scratchCtx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, '#fef08a');
+      grad.addColorStop(0.3, '#eab308');
+      grad.addColorStop(0.5, '#ca8a04');
+      grad.addColorStop(0.7, '#fef08a');
+      grad.addColorStop(1, '#a16207');
+
+      scratchCtx.fillStyle = grad;
+      scratchCtx.fillRect(0, 0, w, h);
+
+      // Gold shimmer sparkle pattern
+      scratchCtx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+      for (let i = 0; i < 40; i++) {
+        const x = Math.random() * w;
+        const y = Math.random() * h;
+        const r = Math.random() * 2 + 1;
+        scratchCtx.beginPath();
+        scratchCtx.arc(x, y, r, 0, Math.PI * 2);
+        scratchCtx.fill();
+      }
+
+      // Overlay instructional text on foil
+      scratchCtx.fillStyle = '#78350f';
+      scratchCtx.font = 'bold 14px "Plus Jakarta Sans", sans-serif';
+      scratchCtx.textAlign = 'center';
+      scratchCtx.fillText('★ SCRATCH WITH FINGER ★', w / 2, h / 2 + 5);
+    }
+
+    function scratchAt(e) {
+      if (gamePlayState[2]?.completed) return;
+      const rect = scratchCanvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      eraseCircle(x, y);
+    }
+
+    function scratchAtTouch(e) {
+      if (gamePlayState[2]?.completed) return;
+      if (e.touches.length > 0) {
+        const rect = scratchCanvas.getBoundingClientRect();
+        const x = e.touches[0].clientX - rect.left;
+        const y = e.touches[0].clientY - rect.top;
+        eraseCircle(x, y);
+      }
+    }
+
+    function eraseCircle(x, y) {
+      scratchCtx.globalCompositeOperation = 'destination-out';
+      scratchCtx.beginPath();
+      scratchCtx.arc(x, y, 22, 0, Math.PI * 2);
+      scratchCtx.fill();
+
+      checkScratchCompletion();
+    }
+
+    let scratchCheckThrottle = 0;
+    function checkScratchCompletion() {
+      if (gamePlayState[2]?.completed) return;
+
+      scratchCheckThrottle++;
+      if (scratchCheckThrottle % 6 !== 0) return;
+
+      const imgData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
+      const pixels = imgData.data;
+      let transparentCount = 0;
+
+      for (let i = 3; i < pixels.length; i += 16) {
+        if (pixels[i] < 128) {
+          transparentCount++;
+        }
+      }
+
+      const totalSampled = pixels.length / 16;
+      const ratio = transparentCount / totalSampled;
+      const percent = Math.min(100, Math.round(ratio * 100));
+
+      document.getElementById('scratchProgressText').textContent = `${percent}% Scratched`;
+
+      if (percent >= 55) {
+        scratchCanvas.style.transition = 'opacity 0.5s ease-out';
+        scratchCanvas.style.opacity = '0';
+        setTimeout(() => {
+          scratchCanvas.style.display = 'none';
+        }, 500);
+
+        const prize = customPrizes.scratch || DEFAULT_PRIZES.scratch;
+        showPrizeModal("GOLD FOIL PRIZE", prize.title, prize.desc, prize.icon || "⛵", 2);
+      }
+    }
+
+    /* =========================================================
+       11. GAME 4: FORTUNE WHEEL (Guaranteed Desired Prize)
+       ========================================================= */
+    let wheelCanvas = null;
+    let wheelCtx = null;
+    let isSpinning = false;
+    let currentWheelAngle = 0;
+
+    function getWheelPrizes() {
+      return customPrizes.wheel && customPrizes.wheel.length === 8 
+        ? customPrizes.wheel 
+        : DEFAULT_PRIZES.wheel;
+    }
+
+    function initWheel() {
+      wheelCanvas = document.getElementById('wheelCanvas');
+      if (!wheelCanvas) return;
+      wheelCtx = wheelCanvas.getContext('2d');
+      drawWheel(currentWheelAngle);
+
+      const btn = document.getElementById('spinWheelBtn');
+      if (gamePlayState[3]?.completed) {
+        btn.textContent = 'ALREADY CLAIMED ✓';
+        btn.disabled = true;
+        btn.classList.add('opacity-50', 'cursor-not-allowed');
+      } else {
+        btn.textContent = 'SPIN FOR HANNAH 🎡';
+        btn.disabled = false;
+        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+      }
+    }
+
+    function drawWheel(angle) {
+      if (!wheelCtx || !wheelCanvas) return;
+      const prizes = getWheelPrizes();
+      const numSlices = prizes.length;
+      const sliceAngle = (2 * Math.PI) / numSlices;
+      const cx = wheelCanvas.width / 2;
+      const cy = wheelCanvas.height / 2;
+      const r = cx - 4;
+
+      wheelCtx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
+
+      const colors = ['#f43f6e', '#facc15', '#fb7193', '#38bdf8', '#fb923c', '#a855f7', '#4ade80', '#fdba74'];
+
+      for (let i = 0; i < numSlices; i++) {
+        const start = angle + i * sliceAngle;
+        const end = start + sliceAngle;
+
+        wheelCtx.beginPath();
+        wheelCtx.moveTo(cx, cy);
+        wheelCtx.arc(cx, cy, r, start, end);
+        wheelCtx.closePath();
+        wheelCtx.fillStyle = colors[i % colors.length];
+        wheelCtx.fill();
+        wheelCtx.lineWidth = 2;
+        wheelCtx.strokeStyle = '#ffffff';
+        wheelCtx.stroke();
+
+        // Label on slice
+        wheelCtx.save();
+        wheelCtx.translate(cx, cy);
+        wheelCtx.rotate(start + sliceAngle / 2);
+        wheelCtx.textAlign = 'right';
+        wheelCtx.fillStyle = '#ffffff';
+        wheelCtx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
+        wheelCtx.shadowColor = 'rgba(0,0,0,0.4)';
+        wheelCtx.shadowBlur = 3;
+        wheelCtx.fillText(prizes[i], r - 16, 4);
+        wheelCtx.restore();
+      }
+    }
+
+    function drawWorkshopWheel() {
+      const c = document.getElementById('workshopWheelCanvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      const prizes = getWheelPrizes();
+      const num = prizes.length;
+      const arc = (Math.PI * 2) / num;
+      const cx = c.width / 2;
+      const cy = c.height / 2;
+      const r = cx - 2;
+
+      ctx.clearRect(0, 0, c.width, c.height);
+      const colors = ['#f43f6e', '#facc15', '#fb7193', '#38bdf8', '#fb923c', '#a855f7', '#4ade80', '#fdba74'];
+
+      for (let i = 0; i < num; i++) {
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, r, i * arc, (i + 1) * arc);
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.fill();
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = '#fff';
+        ctx.stroke();
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(i * arc + arc / 2);
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 7px sans-serif';
+        ctx.fillText(prizes[i].slice(0, 10), r - 8, 3);
+        ctx.restore();
+      }
+    }
+
+    function spinWheel() {
+      if (isSpinning || gamePlayState[3]?.completed) return;
+      isSpinning = true;
+
+      const prizes = getWheelPrizes();
+      const numSlices = prizes.length;
+      const sliceAngle = (2 * Math.PI) / numSlices;
+
+      // Determine winning slice (custom preset prize or default)
+      let desiredWinner = customPrizes.presetWheelWinner || prizes[3];
+      let winningIndex = prizes.findIndex(p => p.toLowerCase().trim() === desiredWinner.toLowerCase().trim());
+      if (winningIndex === -1) winningIndex = 3; // fallback
+
+      // The top pointer is at angle -PI/2 (270 deg)
+      // We calculate target rotation so that winningIndex lands exactly under the top pointer
+      const targetSliceCenter = winningIndex * sliceAngle + sliceAngle / 2;
+      const desiredEndAngle = (3 * Math.PI / 2) - targetSliceCenter;
+
+      const fullRotations = (5 + Math.floor(Math.random() * 3)) * (2 * Math.PI);
+      const currentNorm = currentWheelAngle % (2 * Math.PI);
+      const finalAngle = currentWheelAngle + fullRotations + (desiredEndAngle - currentNorm);
+
+      const startTime = performance.now();
+      const duration = 4200; // 4.2 seconds smooth deceleration
+      const initialAngle = currentWheelAngle;
+
+      let lastTickAngle = initialAngle;
+
+      function animateSpin(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease-out cubic formula
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+
+        currentWheelAngle = initialAngle + (finalAngle - initialAngle) * easeOut;
+        drawWheel(currentWheelAngle);
+
+        if (Math.abs(currentWheelAngle - lastTickAngle) > sliceAngle) {
+          playTone('tick');
+          lastTickAngle = currentWheelAngle;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(animateSpin);
+        } else {
+          isSpinning = false;
+          playTone('fanfare');
+
+          const wonPrize = prizes[winningIndex];
+          showPrizeModal("WHEEL OF SURPRISES", wonPrize, "Dean has officially promised this lovely treat for you!", "🎡", 3);
+
+          const btn = document.getElementById('spinWheelBtn');
+          if (btn) {
+            btn.textContent = 'SPIN CLAIMED ✓';
+            btn.disabled = true;
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+          }
+        }
+      }
+
+      requestAnimationFrame(animateSpin);
+    }
+
+    /* =========================================================
+       12. GAME 5: FORTUNE COOKIE (Single Guaranteed Prophecy)
+       ========================================================= */
+    function crackCookie(index) {
+      if (gamePlayState[4]?.completed) return;
+
+      const card = document.getElementById(`cookie-card-${index}`);
+      if (!card) return;
+
+      playTone('pop');
+      card.classList.add('scale-102', 'bg-amber-50', 'border-amber-300');
+
+      setTimeout(() => {
+        // Guaranteed single prophecy/prize regardless of which cookie is cracked
+        const cookie = customPrizes.cookieSingle || (customPrizes.cookies && customPrizes.cookies[0]) || DEFAULT_PRIZES.cookieSingle;
+        showPrizeModal("BIRTHDAY COOKIE PROPHECY", cookie.title, cookie.desc, cookie.icon || "🥠", 4);
+        disableCookiesUI();
+      }, 250);
+    }
+
+    function disableCookiesUI() {
+      for (let i = 0; i < 3; i++) {
+        const card = document.getElementById(`cookie-card-${i}`);
+        if (card) {
+          card.onclick = null;
+          card.classList.add('pointer-events-none', 'opacity-70');
+        }
+      }
+    }
+
+    /* =========================================================
+       13. GAME 6: BLOW THE CANDLES OUT 🎂 (Swipe over flames)
+       ========================================================= */
+    const TOTAL_CANDLES = 5;
+    let candleBlownStates = [false, false, false, false, false];
+    let isSwipingCake = false;
+
+    function initCandlesGame() {
+      const container = document.getElementById('cakeContainer');
+      if (!container) return;
+
+      const counter = document.getElementById('candlesBlownCounter');
+      if (counter) counter.textContent = '0';
+
+      candleBlownStates = [false, false, false, false, false];
+
+      // Restore all 5 flames
+      for (let i = 0; i < TOTAL_CANDLES; i++) {
+        const flame = document.getElementById(`flame-${i}`);
+        const smoke = document.getElementById(`smoke-${i}`);
+        if (flame) flame.classList.remove('flame-extinguished');
+        if (smoke) smoke.classList.remove('smoke-active');
+      }
+
+      if (gamePlayState[5]?.completed) {
+        // Show as already blown out
+        if (counter) counter.textContent = '5';
+        for (let i = 0; i < TOTAL_CANDLES; i++) {
+          const flame = document.getElementById(`flame-${i}`);
+          if (flame) flame.classList.add('flame-extinguished');
+        }
+        return;
+      }
+
+      // Touch & Mouse Drag Listeners to blow candles by swiping
+      container.onmousedown = (e) => {
+        isSwipingCake = true;
+        checkCandleHit(e.clientX, e.clientY);
+      };
+      window.onmouseup = () => { isSwipingCake = false; };
+      container.onmousemove = (e) => {
+        if (isSwipingCake) checkCandleHit(e.clientX, e.clientY);
+      };
+
+      container.ontouchstart = (e) => {
+        isSwipingCake = true;
+        if (e.touches.length > 0) {
+          checkCandleHit(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      };
+      window.ontouchend = () => { isSwipingCake = false; };
+      container.ontouchmove = (e) => {
+        if (isSwipingCake && e.touches.length > 0) {
+          checkCandleHit(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      };
+
+      // Also allow direct tap on individual candles
+      for (let i = 0; i < TOTAL_CANDLES; i++) {
+        const candleGroup = document.getElementById(`candle-group-${i}`);
+        if (candleGroup) {
+          candleGroup.onclick = (e) => {
+            e.stopPropagation();
+            extinguishCandle(i);
+          };
+        }
+      }
+    }
+
+    function checkCandleHit(clientX, clientY) {
+      if (gamePlayState[5]?.completed) return;
+
+      for (let i = 0; i < TOTAL_CANDLES; i++) {
+        if (candleBlownStates[i]) continue;
+
+        const flame = document.getElementById(`flame-${i}`);
+        if (flame) {
+          const rect = flame.getBoundingClientRect();
+          // generous hit radius around the flame for smooth fingertip swiping
+          const hitRadius = 35;
+          const flameCenterX = rect.left + rect.width / 2;
+          const flameCenterY = rect.top + rect.height / 2;
+
+          const dx = clientX - flameCenterX;
+          const dy = clientY - flameCenterY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < hitRadius) {
+            extinguishCandle(i);
+          }
+        }
+      }
+    }
+
+    function extinguishCandle(index) {
+      if (candleBlownStates[index] || gamePlayState[5]?.completed) return;
+
+      candleBlownStates[index] = true;
+      playTone('puff');
+
+      const flame = document.getElementById(`flame-${index}`);
+      const smoke = document.getElementById(`smoke-${index}`);
+
+      if (flame) flame.classList.add('flame-extinguished');
+      if (smoke) {
+        smoke.classList.add('smoke-active');
+        setTimeout(() => {
+          smoke.classList.remove('smoke-active');
+        }, 1500);
+      }
+
+      const blownCount = candleBlownStates.filter(Boolean).length;
+      const counter = document.getElementById('candlesBlownCounter');
+      if (counter) counter.textContent = blownCount;
+
+      // When all 5 candles are extinguished -> celebrate & award Grand Finale
+      if (blownCount === TOTAL_CANDLES) {
+        setTimeout(() => {
+          playTone('fanfare');
+          if (typeof confetti === 'function') {
+            confetti({
+              particleCount: 90,
+              spread: 100,
+              origin: { y: 0.55 }
+            });
+          }
+          const grandPrize = customPrizes.candlesPrize || (customPrizes.memoryPrize || DEFAULT_PRIZES.candlesPrize);
+          showPrizeModal(
+            "WISH GRANTED! GRAND FINALE",
+            grandPrize.title,
+            grandPrize.desc,
+            grandPrize.icon || "🎂",
+            5
+          );
+        }, 600);
+      }
+    }
+
+    /* =========================================================
+       14. PRIZE REVEAL MODAL & WALLET SYSTEM (No duplicates)
+       ========================================================= */
+    function showPrizeModal(subtitle, title, desc, icon, gameIndex) {
+      pendingPrize = { subtitle, title, desc, icon, gameIndex };
+
+      document.getElementById('modalPrizeSubtitle').textContent = subtitle;
+      document.getElementById('modalPrizeTitle').textContent = title;
+      document.getElementById('modalPrizeDesc').textContent = desc;
+      document.getElementById('modalPrizeIcon').textContent = icon;
+
+      document.getElementById('prizeModal').classList.remove('hidden');
+
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 50,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    function confirmPrizeToWallet() {
+      if (!pendingPrize) return;
+
+      const gameId = pendingPrize.gameIndex;
+
+      // Strict Guard: Prevent adding from the same game twice
+      if (gameId !== -1 && gamePlayState[gameId]?.completed) {
+        document.getElementById('prizeModal').classList.add('hidden');
+        pendingPrize = null;
+        showAlreadyClaimedModal();
+        return;
+      }
+
+      // Check for exact duplicate in wallet
+      const isAlreadyInWallet = walletSurprises.some(w => 
+        (gameId !== -1 && w.gameId === gameId) || 
+        w.title.toLowerCase().trim() === pendingPrize.title.toLowerCase().trim()
+      );
+
+      if (!isAlreadyInWallet) {
+        walletSurprises.unshift({
+          id: Date.now(),
+          gameId: gameId,
+          title: pendingPrize.title,
+          desc: pendingPrize.desc,
+          icon: pendingPrize.icon,
+          claimedDate: '30 Nov 2026'
+        });
+      }
+
+      if (gameId >= 0 && gameId < 6) {
+        gamePlayState[gameId].completed = true;
+        gamePlayState[gameId].prizeWon = pendingPrize;
+      }
+
+      updateWalletBadges();
+      updateHeroLoveMessage();
+
+      // Clear pending state & close modal
+      pendingPrize = null;
+      document.getElementById('prizeModal').classList.add('hidden');
+
+      // Direct Hannah to view her prize inside the wallet
+      navigateTo('view-wallet');
+    }
+
+    function updateWalletBadges() {
+      const count = walletSurprises.length;
+      document.getElementById('walletBadge').textContent = count;
+
+      const dot = document.getElementById('navWalletDot');
+      if (count > 0) {
+        dot.classList.remove('hidden');
+      } else {
+        dot.classList.add('hidden');
+      }
+    }
+
+    function renderWallet() {
+      const list = document.getElementById('walletItemsList');
+      const emptyNotice = document.getElementById('emptyWalletNotice');
+      if (!list) return;
+
+      list.innerHTML = '';
+
+      if (walletSurprises.length === 0) {
+        emptyNotice.classList.remove('hidden');
+        return;
+      }
+
+      emptyNotice.classList.add('hidden');
+
+      walletSurprises.forEach((item) => {
+        const card = document.createElement('div');
+        card.className = 'relative overflow-hidden p-4 rounded-3xl bg-gradient-to-br from-white via-rose-50/50 to-pink-50 border border-rose-200/80 shadow-md shadow-rose-200/20 space-y-2';
+        card.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div class="flex items-center space-x-3">
+              <div class="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center text-2xl shadow-inner">
+                ${item.icon || '💌'}
+              </div>
+              <div>
+                <span class="text-[9px] font-bold text-rose-500 uppercase tracking-wider">Birthday Voucher</span>
+                <h4 class="font-serif font-bold text-slate-900 text-sm leading-tight">${item.title}</h4>
+                <p class="text-[10px] text-slate-400">Claimed: ${item.claimedDate}</p>
+              </div>
+            </div>
+            <div class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-extrabold tracking-wider">
+              VALID FOREVER
+            </div>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed bg-white/70 p-2.5 rounded-2xl border border-rose-100/60">
+            ${item.desc}
+          </p>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    /* =========================================================
+       15. DEAN'S SECRET WORKSHOP (ADMIN CONTROLS)
+       ========================================================= */
+    function openAdminModal() {
+      // Bonus kiss customizer inputs
+      const bonusData = customPrizes.bonusKissGift || DEFAULT_PRIZES.bonusKissGift;
+      document.getElementById('adminBonusGiftTitle').value = bonusData.title;
+      document.getElementById('adminBonusGiftNote').value = bonusData.desc;
+
+      // Game 1: Guaranteed Single Balloon Prize
+      const balloonPrize = customPrizes.balloonSingle || DEFAULT_PRIZES.balloonSingle;
+      document.getElementById('adminPrizeBalloonSingle').value = balloonPrize.title;
+      document.getElementById('adminPrizeBalloonSingleDesc').value = balloonPrize.desc;
+
+      // Game 2: Guaranteed Single Box Prize
+      const boxPrize = customPrizes.boxSingle || DEFAULT_PRIZES.boxSingle;
+      document.getElementById('adminPrizeBoxSingle').value = boxPrize.title;
+      document.getElementById('adminPrizeBoxSingleDesc').value = boxPrize.desc;
+
+      // Game 3: Gold Scratch input
+      document.getElementById('adminPrizeScratch').value = customPrizes.scratch?.title || DEFAULT_PRIZES.scratch.title;
+
+      // Game 4: Fortune Wheel slices & preset winner
+      const slices = getWheelPrizes();
+      document.getElementById('adminWheelSlices').value = slices.join('\n');
+      document.getElementById('adminPresetWheelWinner').value = customPrizes.presetWheelWinner || DEFAULT_PRIZES.wheel[3];
+
+      // Game 5: Guaranteed Single Cookie Prophecy
+      const cookiePrize = customPrizes.cookieSingle || DEFAULT_PRIZES.cookieSingle;
+      document.getElementById('adminPrizeCookieSingle').value = cookiePrize.title;
+      document.getElementById('adminPrizeCookieSingleDesc').value = cookiePrize.desc;
+
+      // Game 6: Blow Candles input
+      const candlesPrize = customPrizes.candlesPrize || DEFAULT_PRIZES.candlesPrize;
+      document.getElementById('adminPrizeCandles').value = candlesPrize.title;
+      document.getElementById('adminPrizeCandlesDesc').value = candlesPrize.desc;
+
+      // Homepage Scheduled Love Messages
+      const msgs = customPrizes.heroMessages || DEFAULT_PRIZES.heroMessages;
+      document.getElementById('adminMsgInitial').value = msgs.initial;
+      document.getElementById('adminMsgGame0').value = msgs.afterGame0;
+      document.getElementById('adminMsgGame1').value = msgs.afterGame1;
+      document.getElementById('adminMsgGame2').value = msgs.afterGame2;
+      document.getElementById('adminMsgGame3').value = msgs.afterGame3;
+      document.getElementById('adminMsgGame4').value = msgs.afterGame4;
+      document.getElementById('adminMsgGame5').value = msgs.afterGame5;
+
+      // Toggle state
+      document.getElementById('adminBypassLockToggle').checked = bypassLock;
+
+      // Update iOS notification permission status badge
+      checkNotificationStatus();
+
+      // Draw preview wheel in workshop
+      drawWorkshopWheel();
+
+      document.getElementById('adminModal').classList.remove('hidden');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.add('hidden');
+    }
+
+    function toggleBypassLock(checked) {
+      bypassLock = checked;
+      renderArcadeHub();
+    }
+
+    function resetAllGamePlays() {
+      gamePlayState = [
+        { completed: false, prizeWon: null },
+        { completed: false, prizeWon: null },
+        { completed: false, prizeWon: null },
+        { completed: false, prizeWon: null },
+        { completed: false, prizeWon: null },
+        { completed: false, prizeWon: null }
+      ];
+
+      walletSurprises = [];
+      updateWalletBadges();
+      updateHeroLoveMessage();
+
+      // Reset UI elements
+      for (let i = 0; i < 4; i++) {
+        const wrap = document.getElementById(`balloon-wrap-${i}`);
+        if (wrap) {
+          wrap.classList.remove('pointer-events-none', 'opacity-70');
+          wrap.onclick = () => popBalloon(i);
+        }
+        const box = document.getElementById(`gift-box-${i}`);
+        if (box) {
+          box.classList.remove('pointer-events-none', 'opacity-70', 'border-rose-300', 'bg-rose-50', 'is-opened');
+          box.onclick = () => openGiftBox(i);
+        }
+      }
+
+      for (let i = 0; i < 3; i++) {
+        const card = document.getElementById(`cookie-card-${i}`);
+        if (card) {
+          card.classList.remove('pointer-events-none', 'opacity-70', 'bg-amber-50', 'border-amber-300');
+          card.onclick = () => crackCookie(i);
+        }
+      }
+
+      renderArcadeHub();
+      alert('All 6 Arcade game plays & claimed wallet items have been reset!');
+    }
+
+    function saveAdminSettings() {
+      // Save Bonus Kiss Gift
+      const bonusTitle = document.getElementById('adminBonusGiftTitle').value.trim();
+      const bonusNote = document.getElementById('adminBonusGiftNote').value.trim();
+      if (bonusTitle) customPrizes.bonusKissGift.title = bonusTitle;
+      if (bonusNote) customPrizes.bonusKissGift.desc = bonusNote;
+
+      // Save Game 1: Balloon Pop Guaranteed Single Prize
+      const balloonTitle = document.getElementById('adminPrizeBalloonSingle').value.trim();
+      const balloonDesc = document.getElementById('adminPrizeBalloonSingleDesc').value.trim();
+      if (!customPrizes.balloonSingle) customPrizes.balloonSingle = {};
+      if (balloonTitle) customPrizes.balloonSingle.title = balloonTitle;
+      if (balloonDesc) customPrizes.balloonSingle.desc = balloonDesc;
+
+      // Save Game 2: Box Unwrap Guaranteed Single Prize
+      const boxTitle = document.getElementById('adminPrizeBoxSingle').value.trim();
+      const boxDesc = document.getElementById('adminPrizeBoxSingleDesc').value.trim();
+      if (!customPrizes.boxSingle) customPrizes.boxSingle = {};
+      if (boxTitle) customPrizes.boxSingle.title = boxTitle;
+      if (boxDesc) customPrizes.boxSingle.desc = boxDesc;
+
+      // Save Game 3: Gold Scratch
+      customPrizes.scratch.title = document.getElementById('adminPrizeScratch').value || customPrizes.scratch.title;
+
+      // Save Game 4: Fortune Wheel slices & preset winner
+      const rawSlices = document.getElementById('adminWheelSlices').value.split('\n').map(s => s.trim()).filter(Boolean);
+      if (rawSlices.length === 8) {
+        customPrizes.wheel = rawSlices;
+      }
+      const presetWinner = document.getElementById('adminPresetWheelWinner').value.trim();
+      customPrizes.presetWheelWinner = presetWinner;
+      if (presetWinner && !customPrizes.wheel.map(s => s.toLowerCase()).includes(presetWinner.toLowerCase())) {
+        customPrizes.wheel[3] = presetWinner;
+      }
+
+      // Save Game 5: Fortune Cookie Guaranteed Single Prophecy
+      const cookieTitle = document.getElementById('adminPrizeCookieSingle').value.trim();
+      const cookieDesc = document.getElementById('adminPrizeCookieSingleDesc').value.trim();
+      if (!customPrizes.cookieSingle) customPrizes.cookieSingle = {};
+      if (cookieTitle) customPrizes.cookieSingle.title = cookieTitle;
+      if (cookieDesc) customPrizes.cookieSingle.desc = cookieDesc;
+
+      // Save Game 6: Blow the Candles Out Grand Prize
+      const candlesTitle = document.getElementById('adminPrizeCandles').value.trim();
+      const candlesDesc = document.getElementById('adminPrizeCandlesDesc').value.trim();
+      if (!customPrizes.candlesPrize) customPrizes.candlesPrize = {};
+      if (candlesTitle) customPrizes.candlesPrize.title = candlesTitle;
+      if (candlesDesc) customPrizes.candlesPrize.desc = candlesDesc;
+
+      // Save Scheduled Love Messages
+      if (!customPrizes.heroMessages) customPrizes.heroMessages = {};
+      customPrizes.heroMessages.initial = document.getElementById('adminMsgInitial').value.trim() || DEFAULT_PRIZES.heroMessages.initial;
+      customPrizes.heroMessages.afterGame0 = document.getElementById('adminMsgGame0').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame0;
+      customPrizes.heroMessages.afterGame1 = document.getElementById('adminMsgGame1').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame1;
+      customPrizes.heroMessages.afterGame2 = document.getElementById('adminMsgGame2').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame2;
+      customPrizes.heroMessages.afterGame3 = document.getElementById('adminMsgGame3').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame3;
+      customPrizes.heroMessages.afterGame4 = document.getElementById('adminMsgGame4').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame4;
+      customPrizes.heroMessages.afterGame5 = document.getElementById('adminMsgGame5').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame5;
+
+      updateHeroLoveMessage();
+      drawWorkshopWheel();
+      closeAdminModal();
+    }
+
+    /* =========================================================
+       16. INITIALIZE ON LOAD
+       ========================================================= */
+    window.onload = function() {
+      // Dynamic Manifest creation for iOS PWA Home Screen
+      const manifestJson = {
+        name: "Hannah's 34th Birthday",
+        short_name: "Hannah's 34th",
+        start_url: "./index.html",
+        display: "standalone",
+        background_color: "#FFF5F7",
+        theme_color: "#FFF5F7",
+        icons: [
+          {
+            src: "https://placehold.co/192x192/f43f6e/ffffff?text=H34",
+            sizes: "192x192",
+            type: "image/png"
+          },
+          {
+            src: "https://placehold.co/512x512/f43f6e/ffffff?text=H34",
+            sizes: "512x512",
+            type: "image/png"
+          }
+        ]
+      };
+      const manifestBlob = new Blob([JSON.stringify(manifestJson)], { type: 'application/json' });
+      const manifestUrl = URL.createObjectURL(manifestBlob);
+      const manifestLink = document.getElementById('manifestLink');
+      if (manifestLink) manifestLink.href = manifestUrl;
+
+      updateWalletBadges();
+      updateHeroLoveMessage();
+      renderArcadeHub();
+
+      // Listen for text area changes inside workshop for live preview
+      const wheelInput = document.getElementById('adminWheelSlices');
+      if (wheelInput) {
+        wheelInput.addEventListener('input', () => {
+          const raw = wheelInput.value.split('\n').map(s => s.trim()).filter(Boolean);
+          if (raw.length === 8) {
+            customPrizes.wheel = raw;
+            drawWorkshopWheel();
+          }
+        });
+      }
+    };
+  </script>
+</body>
+</html>
