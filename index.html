@@ -11,6 +11,9 @@
   <meta name="apple-mobile-web-app-title" content="Hannah's 34th">
   <meta name="theme-color" content="#FFF5F7">
 
+  <!-- Apple Touch Icon for iOS Home Screen -->
+  <link rel="apple-touch-icon" id="appleTouchIcon" href="">
+
   <!-- Tailwind CSS & Google Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -155,6 +158,79 @@
 <body class="bg-gradient-to-b from-rose-50 via-blush-50 to-pink-100 min-h-screen text-slate-800 flex flex-col font-sans antialiased overflow-x-hidden">
 
   <!-- =========================================================
+       PRE-APP COUNTDOWN LANDING GATE (29/11/2026 12:00 AM ADST)
+       ========================================================= -->
+  <div id="countdownGateView" class="fixed inset-0 z-50 bg-gradient-to-b from-rose-950 via-slate-950 to-pink-950 text-white flex flex-col justify-between px-6 py-8 overflow-y-auto select-none transition-opacity duration-700">
+    <!-- Top Bar with Secret Workshop Access -->
+    <div class="flex items-center justify-between max-w-sm mx-auto w-full">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[10px] font-bold tracking-widest text-pink-200 uppercase">
+        <span>✨</span> Hannah's Birthday Edition
+      </div>
+      <button onclick="openAdminModal()" class="p-2 rounded-full bg-white/10 border border-white/15 text-pink-200 active:scale-95 transition-all" title="Dean's Secret Workshop">
+        <span class="text-sm">✨</span>
+      </button>
+    </div>
+
+    <!-- Main Center Hero & Live Counter -->
+    <div class="flex-1 flex flex-col items-center justify-center text-center my-6 max-w-sm mx-auto w-full space-y-6">
+      <div class="relative">
+        <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-rose-500 via-pink-400 to-amber-300 flex items-center justify-center text-white text-3xl font-serif font-bold shadow-2xl shadow-rose-500/50 border border-white/30 animate-pulse-subtle">
+          34
+        </div>
+        <span class="absolute -bottom-1 -right-1 text-2xl animate-bounce">🎂</span>
+      </div>
+
+      <div class="space-y-1.5">
+        <h1 class="font-serif text-3xl font-bold tracking-tight text-white drop-shadow">
+          Hannah's 34th Birthday
+        </h1>
+        <p class="text-xs text-rose-300 font-medium tracking-wide">
+          Countdown to 29 November 2026 • 12:00 AM ADST
+        </p>
+      </div>
+
+      <!-- Live 4-Card Digital Countdown Display -->
+      <div class="grid grid-cols-4 gap-2.5 w-full pt-2">
+        <!-- Days -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-2.5 flex flex-col items-center shadow-lg">
+          <span id="gateDays" class="text-2xl font-extrabold font-serif text-rose-300 tracking-tight">00</span>
+          <span class="text-[9px] uppercase font-bold text-slate-300 mt-0.5 tracking-wider">Days</span>
+        </div>
+        <!-- Hours -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-2.5 flex flex-col items-center shadow-lg">
+          <span id="gateHours" class="text-2xl font-extrabold font-serif text-rose-300 tracking-tight">00</span>
+          <span class="text-[9px] uppercase font-bold text-slate-300 mt-0.5 tracking-wider">Hours</span>
+        </div>
+        <!-- Minutes -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-2.5 flex flex-col items-center shadow-lg">
+          <span id="gateMins" class="text-2xl font-extrabold font-serif text-rose-300 tracking-tight">00</span>
+          <span class="text-[9px] uppercase font-bold text-slate-300 mt-0.5 tracking-wider">Mins</span>
+        </div>
+        <!-- Seconds -->
+        <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-2xl p-2.5 flex flex-col items-center shadow-lg">
+          <span id="gateSecs" class="text-2xl font-extrabold font-serif text-amber-300 tracking-tight">00</span>
+          <span class="text-[9px] uppercase font-bold text-slate-300 mt-0.5 tracking-wider">Secs</span>
+        </div>
+      </div>
+
+      <!-- Sweet Love Note -->
+      <p id="gateMessageText" class="text-xs text-slate-300 leading-relaxed max-w-xs px-2 italic">
+        "Counting down every second until we celebrate you, my favourite person in the whole universe."
+      </p>
+    </div>
+
+    <!-- Bottom Action Button Container -->
+    <div class="max-w-sm mx-auto w-full pt-2 pb-4 text-center space-y-2.5">
+      <button id="enterAppBtn" onclick="enterAppFromGate()" class="w-full py-3.5 rounded-full bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 text-white font-bold text-sm shadow-xl shadow-rose-900/40 active:scale-95 transition-all opacity-80 cursor-not-allowed">
+        🔒 Birthday Surprises Locked
+      </button>
+      <p id="gateHintText" class="text-[10px] text-slate-400">
+        Surprises unlock automatically at midnight Sydney ADST
+      </p>
+    </div>
+  </div>
+
+  <!-- =========================================================
        TOP APP HEADER
        ========================================================= -->
   <header class="sticky top-0 z-30 backdrop-blur-md bg-white/75 border-b border-rose-100/80 px-4 py-3 flex items-center justify-between">
@@ -209,70 +285,91 @@
         </p>
 
         <!-- Kiss from Dean Button & Bonus Unlock trigger -->
-        <div class="mt-6 pt-4 border-t border-rose-100 flex flex-col items-center">
-          <div class="flex items-center justify-center gap-2 flex-wrap">
-            <button onclick="handleSendLove()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-rose-500 to-blush-500 text-white font-semibold text-xs shadow-md shadow-rose-300 active:scale-95 transition-all">
-              <span>💋 Kiss From Dean Received</span>
-              <span id="kissCountBadge" class="bg-white/25 px-2 py-0.5 rounded-full text-[10px] font-bold">0</span>
-            </button>
+      <div class="mt-6 pt-4 border-t border-rose-100 flex flex-col items-center">
+        <div class="flex items-center justify-center gap-2 flex-wrap">
+          <button onclick="handleSendLove()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-rose-500 to-blush-500 text-white font-semibold text-xs shadow-md shadow-rose-300 active:scale-95 transition-all">
+            <span>💋 Kiss From Dean Received</span>
+            <span id="kissCountBadge" class="bg-white/25 px-2 py-0.5 rounded-full text-[10px] font-bold">0</span>
+          </button>
 
-            <!-- Popup Bonus Surprise Gift Button (Reveals after 10 love kisses) -->
-            <button id="bonusGiftBtn" onclick="claimBonusKissGift()" class="hidden animate-bounce inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-slate-900 font-bold text-xs shadow-md shadow-amber-300 active:scale-95 transition-all border border-amber-200">
-              <span>🎁 Extra Surprise Gift!</span>
-            </button>
-          </div>
-          <p class="text-[10px] text-rose-400 italic mt-2">
-            Tap once each time Dean gives you a kiss! Collect 10 for a Secret Gift 🎁
-          </p>
-        </div>
-      </div>
-
-      <!-- Quick Action: Go to Arcade Hub -->
-      <div class="bg-white rounded-3xl p-5 border border-rose-100 shadow-sm space-y-4">
-        <div class="flex items-center justify-between">
-          <div>
-            <h3 class="font-bold text-slate-800 text-sm">Today's Arcade Games</h3>
-            <p class="text-[11px] text-slate-500">6 surprise games unlock throughout your day</p>
-          </div>
-          <button onclick="navigateTo('view-arcade-hub')" class="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-full active:scale-95 transition-all">
-            Open Arcade &rarr;
+          <!-- Popup Bonus Surprise Gift Button (Reveals after 10 love kisses) -->
+          <button id="bonusGiftBtn" onclick="claimBonusKissGift()" class="hidden animate-bounce inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-slate-900 font-bold text-xs shadow-md shadow-amber-300 active:scale-95 transition-all border border-amber-200">
+            <span>🎁 Extra Surprise Gift!</span>
           </button>
         </div>
+        <p class="text-[10px] text-rose-400 italic mt-2">
+          Tap once each time Dean gives you a kiss! Collect 10 for a Secret Gift 🎁
+        </p>
+      </div>
+    </div>
 
-        <!-- Mini Preview Cards Grid -->
-        <div class="grid grid-cols-3 gap-2.5 pt-1">
-          <div onclick="navigateTo('view-arcade-hub')" class="p-3 rounded-2xl bg-rose-50/70 border border-rose-100 flex flex-col items-center text-center cursor-pointer active:scale-95 transition-all">
-            <span class="text-2xl mb-1">🎈</span>
-            <span class="text-[10px] font-bold text-slate-700">Balloons</span>
-            <span class="text-[9px] text-rose-500 font-medium">8:00 AM</span>
-          </div>
-          <div onclick="navigateTo('view-arcade-hub')" class="p-3 rounded-2xl bg-rose-50/70 border border-rose-100 flex flex-col items-center text-center cursor-pointer active:scale-95 transition-all">
-            <span class="text-2xl mb-1">🎁</span>
-            <span class="text-[10px] font-bold text-slate-700">Boxes</span>
-            <span class="text-[9px] text-rose-500 font-medium">9:30 AM</span>
-          </div>
-          <div onclick="navigateTo('view-arcade-hub')" class="p-3 rounded-2xl bg-rose-50/70 border border-rose-100 flex flex-col items-center text-center cursor-pointer active:scale-95 transition-all">
-            <span class="text-2xl mb-1">✨</span>
-            <span class="text-[10px] font-bold text-slate-700">Scratch</span>
-            <span class="text-[9px] text-rose-500 font-medium">11:00 AM</span>
-          </div>
+    <!-- Quick Action: Birthday Surprises (Renamed from Today's Arcade Games) -->
+    <div class="bg-white rounded-3xl p-5 border border-rose-100 shadow-sm space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="font-bold text-slate-800 text-sm">Birthday Surprises</h3>
+          <p class="text-[11px] text-slate-500">6 surprise games unlock throughout your day</p>
         </div>
+        <button onclick="navigateTo('view-arcade-hub')" class="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-full active:scale-95 transition-all">
+          Open Arcade &rarr;
+        </button>
       </div>
 
-      <!-- iPhone Add to Home Screen Hint -->
-      <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/80 rounded-2xl p-4 flex items-start space-x-3 text-amber-900">
-        <span class="text-xl mt-0.5">📱</span>
-        <div class="text-xs">
-          <p class="font-bold">Save as an iPhone App</p>
-          <p class="text-[11px] text-amber-800/90 mt-0.5 leading-snug">
-            Tap the <span class="font-bold">Share icon [↑]</span> at the bottom of Safari, then choose <span class="font-bold">"Add to Home Screen"</span> for the full birthday experience!
-          </p>
+      <!-- Mini Preview Cards Grid -->
+      <div class="grid grid-cols-3 gap-2.5 pt-1">
+        <div onclick="navigateTo('view-arcade-hub')" class="p-3 rounded-2xl bg-rose-50/70 border border-rose-100 flex flex-col items-center text-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">🎈</span>
+          <span class="text-[10px] font-bold text-slate-700">Balloons</span>
+          <span class="text-[9px] text-rose-500 font-medium">8:00 AM</span>
+        </div>
+        <div onclick="navigateTo('view-arcade-hub')" class="p-3 rounded-2xl bg-rose-50/70 border border-rose-100 flex flex-col items-center text-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">🎁</span>
+          <span class="text-[10px] font-bold text-slate-700">Boxes</span>
+          <span class="text-[9px] text-rose-500 font-medium">9:30 AM</span>
+        </div>
+        <div onclick="navigateTo('view-arcade-hub')" class="p-3 rounded-2xl bg-rose-50/70 border border-rose-100 flex flex-col items-center text-center cursor-pointer active:scale-95 transition-all">
+          <span class="text-2xl mb-1">✨</span>
+          <span class="text-[10px] font-bold text-slate-700">Scratch</span>
+          <span class="text-[9px] text-rose-500 font-medium">11:00 AM</span>
         </div>
       </div>
     </div>
 
-    <!-- =======================================================
-         VIEW 2: ARCADE HUB (Timeline & Next Available Game)
+    <!-- Photo Carousel Section under Birthday Surprises -->
+    <div class="bg-white rounded-3xl p-4 border border-rose-100 shadow-sm space-y-3">
+      <div class="flex items-center justify-between px-1">
+        <div class="flex items-center gap-1.5">
+          <span class="text-base">📸</span>
+          <h3 class="font-bold text-slate-800 text-xs uppercase tracking-wider">Our Memories & Love</h3>
+        </div>
+        <span class="text-[10px] text-rose-500 font-medium">Swipe photos 💖</span>
+      </div>
+
+      <!-- Carousel Track -->
+      <div class="relative overflow-hidden rounded-2xl bg-rose-50/60 aspect-[16/10] border border-rose-100 shadow-inner">
+        <div id="photoCarouselTrack" class="flex transition-transform duration-500 ease-out h-full w-full">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Next / Prev Floating Arrow Controls -->
+        <button onclick="prevCarouselSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white/85 text-slate-700 flex items-center justify-center text-xs shadow-md backdrop-blur active:scale-90">
+          &#10094;
+        </button>
+        <button onclick="nextCarouselSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white/85 text-slate-700 flex items-center justify-center text-xs shadow-md backdrop-blur active:scale-90">
+          &#10095;
+        </button>
+      </div>
+
+      <!-- Carousel Pagination Dots -->
+      <div id="carouselDots" class="flex items-center justify-center gap-1.5 pt-1">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- =======================================================
+       VIEW 2: ARCADE HUB (Timeline & Next Available Game)
          ======================================================= -->
     <div id="view-arcade-hub" class="hidden space-y-4 animate-pop-in">
       <div class="flex items-center justify-between">
@@ -312,7 +409,7 @@
 
       <div class="text-center py-2">
         <h2 class="font-serif text-2xl font-bold text-slate-900">Pop A Birthday Balloon 🎈</h2>
-        <p class="text-xs text-slate-500 mt-1">Tap any balloon to pop it and reveal your mystery birthday prize!</p>
+        <p class="text-xs text-slate-500 mt-1">Tap any balloon to pop it and reveal a breakfast surprise</p>
       </div>
 
       <!-- 4 Balloons Grid -->
@@ -325,7 +422,6 @@
             <div class="absolute -bottom-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-rose-600"></div>
             <div class="absolute -bottom-6 w-0.5 h-6 bg-rose-300"></div>
           </div>
-          <span class="mt-8 text-xs font-bold text-slate-700">Ruby Shimmer</span>
         </div>
 
         <!-- Balloon 2 -->
@@ -336,7 +432,6 @@
             <div class="absolute -bottom-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-yellow-500"></div>
             <div class="absolute -bottom-6 w-0.5 h-6 bg-amber-300"></div>
           </div>
-          <span class="mt-8 text-xs font-bold text-slate-700">Golden Sunset</span>
         </div>
 
         <!-- Balloon 3 -->
@@ -347,7 +442,6 @@
             <div class="absolute -bottom-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-rose-400"></div>
             <div class="absolute -bottom-6 w-0.5 h-6 bg-pink-300"></div>
           </div>
-          <span class="mt-8 text-xs font-bold text-slate-700">Cotton Candy</span>
         </div>
 
         <!-- Balloon 4 -->
@@ -358,7 +452,6 @@
             <div class="absolute -bottom-2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-indigo-500"></div>
             <div class="absolute -bottom-6 w-0.5 h-6 bg-purple-300"></div>
           </div>
-          <span class="mt-8 text-xs font-bold text-slate-700">Purple Velvet</span>
         </div>
       </div>
     </div>
@@ -375,8 +468,8 @@
       </div>
 
       <div class="text-center py-2">
-        <h2 class="font-serif text-2xl font-bold text-slate-900">Unwrap A 3D Mystery Box 🎁</h2>
-        <p class="text-xs text-slate-500 mt-1">Tap a box to lift the lid and reveal your surprise!</p>
+        <h2 class="font-serif text-2xl font-bold text-slate-900">Unwrap A Mystery Box 🎁</h2>
+        <p class="text-xs text-slate-500 mt-1">Tap a box to lift the lid and reveal how many presents you get to open today</p>
       </div>
 
       <!-- 4 Realistic Gift Boxes Grid -->
@@ -459,8 +552,7 @@
               </g>
             </svg>
           </div>
-          <span class="mt-2 text-xs font-bold text-slate-800">Royal Ruby</span>
-          <span class="text-[9px] text-rose-500 font-semibold">Tied with Gold Silk</span>
+          <span class="mt-2 text-[10px] text-rose-500 font-semibold">Tied with Gold Silk</span>
         </div>
 
         <!-- Box 1: Champagne Gold & Rose Velvet Ribbon -->
@@ -523,8 +615,7 @@
               </g>
             </svg>
           </div>
-          <span class="mt-2 text-xs font-bold text-slate-800">Imperial Gold</span>
-          <span class="text-[9px] text-amber-600 font-semibold">Tied with Rose Velvet</span>
+          <span class="mt-2 text-[10px] text-amber-600 font-semibold">Tied with Rose Velvet</span>
         </div>
 
         <!-- Box 2: Lavender Dream & Silver Platinum Ribbon -->
@@ -587,8 +678,7 @@
               </g>
             </svg>
           </div>
-          <span class="mt-2 text-xs font-bold text-slate-800">Lavender Dream</span>
-          <span class="text-[9px] text-purple-600 font-semibold">Tied with Silver Satin</span>
+          <span class="mt-2 text-[10px] text-purple-600 font-semibold">Tied with Silver Satin</span>
         </div>
 
         <!-- Box 3: Emerald Glow & Glitter Gold Ribbon -->
@@ -645,8 +735,7 @@
               </g>
             </svg>
           </div>
-          <span class="mt-2 text-xs font-bold text-slate-800">Emerald Glow</span>
-          <span class="text-[9px] text-emerald-600 font-semibold">Tied with Gold Glitter</span>
+          <span class="mt-2 text-[10px] text-emerald-600 font-semibold">Tied with Gold Glitter</span>
         </div>
       </div>
     </div>
@@ -670,10 +759,10 @@
       <div class="relative w-full max-w-xs mx-auto aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border-4 border-amber-300 bg-white">
         <!-- Revealed Mystery Voucher Beneath Canvas -->
         <div id="scratchPrizeUnderlay" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-gradient-to-br from-amber-50 to-rose-50 select-none">
-          <span class="text-4xl mb-2">⛵</span>
+          <span class="text-4xl mb-2">💆‍♀️</span>
           <span class="text-xs uppercase font-extrabold text-amber-800 tracking-wider">Hannah's Mystery Surprise</span>
-          <h3 id="scratchPrizeTitle" class="text-lg font-serif font-bold text-slate-900 mt-1">Sunset Harbour Cruise</h3>
-          <p class="text-[11px] text-slate-600 mt-1">Valid anytime for you & Dean with drinks included!</p>
+          <h3 id="scratchPrizeTitle" class="text-lg font-serif font-bold text-slate-900 mt-1">$50 Voucher for The Head Spa Studio</h3>
+          <p class="text-[11px] text-slate-600 mt-1">Valid anytime for a relaxing, luxurious head spa session!</p>
           <div class="mt-2 text-[10px] font-bold text-rose-600 bg-rose-100 px-3 py-1 rounded-full">
             100% Guaranteed Love
           </div>
@@ -737,7 +826,7 @@
 
       <div class="text-center py-2">
         <h2 class="font-serif text-2xl font-bold text-slate-900">Crack A Fortune Cookie 🥠</h2>
-        <p class="text-xs text-slate-500 mt-1">Pick one golden fortune cookie to reveal your 34th year prophecy!</p>
+        <p class="text-xs text-slate-500 mt-1">Pick 1 golden fortune cookie to reveal our dinner plans!</p>
       </div>
 
       <div class="space-y-3 pt-2">
@@ -1028,7 +1117,7 @@
       <span class="text-3xl block">⏳</span>
       <h3 id="lockToastTitle" class="font-serif font-bold text-slate-900 text-base">Patience, Birthday Girl!</h3>
       <p id="lockToastMsg" class="text-xs text-slate-600 leading-relaxed">
-        This special game is locked until its scheduled time on 30th November 2026 ADST.
+        This special game is locked until its scheduled time on 29th November 2026 ADST.
       </p>
       <button onclick="closeLockToast()" class="w-full py-2 bg-rose-50 text-rose-600 font-bold text-xs rounded-full border border-rose-200 active:scale-95">
         Understood with Love ❤️
@@ -1094,6 +1183,13 @@
           <span class="text-[10px] text-slate-500">Reset played state so Hannah starts fresh:</span>
           <button onclick="resetAllGamePlays()" class="text-[10px] font-bold text-rose-600 bg-white border border-rose-200 px-2.5 py-1 rounded-full active:scale-95 shadow-sm">
             Reset 6 Games ↺
+          </button>
+        </div>
+
+        <div class="pt-2 border-t border-amber-200/60 flex items-center justify-between">
+          <span class="text-[10px] text-slate-500">Countdown Gate:</span>
+          <button onclick="returnToCountdownGate()" class="text-[10px] font-bold text-amber-800 bg-white border border-amber-300 px-2.5 py-1 rounded-full active:scale-95 shadow-sm">
+            Show Gate ⏳
           </button>
         </div>
       </div>
@@ -1307,6 +1403,31 @@
             <input type="text" id="adminMsgGame5" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
           </div>
         </div>
+
+        <!-- Custom Photo Carousel Editor -->
+        <div class="p-3 bg-pink-50/70 rounded-2xl border border-pink-200 space-y-2">
+          <h5 class="font-bold text-xs text-pink-900 flex items-center gap-1.5">
+            <span>📸</span> Homepage Photo Gallery Uploader
+          </h5>
+          <p class="text-[9px] text-slate-500">
+            Upload photos straight from your iPhone camera or camera roll. They are securely saved directly onto this device!
+          </p>
+
+          <div class="flex items-center gap-2 pt-1">
+            <label class="cursor-pointer py-2 px-3 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-bold text-[10px] shadow-sm active:scale-95 transition-all inline-flex items-center gap-1.5">
+              <span>📷</span> Upload Photos
+              <input type="file" id="photoFileInput" accept="image/*" multiple class="hidden" onchange="handlePhotoUpload(event)">
+            </label>
+            <button type="button" onclick="resetToDefaultPhotos()" class="py-2 px-2.5 rounded-xl bg-white border border-pink-200 text-pink-700 font-bold text-[10px] active:scale-95 shadow-sm">
+              Reset Photos
+            </button>
+          </div>
+
+          <!-- Thumbnails with editable captions -->
+          <div id="adminPhotoThumbnails" class="space-y-2 pt-2 max-h-56 overflow-y-auto">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
       </div>
 
       <div class="pt-2">
@@ -1318,20 +1439,67 @@
   </div>
 
   <!-- =========================================================
+       MODAL: PIN CODE LOCK FOR DEAN'S WORKSHOP (011188)
+       ========================================================= -->
+  <div id="pinLockModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-sm animate-pop-in">
+    <div class="bg-white rounded-3xl p-6 max-w-xs w-full text-center border border-rose-200 shadow-2xl space-y-4">
+      <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-500 flex items-center justify-center mx-auto text-xl shadow-inner">
+        🔒
+      </div>
+      <div>
+        <h3 class="font-serif font-bold text-slate-900 text-lg">Dean's Secret Passcode</h3>
+        <p class="text-xs text-slate-500 mt-1">Enter PIN to access workshop settings</p>
+      </div>
+
+      <!-- PIN dots display -->
+      <div class="flex items-center justify-center gap-3 py-1">
+        <span id="pinDot-0" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
+        <span id="pinDot-1" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
+        <span id="pinDot-2" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
+        <span id="pinDot-3" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
+        <span id="pinDot-4" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
+        <span id="pinDot-5" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
+      </div>
+
+      <p id="pinErrorMessage" class="text-[11px] text-rose-600 font-bold min-h-[16px]"></p>
+
+      <!-- Keypad -->
+      <div class="grid grid-cols-3 gap-2 max-w-[210px] mx-auto pt-1">
+        <button onclick="pressPinKey('1')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">1</button>
+        <button onclick="pressPinKey('2')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">2</button>
+        <button onclick="pressPinKey('3')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">3</button>
+        <button onclick="pressPinKey('4')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">4</button>
+        <button onclick="pressPinKey('5')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">5</button>
+        <button onclick="pressPinKey('6')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">6</button>
+        <button onclick="pressPinKey('7')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">7</button>
+        <button onclick="pressPinKey('8')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">8</button>
+        <button onclick="pressPinKey('9')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">9</button>
+        <button onclick="closePinLockModal()" class="h-11 rounded-2xl bg-slate-100 text-slate-500 font-bold text-xs active:scale-95">Cancel</button>
+        <button onclick="pressPinKey('0')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">0</button>
+        <button onclick="deletePinKey()" class="h-11 rounded-2xl bg-rose-50 text-rose-600 font-bold text-xs border border-rose-200 active:scale-95">⌫</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================
        AUDIO & LOGIC JAVASCRIPT
        ========================================================= -->
   <script>
     /* =========================================================
        1. SCHEDULE CONFIGURATION & STATE
        ========================================================= */
-    // Scheduled unlock times on 30th November 2026 ADST (Sydney is UTC+11)
+    // Scheduled unlock times on 29th November 2026 ADST (Sydney is UTC+11)
+    const TARGET_BIRTHDAY_GATE_ISO = '2026-11-29T00:00:00+11:00';
+    let birthdayGatePassed = false;
+    let gateTimerInterval = null;
+
     const GAME_SCHEDULE = [
-      { id: 0, view: 'game-balloons', name: 'Balloon Pop', icon: '🎈', timeStr: '8:00 AM ADST', unlockISO: '2026-11-30T08:00:00+11:00' },
-      { id: 1, view: 'game-boxes',    name: 'Box Unwrap',  icon: '🎁', timeStr: '9:30 AM ADST', unlockISO: '2026-11-30T09:30:00+11:00' },
-      { id: 2, view: 'game-scratch',  name: 'Gold Scratch',icon: '✨', timeStr: '11:00 AM ADST', unlockISO: '2026-11-30T11:00:00+11:00' },
-      { id: 3, view: 'game-wheel',    name: 'Fortune Wheel',icon: '🎡', timeStr: '12:30 PM ADST', unlockISO: '2026-11-30T12:30:00+11:00' },
-      { id: 4, view: 'game-cookie',   name: 'Fortune Cookie',icon: '🥠', timeStr: '2:00 PM ADST', unlockISO: '2026-11-30T14:00:00+11:00' },
-      { id: 5, view: 'game-candles',  name: 'Blow Candles',icon: '🎂', timeStr: '3:00 PM ADST', unlockISO: '2026-11-30T15:00:00+11:00' }
+      { id: 0, view: 'game-balloons', name: 'Balloon Pop', icon: '🎈', timeStr: '8:00 AM ADST', unlockISO: '2026-11-29T08:00:00+11:00' },
+      { id: 1, view: 'game-boxes',    name: 'Box Unwrap',  icon: '🎁', timeStr: '9:30 AM ADST', unlockISO: '2026-11-29T09:30:00+11:00' },
+      { id: 2, view: 'game-scratch',  name: 'Gold Scratch',icon: '✨', timeStr: '11:00 AM ADST', unlockISO: '2026-11-29T11:00:00+11:00' },
+      { id: 3, view: 'game-wheel',    name: 'Fortune Wheel',icon: '🎡', timeStr: '12:30 PM ADST', unlockISO: '2026-11-29T12:30:00+11:00' },
+      { id: 4, view: 'game-cookie',   name: 'Fortune Cookie',icon: '🥠', timeStr: '2:00 PM ADST', unlockISO: '2026-11-29T14:00:00+11:00' },
+      { id: 5, view: 'game-candles',  name: 'Blow Candles',icon: '🎂', timeStr: '3:00 PM ADST', unlockISO: '2026-11-29T15:00:00+11:00' }
     ];
 
     let bypassLock = false;
@@ -1356,49 +1524,50 @@
        ========================================================= */
     const DEFAULT_PRIZES = {
       balloonSingle: {
-        title: "Fancy Champagne Brunch 🥂",
-        desc: "A luxury bottomless brunch for two at your favourite waterside cafe.",
-        icon: "🥂"
+        title: "The Hill @ Gerringong",
+        desc: "Breakfast at The Hill in Gerringong with your parents",
+        icon: "🥐"
       },
       boxSingle: {
-        title: "Jewellery Surprise 💍",
-        desc: "A delicate sparkling piece chosen especially for you with all my heart.",
-        icon: "💍"
+        title: "1 Present only",
+        desc: "Sorry but only 1 present for today and the rest tomorrow",
+        icon: "🎁"
       },
       cookieSingle: {
-        title: "The Prophecy of Love ✨",
-        desc: "Year 34 brings our biggest adventures yet, full of endless laughter, joy & cuddles.",
-        icon: "✨"
+        title: "Crazy Pasta!",
+        desc: "Dinner tonight will be at Crazy Pasta!",
+        icon: "🍝"
       },
       balloons: [
-        { title: "Fancy Champagne Brunch", desc: "A luxury bottomless brunch for two at your favourite cafe.", icon: "🥂" },
+        { title: "The Hill @ Gerringong", desc: "Breakfast at The Hill in Gerringong with your parents", icon: "🥐" },
         { title: "Relaxing Spa Massage", desc: "A soothing 90-minute massage day whenever you desire.", icon: "💆‍♀️" },
         { title: "Surprise Weekend Escape", desc: "A cozy secret weekend getaway to unwind together.", icon: "✈️" },
         { title: "Shopping Spree Voucher", desc: "Pick your favourite outfit on me today, no questions asked!", icon: "🛍️" }
       ],
       boxes: [
-        { title: "Jewellery Surprise", desc: "A delicate sparkling piece chosen with all my heart.", icon: "💍" },
+        { title: "1 Present only", desc: "Sorry but only 1 present for today and the rest tomorrow", icon: "🎁" },
         { title: "Dinner by the Harbour", desc: "Candlelight dinner with wine, your favourite dessert & harbour views.", icon: "🍷" },
         { title: "Breakfast in Bed + Coffee", desc: "Valid anytime you want to sleep in and be pampered.", icon: "🥐" },
         { title: "Picnic Under the Stars", desc: "Gourmet cheese board, wine, blankets & stargazing night.", icon: "🧺" }
       ],
       scratch: {
-        title: "Sunset Harbour Cruise",
-        desc: "A sunset sail across Sydney Harbour with drinks & photography.",
-        icon: "⛵"
+        title: "$50 Voucher for The Head Spa Studio",
+        desc: "A $50 pampering voucher to relax and unwind at The Head Spa Studio.",
+        icon: "💆‍♀️"
       },
       wheel: [
         "Romantic Dinner",
         "10 Free Kisses",
         "Spa Day Pass",
-        "Weekend Getaway",
+        "Harbour Picnic",
         "Foot Massage Pass",
         "Cocktail Night",
         "Gold Cinema Tickets",
         "Surprise Wish Token"
       ],
+      wheelPrizeDesc: "Claimed from Hannah's 34th Birthday Wheel of Fortune!",
       cookies: [
-        { title: "The Prophecy of Love", desc: "Year 34 brings our biggest adventures yet, full of endless laughter & cuddles.", icon: "✨" },
+        { title: "Crazy Pasta!", desc: "Dinner tonight will be at Crazy Pasta!", icon: "🍝" },
         { title: "The Golden Journey", desc: "Whatever dreams you chase this year, I promise to stand by you 100%.", icon: "🌟" },
         { title: "The Endless Smile", desc: "Every single day with you is a gift; this year will be your most beautiful chapter.", icon: "💫" }
       ],
@@ -1408,8 +1577,8 @@
         icon: "🎂"
       },
       bonusKissGift: {
-        title: "Surprise Spa & Massage Day 🧖‍♀️",
-        desc: "Because you collected 10 sweet kisses from Dean! A full luxury relaxation massage and pamper package booked whenever you need it.",
+        title: "Advent Calendar of Love",
+        desc: "Because you collected 10 sweet kisses from Dean you have won an advent calendar of Love for December!.",
         icon: "🎁"
       },
       heroMessages: {
@@ -1420,1263 +1589,180 @@
         afterGame3: "A lucky spin for the girl who deserves the whole world and every ounce of happiness! 🎡",
         afterGame4: "Your fortune is sealed with all my love: 34 is going to be your most gorgeous chapter yet. 🥠",
         afterGame5: "All 5 candles blown out and every wish made! Happy 34th Birthday Hannah, I love you forever. 🎂"
-      }
+      },
+      carouselPhotos: [
+        {
+          url: "https://placehold.co/600x375/ffe4e9/be1248?text=Hannah+%26+Dean+❤️",
+          caption: "Our Favourite Adventures"
+        },
+        {
+          url: "https://placehold.co/600x375/fecdd3/9f1240?text=Sydney+Smiles+✨",
+          caption: "Celebrating Year 34"
+        },
+        {
+          url: "https://placehold.co/600x375/fce7f3/831438?text=Forever+Together+💍",
+          caption: "To A Lifetime of Laughs & Cuddles"
+        },
+        {
+          url: "https://placehold.co/600x375/fed7aa/c2410c?text=Sunset+Walks+🌅",
+          caption: "Chasing Golden Sunsets With You"
+        },
+        {
+          url: "https://placehold.co/600x375/fef08a/854d0e?text=Best+Dates+%26+Wine+🍷",
+          caption: "Every Candlelight Dinner & Late Night Talk"
+        },
+        {
+          url: "https://placehold.co/600x375/bbf7d0/166534?text=Weekend+Getaways+🌿",
+          caption: "Road Trips & Cozy Weekend Escapes"
+        },
+        {
+          url: "https://placehold.co/600x375/e9d5ff/6b21a8?text=Morning+Cuddles+☕",
+          caption: "Lazy Sunday Mornings & Your Beautiful Smile"
+        },
+        {
+          url: "https://placehold.co/600x375/fbcfe8/9d174d?text=My+Favourite+Person+💖",
+          caption: "Happy 34th Birthday to My Whole World"
+        }
+      ]
     };
 
     let customPrizes = JSON.parse(JSON.stringify(DEFAULT_PRIZES));
 
     /* =========================================================
-       3. AUDIO SYNTHESIZER (Web Audio API)
+       PHOTO CAROUSEL LOGIC
        ========================================================= */
-    let audioCtx = null;
-    function getAudioContext() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      return audioCtx;
-    }
+    let currentCarouselIndex = 0;
 
-    function playTone(type) {
-      try {
-        const ctx = getAudioContext();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
+    function renderCarousel() {
+      const track = document.getElementById('photoCarouselTrack');
+      const dotsContainer = document.getElementById('carouselDots');
+      if (!track || !dotsContainer) return;
 
-        const now = ctx.currentTime;
+      const photos = customPrizes.carouselPhotos || DEFAULT_PRIZES.carouselPhotos;
+      track.innerHTML = '';
+      dotsContainer.innerHTML = '';
 
-        if (type === 'pop') {
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(450, now);
-          osc.frequency.exponentialRampToValueAtTime(120, now + 0.12);
-          gain.gain.setValueAtTime(0.5, now);
-          gain.gain.linearRampToValueAtTime(0.01, now + 0.12);
-          osc.start(now);
-          osc.stop(now + 0.12);
-        } else if (type === 'puff') {
-          // Soft whoosh/blow sound for candles
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(260, now);
-          osc.frequency.exponentialRampToValueAtTime(80, now + 0.18);
-          gain.gain.setValueAtTime(0.35, now);
-          gain.gain.linearRampToValueAtTime(0.01, now + 0.18);
-          osc.start(now);
-          osc.stop(now + 0.18);
-        } else if (type === 'fanfare') {
-          [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
-            const noteOsc = ctx.createOscillator();
-            const noteGain = ctx.createGain();
-            noteOsc.connect(noteGain);
-            noteGain.connect(ctx.destination);
-            noteOsc.frequency.setValueAtTime(freq, now + i * 0.1);
-            noteGain.gain.setValueAtTime(0.25, now + i * 0.1);
-            noteGain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.35);
-            noteOsc.start(now + i * 0.1);
-            noteOsc.stop(now + i * 0.1 + 0.35);
-          });
-        } else if (type === 'unravel') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(300, now);
-          osc.frequency.exponentialRampToValueAtTime(800, now + 0.2);
-          gain.gain.setValueAtTime(0.3, now);
-          gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
-          osc.start(now);
-          osc.stop(now + 0.2);
-        } else if (type === 'tick') {
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(800, now);
-          gain.gain.setValueAtTime(0.15, now);
-          gain.gain.linearRampToValueAtTime(0.01, now + 0.03);
-          osc.start(now);
-          osc.stop(now + 0.03);
-        }
-      } catch (e) {
-        console.warn('Audio not allowed or supported yet', e);
-      }
-    }
+      photos.forEach((photo, idx) => {
+        // Slide item
+        const slide = document.createElement('div');
+        slide.className = 'w-full h-full flex-shrink-0 relative flex items-center justify-center overflow-hidden';
+        slide.innerHTML = `
+          <img src="${photo.url}" alt="${photo.caption}" class="w-full h-full object-cover select-none pointer-events-none" onerror="this.src='https://placehold.co/600x375/ffe4e9/be1248?text=Hannah+%26+Dean+❤️'">
+          <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/75 via-slate-900/35 to-transparent p-3 pt-6 text-white text-left">
+            <p class="text-xs font-bold leading-tight drop-shadow-sm">${photo.caption}</p>
+          </div>
+        `;
+        track.appendChild(slide);
 
-    /* =========================================================
-       4. NAVIGATION & TIME SCHEDULE GUARDS
-       ========================================================= */
-    function isGameUnlocked(gameIndex) {
-      if (bypassLock) return true;
-      const unlockTime = new Date(GAME_SCHEDULE[gameIndex].unlockISO).getTime();
-      return Date.now() >= unlockTime;
-    }
-
-    function navigateTo(targetViewId) {
-      // Guard: Check if user is navigating directly to a game view
-      const gameObj = GAME_SCHEDULE.find(g => g.view === targetViewId);
-      if (gameObj) {
-        // Guard against replaying completed games
-        if (gamePlayState[gameObj.id]?.completed) {
-          showAlreadyClaimedModal(gamePlayState[gameObj.id].prizeWon?.title || gameObj.name);
-          return;
-        }
-
-        // Guard against playing before scheduled time
-        if (!isGameUnlocked(gameObj.id)) {
-          showLockToast(
-            `Locked Until ${gameObj.timeStr}`,
-            `This surprise is scheduled to unlock at ${gameObj.timeStr} on 30th November 2026 ADST for Hannah's birthday!`
-          );
-          return;
-        }
-      }
-
-      const views = [
-        'view-home',
-        'view-arcade-hub',
-        'game-balloons',
-        'game-boxes',
-        'game-scratch',
-        'game-wheel',
-        'game-cookie',
-        'game-candles',
-        'view-wallet'
-      ];
-
-      views.forEach(v => {
-        const el = document.getElementById(v);
-        if (el) el.classList.add('hidden');
+        // Dot
+        const dot = document.createElement('button');
+        dot.className = `w-2 h-2 rounded-full transition-all ${idx === currentCarouselIndex ? 'bg-rose-500 w-5' : 'bg-rose-200'}`;
+        dot.onclick = () => goToCarouselSlide(idx);
+        dotsContainer.appendChild(dot);
       });
 
-      const activeEl = document.getElementById(targetViewId);
-      if (activeEl) {
-        activeEl.classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-
-      // Update Nav Bar visual states
-      updateNavState(targetViewId);
-
-      // Trigger view-specific renderers
-      if (targetViewId === 'view-arcade-hub') {
-        renderArcadeHub();
-      } else if (targetViewId === 'game-scratch') {
-        initScratchCard();
-      } else if (targetViewId === 'game-wheel') {
-        initWheel();
-      } else if (targetViewId === 'game-candles') {
-        initCandlesGame();
-      } else if (targetViewId === 'view-wallet') {
-        renderWallet();
-      }
+      updateCarouselPosition();
     }
 
-    function updateNavState(currentView) {
-      const homeBtn = document.getElementById('nav-btn-home');
-      const arcadeBtn = document.getElementById('nav-btn-arcade');
-      const walletBtn = document.getElementById('nav-btn-wallet');
+    function updateCarouselPosition() {
+      const track = document.getElementById('photoCarouselTrack');
+      const dots = document.getElementById('carouselDots')?.children;
+      if (!track) return;
 
-      [homeBtn, arcadeBtn, walletBtn].forEach(b => {
-        b.classList.remove('text-rose-600');
-        b.classList.add('text-slate-400');
-      });
+      track.style.transform = `translateX(-${currentCarouselIndex * 100}%)`;
 
-      if (currentView === 'view-home') {
-        homeBtn.classList.add('text-rose-600');
-        homeBtn.classList.remove('text-slate-400');
-      } else if (currentView === 'view-wallet') {
-        walletBtn.classList.add('text-rose-600');
-        walletBtn.classList.remove('text-slate-400');
-      } else {
-        arcadeBtn.classList.add('text-rose-600');
-        arcadeBtn.classList.remove('text-slate-400');
-      }
-    }
-
-    function showAlreadyClaimedModal(prizeTitle) {
-      const modal = document.getElementById('alreadyClaimedModal');
-      const msg = document.getElementById('alreadyClaimedMsg');
-      if (msg && prizeTitle) {
-        msg.textContent = `You've already claimed "${prizeTitle}"! It is safely stored in your Wallet.`;
-      }
-      if (modal) modal.classList.remove('hidden');
-    }
-
-    function closeAlreadyClaimedModal() {
-      const modal = document.getElementById('alreadyClaimedModal');
-      if (modal) modal.classList.add('hidden');
-    }
-
-    /* =========================================================
-       5B. IPHONE WEB NOTIFICATIONS SYSTEM
-       ========================================================= */
-    let pushSubscriptionData = null;
-
-    function checkNotificationStatus() {
-      const badge = document.getElementById('notifStatusBadge');
-      if (!badge) return;
-
-      if (!('Notification' in window)) {
-        badge.textContent = 'Unsupported in Browser';
-        badge.className = 'text-[9px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-600';
-        return;
-      }
-
-      if (Notification.permission === 'granted') {
-        badge.textContent = 'Active ✓';
-        badge.className = 'text-[9px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
-      } else if (Notification.permission === 'denied') {
-        badge.textContent = 'Blocked ✕';
-        badge.className = 'text-[9px] font-bold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800';
-      } else {
-        badge.textContent = 'Needs Setup ⚠️';
-        badge.className = 'text-[9px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800';
-      }
-    }
-
-    async function registerServiceWorkerForPush() {
-      if ('serviceWorker' in navigator) {
-        try {
-          const swCode = `
-            self.addEventListener('install', (e) => self.skipWaiting());
-            self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
-            self.addEventListener('push', (event) => {
-              const data = event.data ? event.data.json() : {};
-              const title = data.title || "Hannah's 34th Birthday 🎈";
-              const options = {
-                body: data.body || "Your next birthday arcade surprise is ready to unlock!",
-                icon: 'https://placehold.co/192x192/f43f6e/ffffff?text=H34',
-                badge: 'https://placehold.co/96x96/f43f6e/ffffff?text=H',
-                vibrate: [200, 100, 200],
-                data: { url: '/' }
-              };
-              event.waitUntil(self.registration.showNotification(title, options));
-            });
-            self.addEventListener('notificationclick', (event) => {
-              event.notification.close();
-              event.waitUntil(
-                clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windowClients) => {
-                  for (let client of windowClients) {
-                    if (client.url && 'focus' in client) return client.focus();
-                  }
-                  if (clients.openWindow) return clients.openWindow('/');
-                })
-              );
-            });
-          `;
-          const blob = new Blob([swCode], { type: 'application/javascript' });
-          const swUrl = URL.createObjectURL(blob);
-          const reg = await navigator.serviceWorker.register(swUrl);
-          return reg;
-        } catch (err) {
-          console.warn('Service Worker registration skipped or restricted in preview:', err);
-        }
-      }
-      return null;
-    }
-
-    async function requestNotificationPermission() {
-      if (!('Notification' in window)) {
-        showLockToast('iPhone Setup Required', 'On iPhone, lock-screen notifications require adding this app to your Home Screen first via Share [↑] -> "Add to Home Screen".');
-        return;
-      }
-
-      try {
-        const permission = await Notification.requestPermission();
-        checkNotificationStatus();
-
-        if (permission === 'granted') {
-          playTone('fanfare');
-          
-          // Attempt Service Worker registration for iOS Lock Screen Push
-          const reg = await registerServiceWorkerForPush();
-          if (reg && reg.pushManager) {
-            try {
-              // Try to acquire push endpoint (mock fallback for local preview)
-              const sub = await reg.pushManager.getSubscription();
-              if (sub) {
-                pushSubscriptionData = sub.endpoint;
-              } else {
-                pushSubscriptionData = 'https://web.push.apple.com/device/' + Math.random().toString(36).substring(2);
-              }
-              const field = document.getElementById('adminPushEndpointField');
-              if (field) field.value = pushSubscriptionData;
-            } catch (pushErr) {
-              console.log('Push manager setup info', pushErr);
-            }
-          }
-
-          triggerNotification(
-            "Hannah's 34th Birthday 🎈", 
-            "Lock screen alerts are now enabled! Get ready for your special surprises on November 30th."
-          );
-        } else {
-          showLockToast('Permission Info', 'Notifications are currently set to: ' + permission + '. To enable, go to iPhone Settings -> Notifications -> Hannah\'s 34th.');
-        }
-      } catch (err) {
-        console.warn('Error requesting notification permission', err);
-      }
-    }
-
-    function copyPushEndpoint() {
-      const field = document.getElementById('adminPushEndpointField');
-      if (field && field.value) {
-        field.select();
-        document.execCommand('copy');
-        alert('Lock screen push token copied to clipboard! You can use this to send background alerts to her locked phone.');
-      } else {
-        alert('Please tap "Enable iOS Push" on her iPhone first to generate the token.');
-      }
-    }
-
-    function triggerNotification(title, body) {
-      playTone('fanfare');
-      if ('Notification' in window && Notification.permission === 'granted') {
-        try {
-          if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-            navigator.serviceWorker.ready.then(reg => {
-              reg.showNotification(title, {
-                body: body,
-                icon: 'https://placehold.co/192x192/f43f6e/ffffff?text=H34',
-                badge: 'https://placehold.co/96x96/f43f6e/ffffff?text=H',
-                vibrate: [200, 100, 200]
-              });
-            });
+      if (dots) {
+        for (let i = 0; i < dots.length; i++) {
+          if (i === currentCarouselIndex) {
+            dots[i].className = 'w-5 h-2 rounded-full bg-rose-500 transition-all';
           } else {
-            new Notification(title, {
-              body: body,
-              icon: 'https://placehold.co/192x192/f43f6e/ffffff?text=H34'
-            });
-          }
-          return;
-        } catch (e) {
-          console.warn('Native notification fallback', e);
-        }
-      }
-
-      // In-app fallback banner toast
-      showLockToast(title, body);
-    }
-
-    function sendTestNotification() {
-      triggerNotification(
-        "Dean's Birthday Surprise 💋",
-        "Hey birthday girl! This is a test alert. Your next birthday arcade surprise is ready to unlock!"
-      );
-    }
-
-    function scheduleGameAlerts() {
-      let countArmed = 0;
-      GAME_SCHEDULE.forEach(g => {
-        const unlockMs = new Date(g.unlockISO).getTime();
-        const diff = unlockMs - Date.now();
-        if (diff > 0) {
-          countArmed++;
-          setTimeout(() => {
-            triggerNotification(
-              `Surprise Game Ready: ${g.name} ${g.icon}`,
-              `It's ${g.timeStr}! Your next 34th birthday game has just unlocked in the Arcade!`
-            );
-          }, diff);
-        }
-      });
-
-      showLockToast(
-        'Schedule Armed ⏰',
-        `Successfully armed in-app alerts for all remaining birthday games on 30th November 2026 ADST!`
-      );
-    }
-
-    /* =========================================================
-       5. ARCADE HUB TIMELINE & NEXT UPCOMING SPOTLIGHT
-       ========================================================= */
-    function renderArcadeHub() {
-      const timelineList = document.getElementById('arcadeTimelineList');
-      const spotlight = document.getElementById('nextGameSpotlight');
-      if (!timelineList || !spotlight) return;
-
-      timelineList.innerHTML = '';
-
-      // Find the next upcoming or next playable game
-      let nextGame = GAME_SCHEDULE.find(g => !gamePlayState[g.id]?.completed && !isGameUnlocked(g.id));
-      if (!nextGame) {
-        // If all available are unlocked, pick the first unplayed unlocked game
-        nextGame = GAME_SCHEDULE.find(g => !gamePlayState[g.id]?.completed);
-      }
-
-      // Render Spotlight Card
-      if (nextGame) {
-        const isUnlocked = isGameUnlocked(nextGame.id);
-        const unlockMs = new Date(nextGame.unlockISO).getTime();
-        const diff = unlockMs - Date.now();
-
-        let countdownText = 'Unlocked and Ready to Play!';
-        if (!isUnlocked && diff > 0) {
-          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-          const mins = Math.floor((diff / 1000 / 60) % 60);
-          countdownText = `Unlocks in: ${days}d ${hours}h ${mins}m`;
-        }
-
-        spotlight.innerHTML = `
-          <div class="relative z-10 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] font-extrabold uppercase tracking-widest bg-white/20 px-2.5 py-1 rounded-full">
-                ${isUnlocked ? 'Available Now 🎉' : 'Next Upcoming Game'}
-              </span>
-              <span class="text-xs font-bold">${nextGame.timeStr}</span>
-            </div>
-            <div class="flex items-center space-x-3 pt-1">
-              <span class="text-4xl filter drop-shadow">${nextGame.icon}</span>
-              <div>
-                <h3 class="font-serif text-lg font-bold leading-tight">${nextGame.name}</h3>
-                <p class="text-[11px] text-rose-100 font-medium">${countdownText}</p>
-              </div>
-            </div>
-            <div class="pt-2">
-              <button onclick="navigateTo('${nextGame.view}')" class="w-full py-2.5 rounded-full font-bold text-xs transition-all ${
-                isUnlocked 
-                  ? 'bg-white text-rose-600 shadow-md shadow-rose-900/20 active:scale-95' 
-                  : 'bg-white/30 text-white/90 backdrop-blur cursor-not-allowed'
-              }">
-                ${isUnlocked ? `Play ${nextGame.name} Now →` : `🔒 Locked Until ${nextGame.timeStr}`}
-              </button>
-            </div>
-          </div>
-        `;
-      } else {
-        spotlight.innerHTML = `
-          <div class="text-center py-3">
-            <span class="text-4xl block mb-1">👑</span>
-            <h3 class="font-serif text-lg font-bold">All 6 Birthday Games Claimed!</h3>
-            <p class="text-xs text-rose-100 mt-1">Hannah, you've unlocked every mystery reward for your 34th!</p>
-            <button onclick="navigateTo('view-wallet')" class="mt-3 px-5 py-2 rounded-full bg-white text-rose-600 font-bold text-xs">
-              View Claimed Surprises in Wallet 💌
-            </button>
-          </div>
-        `;
-      }
-
-      // Render All 6 Games Timeline
-      GAME_SCHEDULE.forEach((g) => {
-        const isCompleted = gamePlayState[g.id]?.completed;
-        const isUnlocked = isGameUnlocked(g.id);
-
-        let statusBadge = '';
-        let cardStyle = '';
-        let actionOnClick = '';
-
-        if (isCompleted) {
-          statusBadge = `<span class="text-[9px] font-bold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">✓ Claimed</span>`;
-          cardStyle = 'bg-slate-50 border-slate-200 opacity-80';
-          actionOnClick = `onclick="showAlreadyClaimedModal('${gamePlayState[g.id].prizeWon?.title || g.name}')"`;
-        } else if (isUnlocked) {
-          statusBadge = `<span class="text-[9px] font-bold bg-rose-100 text-rose-700 px-2 py-0.5 rounded-full animate-pulse">Ready!</span>`;
-          cardStyle = 'bg-rose-50/70 border-rose-200 cursor-pointer active:scale-98';
-          actionOnClick = `onclick="navigateTo('${g.view}')"`;
-        } else {
-          statusBadge = `<span class="text-[9px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full">🔒 ${g.timeStr}</span>`;
-          cardStyle = 'bg-white border-slate-100 cursor-pointer';
-          actionOnClick = `onclick="showLockToast('Locked Until ${g.timeStr}', 'This game unlocks at ${g.timeStr} on 30 Nov 2026 ADST.')"`;
-        }
-
-        const item = document.createElement('div');
-        item.className = `p-3 rounded-2xl border flex items-center justify-between transition-all ${cardStyle}`;
-        item.setAttribute('role', 'button');
-        item.innerHTML = `
-          <div class="flex items-center space-x-3">
-            <span class="text-2xl">${g.icon}</span>
-            <div>
-              <h4 class="font-bold text-xs text-slate-800">${g.name}</h4>
-              <p class="text-[10px] text-slate-500">${g.timeStr}</p>
-            </div>
-          </div>
-          <div>
-            ${statusBadge}
-          </div>
-        `;
-        item.onclick = new Function(actionOnClick.replace('onclick="', '').slice(0, -1));
-        timelineList.appendChild(item);
-      });
-    }
-
-    function showLockToast(title, msg) {
-      document.getElementById('lockToastTitle').textContent = title;
-      document.getElementById('lockToastMsg').textContent = msg;
-      document.getElementById('lockToastModal').classList.remove('hidden');
-    }
-
-    function closeLockToast() {
-      document.getElementById('lockToastModal').classList.add('hidden');
-    }
-
-    /* =========================================================
-       6. HOMEPAGE LOVE MESSAGES SCHEDULE
-       ========================================================= */
-    function updateHeroLoveMessage() {
-      const heroEl = document.getElementById('heroSubtitleText');
-      if (!heroEl) return;
-
-      const msgs = customPrizes.heroMessages || DEFAULT_PRIZES.heroMessages;
-
-      // Check how many games have been completed from 0 to 5
-      let completedCount = gamePlayState.filter(g => g.completed).length;
-
-      if (completedCount === 0) {
-        heroEl.textContent = msgs.initial;
-      } else if (gamePlayState[5]?.completed) {
-        heroEl.textContent = msgs.afterGame5;
-      } else if (gamePlayState[4]?.completed) {
-        heroEl.textContent = msgs.afterGame4;
-      } else if (gamePlayState[3]?.completed) {
-        heroEl.textContent = msgs.afterGame3;
-      } else if (gamePlayState[2]?.completed) {
-        heroEl.textContent = msgs.afterGame2;
-      } else if (gamePlayState[1]?.completed) {
-        heroEl.textContent = msgs.afterGame1;
-      } else if (gamePlayState[0]?.completed) {
-        heroEl.textContent = msgs.afterGame0;
-      }
-    }
-
-    /* =========================================================
-       7. KISS FROM DEAN & EXTRA SURPRISE GIFT (10 KISSES)
-       ========================================================= */
-    function handleSendLove() {
-      kissesCount++;
-      playTone('pop');
-
-      document.getElementById('kissCountBadge').textContent = kissesCount;
-
-      // Heart confetti burst
-      if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 18,
-          spread: 60,
-          origin: { y: 0.75 },
-          colors: ['#f43f6e', '#fb7193', '#fda4b8', '#ffccd5']
-        });
-      }
-
-      // If kisses reach 10, reveal the Extra Surprise Gift button
-      if (kissesCount >= 10 && !bonusGiftClaimed) {
-        const bonusBtn = document.getElementById('bonusGiftBtn');
-        if (bonusBtn && bonusBtn.classList.contains('hidden')) {
-          bonusBtn.classList.remove('hidden');
-          playTone('fanfare');
-        }
-      }
-    }
-
-    function claimBonusKissGift() {
-      if (bonusGiftClaimed) return;
-      playTone('fanfare');
-
-      const bonusPrize = customPrizes.bonusKissGift || DEFAULT_PRIZES.bonusKissGift;
-      showPrizeModal(
-        "10 KISSES EXTRA SURPRISE",
-        bonusPrize.title,
-        bonusPrize.desc,
-        bonusPrize.icon || "🎁",
-        -1 // Special non-arcade identifier
-      );
-
-      bonusGiftClaimed = true;
-      const bonusBtn = document.getElementById('bonusGiftBtn');
-      if (bonusBtn) bonusBtn.classList.add('hidden');
-    }
-
-    function resetKissCount() {
-      kissesCount = 0;
-      bonusGiftClaimed = false;
-      document.getElementById('kissCountBadge').textContent = '0';
-      const bonusBtn = document.getElementById('bonusGiftBtn');
-      if (bonusBtn) bonusBtn.classList.add('hidden');
-      alert('Kisses counter reset to 0!');
-    }
-
-    function testTriggerBonus() {
-      kissesCount = 10;
-      document.getElementById('kissCountBadge').textContent = '10';
-      const bonusBtn = document.getElementById('bonusGiftBtn');
-      if (bonusBtn) bonusBtn.classList.remove('hidden');
-      alert('10 kisses reached! Extra Surprise Gift button is now active on the home screen.');
-    }
-
-    /* =========================================================
-       8. GAME 1: BALLOON POP (Single Guaranteed Prize)
-       ========================================================= */
-    function popBalloon(index) {
-      if (gamePlayState[0]?.completed) return;
-
-      const balloonWrap = document.getElementById(`balloon-wrap-${index}`);
-      if (!balloonWrap) return;
-
-      playTone('pop');
-
-      // Burst particle explosion animation
-      balloonWrap.style.transform = 'scale(1.4)';
-      balloonWrap.style.opacity = '0';
-      balloonWrap.style.transition = 'all 0.15s ease-out';
-
-      setTimeout(() => {
-        balloonWrap.innerHTML = `
-          <div class="w-24 h-24 rounded-full bg-rose-50 border-2 border-dashed border-rose-300 flex flex-col items-center justify-center text-center p-2">
-            <span class="text-2xl">✨</span>
-            <span class="text-[10px] font-bold text-rose-600 mt-1">POPPED!</span>
-          </div>
-        `;
-        balloonWrap.style.transform = 'scale(1)';
-        balloonWrap.style.opacity = '1';
-
-        // Guaranteed single prize regardless of which balloon is popped
-        const prize = customPrizes.balloonSingle || (customPrizes.balloons && customPrizes.balloons[0]) || DEFAULT_PRIZES.balloonSingle;
-        showPrizeModal("BALLOON POP PRIZE", prize.title, prize.desc, prize.icon || "🎈", 0);
-        disableBalloonsUI();
-      }, 160);
-    }
-
-    function disableBalloonsUI() {
-      for (let i = 0; i < 4; i++) {
-        const wrap = document.getElementById(`balloon-wrap-${i}`);
-        if (wrap) {
-          wrap.onclick = null;
-          wrap.classList.add('pointer-events-none', 'opacity-70');
-        }
-      }
-    }
-
-    /* =========================================================
-       9. GAME 2: 3D BOX UNWRAP (Single Guaranteed Prize)
-       ========================================================= */
-    function openGiftBox(index) {
-      if (gamePlayState[1]?.completed) return;
-
-      const box = document.getElementById(`gift-box-${index}`);
-      if (!box) return;
-
-      playTone('unravel');
-      box.classList.add('is-opened', 'border-rose-300', 'bg-rose-50');
-
-      setTimeout(() => {
-        // Guaranteed single prize regardless of which box is opened
-        const prize = customPrizes.boxSingle || (customPrizes.boxes && customPrizes.boxes[0]) || DEFAULT_PRIZES.boxSingle;
-        showPrizeModal("GIFT UNWRAP PRIZE", prize.title, prize.desc, prize.icon || "🎁", 1);
-        disableBoxesUI();
-      }, 500);
-    }
-
-    function disableBoxesUI() {
-      for (let i = 0; i < 4; i++) {
-        const box = document.getElementById(`gift-box-${i}`);
-        if (box) {
-          box.onclick = null;
-          box.classList.add('pointer-events-none', 'opacity-70');
-        }
-      }
-    }
-
-    /* =========================================================
-       10. GAME 3: GOLD FOIL SCRATCH CARD
-       ========================================================= */
-    let isScratching = false;
-    let scratchCanvas = null;
-    let scratchCtx = null;
-    let totalScratchPixels = 0;
-    let clearedScratchPixels = 0;
-
-    function initScratchCard() {
-      scratchCanvas = document.getElementById('scratchCanvas');
-      if (!scratchCanvas) return;
-      scratchCtx = scratchCanvas.getContext('2d');
-
-      const rect = scratchCanvas.getBoundingClientRect();
-      scratchCanvas.width = rect.width || 300;
-      scratchCanvas.height = rect.height || 225;
-
-      const prize = customPrizes.scratch || DEFAULT_PRIZES.scratch;
-      document.getElementById('scratchPrizeTitle').textContent = prize.title;
-
-      drawGoldFoil();
-
-      totalScratchPixels = scratchCanvas.width * scratchCanvas.height;
-      clearedScratchPixels = 0;
-      document.getElementById('scratchProgressText').textContent = '0% Scratched';
-
-      if (gamePlayState[2]?.completed) {
-        scratchCanvas.style.display = 'none';
-        document.getElementById('scratchProgressText').textContent = '100% Revealed ✓';
-        return;
-      }
-
-      scratchCanvas.style.display = 'block';
-
-      // Event listeners for touch & mouse scratching
-      scratchCanvas.onmousedown = (e) => { isScratching = true; scratchAt(e); };
-      window.onmouseup = () => { isScratching = false; };
-      scratchCanvas.onmousemove = (e) => { if (isScratching) scratchAt(e); };
-
-      scratchCanvas.ontouchstart = (e) => { isScratching = true; scratchAtTouch(e); };
-      window.ontouchend = () => { isScratching = false; };
-      scratchCanvas.ontouchmove = (e) => { if (isScratching) scratchAtTouch(e); };
-    }
-
-    function drawGoldFoil() {
-      const w = scratchCanvas.width;
-      const h = scratchCanvas.height;
-
-      // Realistic gold gradient
-      const grad = scratchCtx.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, '#fef08a');
-      grad.addColorStop(0.3, '#eab308');
-      grad.addColorStop(0.5, '#ca8a04');
-      grad.addColorStop(0.7, '#fef08a');
-      grad.addColorStop(1, '#a16207');
-
-      scratchCtx.fillStyle = grad;
-      scratchCtx.fillRect(0, 0, w, h);
-
-      // Gold shimmer sparkle pattern
-      scratchCtx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-      for (let i = 0; i < 40; i++) {
-        const x = Math.random() * w;
-        const y = Math.random() * h;
-        const r = Math.random() * 2 + 1;
-        scratchCtx.beginPath();
-        scratchCtx.arc(x, y, r, 0, Math.PI * 2);
-        scratchCtx.fill();
-      }
-
-      // Overlay instructional text on foil
-      scratchCtx.fillStyle = '#78350f';
-      scratchCtx.font = 'bold 14px "Plus Jakarta Sans", sans-serif';
-      scratchCtx.textAlign = 'center';
-      scratchCtx.fillText('★ SCRATCH WITH FINGER ★', w / 2, h / 2 + 5);
-    }
-
-    function scratchAt(e) {
-      if (gamePlayState[2]?.completed) return;
-      const rect = scratchCanvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      eraseCircle(x, y);
-    }
-
-    function scratchAtTouch(e) {
-      if (gamePlayState[2]?.completed) return;
-      if (e.touches.length > 0) {
-        const rect = scratchCanvas.getBoundingClientRect();
-        const x = e.touches[0].clientX - rect.left;
-        const y = e.touches[0].clientY - rect.top;
-        eraseCircle(x, y);
-      }
-    }
-
-    function eraseCircle(x, y) {
-      scratchCtx.globalCompositeOperation = 'destination-out';
-      scratchCtx.beginPath();
-      scratchCtx.arc(x, y, 22, 0, Math.PI * 2);
-      scratchCtx.fill();
-
-      checkScratchCompletion();
-    }
-
-    let scratchCheckThrottle = 0;
-    function checkScratchCompletion() {
-      if (gamePlayState[2]?.completed) return;
-
-      scratchCheckThrottle++;
-      if (scratchCheckThrottle % 6 !== 0) return;
-
-      const imgData = scratchCtx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height);
-      const pixels = imgData.data;
-      let transparentCount = 0;
-
-      for (let i = 3; i < pixels.length; i += 16) {
-        if (pixels[i] < 128) {
-          transparentCount++;
-        }
-      }
-
-      const totalSampled = pixels.length / 16;
-      const ratio = transparentCount / totalSampled;
-      const percent = Math.min(100, Math.round(ratio * 100));
-
-      document.getElementById('scratchProgressText').textContent = `${percent}% Scratched`;
-
-      if (percent >= 55) {
-        scratchCanvas.style.transition = 'opacity 0.5s ease-out';
-        scratchCanvas.style.opacity = '0';
-        setTimeout(() => {
-          scratchCanvas.style.display = 'none';
-        }, 500);
-
-        const prize = customPrizes.scratch || DEFAULT_PRIZES.scratch;
-        showPrizeModal("GOLD FOIL PRIZE", prize.title, prize.desc, prize.icon || "⛵", 2);
-      }
-    }
-
-    /* =========================================================
-       11. GAME 4: FORTUNE WHEEL (Guaranteed Desired Prize)
-       ========================================================= */
-    let wheelCanvas = null;
-    let wheelCtx = null;
-    let isSpinning = false;
-    let currentWheelAngle = 0;
-
-    function getWheelPrizes() {
-      return customPrizes.wheel && customPrizes.wheel.length === 8 
-        ? customPrizes.wheel 
-        : DEFAULT_PRIZES.wheel;
-    }
-
-    function initWheel() {
-      wheelCanvas = document.getElementById('wheelCanvas');
-      if (!wheelCanvas) return;
-      wheelCtx = wheelCanvas.getContext('2d');
-      drawWheel(currentWheelAngle);
-
-      const btn = document.getElementById('spinWheelBtn');
-      if (gamePlayState[3]?.completed) {
-        btn.textContent = 'ALREADY CLAIMED ✓';
-        btn.disabled = true;
-        btn.classList.add('opacity-50', 'cursor-not-allowed');
-      } else {
-        btn.textContent = 'SPIN FOR HANNAH 🎡';
-        btn.disabled = false;
-        btn.classList.remove('opacity-50', 'cursor-not-allowed');
-      }
-    }
-
-    function drawWheel(angle) {
-      if (!wheelCtx || !wheelCanvas) return;
-      const prizes = getWheelPrizes();
-      const numSlices = prizes.length;
-      const sliceAngle = (2 * Math.PI) / numSlices;
-      const cx = wheelCanvas.width / 2;
-      const cy = wheelCanvas.height / 2;
-      const r = cx - 4;
-
-      wheelCtx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
-
-      const colors = ['#f43f6e', '#facc15', '#fb7193', '#38bdf8', '#fb923c', '#a855f7', '#4ade80', '#fdba74'];
-
-      for (let i = 0; i < numSlices; i++) {
-        const start = angle + i * sliceAngle;
-        const end = start + sliceAngle;
-
-        wheelCtx.beginPath();
-        wheelCtx.moveTo(cx, cy);
-        wheelCtx.arc(cx, cy, r, start, end);
-        wheelCtx.closePath();
-        wheelCtx.fillStyle = colors[i % colors.length];
-        wheelCtx.fill();
-        wheelCtx.lineWidth = 2;
-        wheelCtx.strokeStyle = '#ffffff';
-        wheelCtx.stroke();
-
-        // Label on slice
-        wheelCtx.save();
-        wheelCtx.translate(cx, cy);
-        wheelCtx.rotate(start + sliceAngle / 2);
-        wheelCtx.textAlign = 'right';
-        wheelCtx.fillStyle = '#ffffff';
-        wheelCtx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
-        wheelCtx.shadowColor = 'rgba(0,0,0,0.4)';
-        wheelCtx.shadowBlur = 3;
-        wheelCtx.fillText(prizes[i], r - 16, 4);
-        wheelCtx.restore();
-      }
-    }
-
-    function drawWorkshopWheel() {
-      const c = document.getElementById('workshopWheelCanvas');
-      if (!c) return;
-      const ctx = c.getContext('2d');
-      const prizes = getWheelPrizes();
-      const num = prizes.length;
-      const arc = (Math.PI * 2) / num;
-      const cx = c.width / 2;
-      const cy = c.height / 2;
-      const r = cx - 2;
-
-      ctx.clearRect(0, 0, c.width, c.height);
-      const colors = ['#f43f6e', '#facc15', '#fb7193', '#38bdf8', '#fb923c', '#a855f7', '#4ade80', '#fdba74'];
-
-      for (let i = 0; i < num; i++) {
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.arc(cx, cy, r, i * arc, (i + 1) * arc);
-        ctx.fillStyle = colors[i % colors.length];
-        ctx.fill();
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = '#fff';
-        ctx.stroke();
-
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(i * arc + arc / 2);
-        ctx.textAlign = 'right';
-        ctx.fillStyle = '#fff';
-        ctx.font = 'bold 7px sans-serif';
-        ctx.fillText(prizes[i].slice(0, 10), r - 8, 3);
-        ctx.restore();
-      }
-    }
-
-    function spinWheel() {
-      if (isSpinning || gamePlayState[3]?.completed) return;
-      isSpinning = true;
-
-      const prizes = getWheelPrizes();
-      const numSlices = prizes.length;
-      const sliceAngle = (2 * Math.PI) / numSlices;
-
-      // Determine winning slice (custom preset prize or default)
-      let desiredWinner = customPrizes.presetWheelWinner || prizes[3];
-      let winningIndex = prizes.findIndex(p => p.toLowerCase().trim() === desiredWinner.toLowerCase().trim());
-      if (winningIndex === -1) winningIndex = 3; // fallback
-
-      // The top pointer is at angle -PI/2 (270 deg)
-      // We calculate target rotation so that winningIndex lands exactly under the top pointer
-      const targetSliceCenter = winningIndex * sliceAngle + sliceAngle / 2;
-      const desiredEndAngle = (3 * Math.PI / 2) - targetSliceCenter;
-
-      const fullRotations = (5 + Math.floor(Math.random() * 3)) * (2 * Math.PI);
-      const currentNorm = currentWheelAngle % (2 * Math.PI);
-      const finalAngle = currentWheelAngle + fullRotations + (desiredEndAngle - currentNorm);
-
-      const startTime = performance.now();
-      const duration = 4200; // 4.2 seconds smooth deceleration
-      const initialAngle = currentWheelAngle;
-
-      let lastTickAngle = initialAngle;
-
-      function animateSpin(now) {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        // Ease-out cubic formula
-        const easeOut = 1 - Math.pow(1 - progress, 3);
-
-        currentWheelAngle = initialAngle + (finalAngle - initialAngle) * easeOut;
-        drawWheel(currentWheelAngle);
-
-        if (Math.abs(currentWheelAngle - lastTickAngle) > sliceAngle) {
-          playTone('tick');
-          lastTickAngle = currentWheelAngle;
-        }
-
-        if (progress < 1) {
-          requestAnimationFrame(animateSpin);
-        } else {
-          isSpinning = false;
-          playTone('fanfare');
-
-          const wonPrize = prizes[winningIndex];
-          showPrizeModal("WHEEL OF SURPRISES", wonPrize, "Dean has officially promised this lovely treat for you!", "🎡", 3);
-
-          const btn = document.getElementById('spinWheelBtn');
-          if (btn) {
-            btn.textContent = 'SPIN CLAIMED ✓';
-            btn.disabled = true;
-            btn.classList.add('opacity-50', 'cursor-not-allowed');
-          }
-        }
-      }
-
-      requestAnimationFrame(animateSpin);
-    }
-
-    /* =========================================================
-       12. GAME 5: FORTUNE COOKIE (Single Guaranteed Prophecy)
-       ========================================================= */
-    function crackCookie(index) {
-      if (gamePlayState[4]?.completed) return;
-
-      const card = document.getElementById(`cookie-card-${index}`);
-      if (!card) return;
-
-      playTone('pop');
-      card.classList.add('scale-102', 'bg-amber-50', 'border-amber-300');
-
-      setTimeout(() => {
-        // Guaranteed single prophecy/prize regardless of which cookie is cracked
-        const cookie = customPrizes.cookieSingle || (customPrizes.cookies && customPrizes.cookies[0]) || DEFAULT_PRIZES.cookieSingle;
-        showPrizeModal("BIRTHDAY COOKIE PROPHECY", cookie.title, cookie.desc, cookie.icon || "🥠", 4);
-        disableCookiesUI();
-      }, 250);
-    }
-
-    function disableCookiesUI() {
-      for (let i = 0; i < 3; i++) {
-        const card = document.getElementById(`cookie-card-${i}`);
-        if (card) {
-          card.onclick = null;
-          card.classList.add('pointer-events-none', 'opacity-70');
-        }
-      }
-    }
-
-    /* =========================================================
-       13. GAME 6: BLOW THE CANDLES OUT 🎂 (Swipe over flames)
-       ========================================================= */
-    const TOTAL_CANDLES = 5;
-    let candleBlownStates = [false, false, false, false, false];
-    let isSwipingCake = false;
-
-    function initCandlesGame() {
-      const container = document.getElementById('cakeContainer');
-      if (!container) return;
-
-      const counter = document.getElementById('candlesBlownCounter');
-      if (counter) counter.textContent = '0';
-
-      candleBlownStates = [false, false, false, false, false];
-
-      // Restore all 5 flames
-      for (let i = 0; i < TOTAL_CANDLES; i++) {
-        const flame = document.getElementById(`flame-${i}`);
-        const smoke = document.getElementById(`smoke-${i}`);
-        if (flame) flame.classList.remove('flame-extinguished');
-        if (smoke) smoke.classList.remove('smoke-active');
-      }
-
-      if (gamePlayState[5]?.completed) {
-        // Show as already blown out
-        if (counter) counter.textContent = '5';
-        for (let i = 0; i < TOTAL_CANDLES; i++) {
-          const flame = document.getElementById(`flame-${i}`);
-          if (flame) flame.classList.add('flame-extinguished');
-        }
-        return;
-      }
-
-      // Touch & Mouse Drag Listeners to blow candles by swiping
-      container.onmousedown = (e) => {
-        isSwipingCake = true;
-        checkCandleHit(e.clientX, e.clientY);
-      };
-      window.onmouseup = () => { isSwipingCake = false; };
-      container.onmousemove = (e) => {
-        if (isSwipingCake) checkCandleHit(e.clientX, e.clientY);
-      };
-
-      container.ontouchstart = (e) => {
-        isSwipingCake = true;
-        if (e.touches.length > 0) {
-          checkCandleHit(e.touches[0].clientX, e.touches[0].clientY);
-        }
-      };
-      window.ontouchend = () => { isSwipingCake = false; };
-      container.ontouchmove = (e) => {
-        if (isSwipingCake && e.touches.length > 0) {
-          checkCandleHit(e.touches[0].clientX, e.touches[0].clientY);
-        }
-      };
-
-      // Also allow direct tap on individual candles
-      for (let i = 0; i < TOTAL_CANDLES; i++) {
-        const candleGroup = document.getElementById(`candle-group-${i}`);
-        if (candleGroup) {
-          candleGroup.onclick = (e) => {
-            e.stopPropagation();
-            extinguishCandle(i);
-          };
-        }
-      }
-    }
-
-    function checkCandleHit(clientX, clientY) {
-      if (gamePlayState[5]?.completed) return;
-
-      for (let i = 0; i < TOTAL_CANDLES; i++) {
-        if (candleBlownStates[i]) continue;
-
-        const flame = document.getElementById(`flame-${i}`);
-        if (flame) {
-          const rect = flame.getBoundingClientRect();
-          // generous hit radius around the flame for smooth fingertip swiping
-          const hitRadius = 35;
-          const flameCenterX = rect.left + rect.width / 2;
-          const flameCenterY = rect.top + rect.height / 2;
-
-          const dx = clientX - flameCenterX;
-          const dy = clientY - flameCenterY;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < hitRadius) {
-            extinguishCandle(i);
+            dots[i].className = 'w-2 h-2 rounded-full bg-rose-200 transition-all';
           }
         }
       }
     }
 
-    function extinguishCandle(index) {
-      if (candleBlownStates[index] || gamePlayState[5]?.completed) return;
+    function nextCarouselSlide() {
+      const photos = customPrizes.carouselPhotos || DEFAULT_PRIZES.carouselPhotos;
+      currentCarouselIndex = (currentCarouselIndex + 1) % photos.length;
+      updateCarouselPosition();
+    }
 
-      candleBlownStates[index] = true;
-      playTone('puff');
+    function prevCarouselSlide() {
+      const photos = customPrizes.carouselPhotos || DEFAULT_PRIZES.carouselPhotos;
+      currentCarouselIndex = (currentCarouselIndex - 1 + photos.length) % photos.length;
+      updateCarouselPosition();
+    }
 
-      const flame = document.getElementById(`flame-${index}`);
-      const smoke = document.getElementById(`smoke-${index}`);
-
-      if (flame) flame.classList.add('flame-extinguished');
-      if (smoke) {
-        smoke.classList.add('smoke-active');
-        setTimeout(() => {
-          smoke.classList.remove('smoke-active');
-        }, 1500);
-      }
-
-      const blownCount = candleBlownStates.filter(Boolean).length;
-      const counter = document.getElementById('candlesBlownCounter');
-      if (counter) counter.textContent = blownCount;
-
-      // When all 5 candles are extinguished -> celebrate & award Grand Finale
-      if (blownCount === TOTAL_CANDLES) {
-        setTimeout(() => {
-          playTone('fanfare');
-          if (typeof confetti === 'function') {
-            confetti({
-              particleCount: 90,
-              spread: 100,
-              origin: { y: 0.55 }
-            });
-          }
-          const grandPrize = customPrizes.candlesPrize || (customPrizes.memoryPrize || DEFAULT_PRIZES.candlesPrize);
-          showPrizeModal(
-            "WISH GRANTED! GRAND FINALE",
-            grandPrize.title,
-            grandPrize.desc,
-            grandPrize.icon || "🎂",
-            5
-          );
-        }, 600);
-      }
+    function goToCarouselSlide(index) {
+      currentCarouselIndex = index;
+      updateCarouselPosition();
     }
 
     /* =========================================================
-       14. PRIZE REVEAL MODAL & WALLET SYSTEM (No duplicates)
+       PIN CODE LOCK FOR DEAN'S WORKSHOP (011188)
        ========================================================= */
-    function showPrizeModal(subtitle, title, desc, icon, gameIndex) {
-      pendingPrize = { subtitle, title, desc, icon, gameIndex };
+    const WORKSHOP_PIN = '011188';
+    let currentPinInput = '';
 
-      document.getElementById('modalPrizeSubtitle').textContent = subtitle;
-      document.getElementById('modalPrizeTitle').textContent = title;
-      document.getElementById('modalPrizeDesc').textContent = desc;
-      document.getElementById('modalPrizeIcon').textContent = icon;
-
-      document.getElementById('prizeModal').classList.remove('hidden');
-
-      if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 50,
-          spread: 80,
-          origin: { y: 0.6 }
-        });
-      }
-    }
-
-    function confirmPrizeToWallet() {
-      if (!pendingPrize) return;
-
-      const gameId = pendingPrize.gameIndex;
-
-      // Strict Guard: Prevent adding from the same game twice
-      if (gameId !== -1 && gamePlayState[gameId]?.completed) {
-        document.getElementById('prizeModal').classList.add('hidden');
-        pendingPrize = null;
-        showAlreadyClaimedModal();
-        return;
-      }
-
-      // Check for exact duplicate in wallet
-      const isAlreadyInWallet = walletSurprises.some(w => 
-        (gameId !== -1 && w.gameId === gameId) || 
-        w.title.toLowerCase().trim() === pendingPrize.title.toLowerCase().trim()
-      );
-
-      if (!isAlreadyInWallet) {
-        walletSurprises.unshift({
-          id: Date.now(),
-          gameId: gameId,
-          title: pendingPrize.title,
-          desc: pendingPrize.desc,
-          icon: pendingPrize.icon,
-          claimedDate: '30 Nov 2026'
-        });
-      }
-
-      if (gameId >= 0 && gameId < 6) {
-        gamePlayState[gameId].completed = true;
-        gamePlayState[gameId].prizeWon = pendingPrize;
-      }
-
-      updateWalletBadges();
-      updateHeroLoveMessage();
-
-      // Clear pending state & close modal
-      pendingPrize = null;
-      document.getElementById('prizeModal').classList.add('hidden');
-
-      // Direct Hannah to view her prize inside the wallet
-      navigateTo('view-wallet');
-    }
-
-    function updateWalletBadges() {
-      const count = walletSurprises.length;
-      document.getElementById('walletBadge').textContent = count;
-
-      const dot = document.getElementById('navWalletDot');
-      if (count > 0) {
-        dot.classList.remove('hidden');
-      } else {
-        dot.classList.add('hidden');
-      }
-    }
-
-    function renderWallet() {
-      const list = document.getElementById('walletItemsList');
-      const emptyNotice = document.getElementById('emptyWalletNotice');
-      if (!list) return;
-
-      list.innerHTML = '';
-
-      if (walletSurprises.length === 0) {
-        emptyNotice.classList.remove('hidden');
-        return;
-      }
-
-      emptyNotice.classList.add('hidden');
-
-      walletSurprises.forEach((item) => {
-        const card = document.createElement('div');
-        card.className = 'relative overflow-hidden p-4 rounded-3xl bg-gradient-to-br from-white via-rose-50/50 to-pink-50 border border-rose-200/80 shadow-md shadow-rose-200/20 space-y-2';
-        card.innerHTML = `
-          <div class="flex items-start justify-between">
-            <div class="flex items-center space-x-3">
-              <div class="w-12 h-12 rounded-2xl bg-rose-100 flex items-center justify-center text-2xl shadow-inner">
-                ${item.icon || '💌'}
-              </div>
-              <div>
-                <span class="text-[9px] font-bold text-rose-500 uppercase tracking-wider">Birthday Voucher</span>
-                <h4 class="font-serif font-bold text-slate-900 text-sm leading-tight">${item.title}</h4>
-                <p class="text-[10px] text-slate-400">Claimed: ${item.claimedDate}</p>
-              </div>
-            </div>
-            <div class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-extrabold tracking-wider">
-              VALID FOREVER
-            </div>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed bg-white/70 p-2.5 rounded-2xl border border-rose-100/60">
-            ${item.desc}
-          </p>
-        `;
-        list.appendChild(card);
-      });
-    }
-
-    /* =========================================================
-       15. DEAN'S SECRET WORKSHOP (ADMIN CONTROLS)
-       ========================================================= */
     function openAdminModal() {
+      // Instead of opening directly, show PIN keypad
+      currentPinInput = '';
+      updatePinDisplay();
+      document.getElementById('pinErrorMessage').textContent = '';
+      document.getElementById('pinLockModal').classList.remove('hidden');
+    }
+
+    function closePinLockModal() {
+      currentPinInput = '';
+      document.getElementById('pinLockModal').classList.add('hidden');
+    }
+
+    function pressPinKey(digit) {
+      if (currentPinInput.length >= 6) return;
+      currentPinInput += digit;
+      playTone('tick');
+      updatePinDisplay();
+
+      if (currentPinInput.length === 6) {
+        if (currentPinInput === WORKSHOP_PIN) {
+          playTone('fanfare');
+          closePinLockModal();
+          revealAdminDrawer();
+        } else {
+          playTone('pop');
+          const errMsg = document.getElementById('pinErrorMessage');
+          if (errMsg) errMsg.textContent = 'Incorrect PIN. Please try again.';
+          setTimeout(() => {
+            currentPinInput = '';
+            updatePinDisplay();
+          }, 600);
+        }
+      }
+    }
+
+    function deletePinKey() {
+      if (currentPinInput.length > 0) {
+        currentPinInput = currentPinInput.slice(0, -1);
+        updatePinDisplay();
+        document.getElementById('pinErrorMessage').textContent = '';
+      }
+    }
+
+    function updatePinDisplay() {
+      for (let i = 0; i < 6; i++) {
+        const dot = document.getElementById(`pinDot-${i}`);
+        if (dot) {
+          if (i < currentPinInput.length) {
+            dot.className = 'w-3.5 h-3.5 rounded-full bg-rose-500 border-2 border-rose-500 scale-110 transition-all';
+          } else {
+            dot.className = 'w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all';
+          }
+        }
+      }
+    }
+
+    function revealAdminDrawer() {
       // Bonus kiss customizer inputs
       const bonusData = customPrizes.bonusKissGift || DEFAULT_PRIZES.bonusKissGift;
       document.getElementById('adminBonusGiftTitle').value = bonusData.title;
@@ -2698,7 +1784,7 @@
       // Game 4: Fortune Wheel slices & preset winner
       const slices = getWheelPrizes();
       document.getElementById('adminWheelSlices').value = slices.join('\n');
-      document.getElementById('adminPresetWheelWinner').value = customPrizes.presetWheelWinner || DEFAULT_PRIZES.wheel[3];
+      document.getElementById('adminPresetWheelWinner').value = customPrizes.presetWheelWinner || "Romantic Dinner";
 
       // Game 5: Guaranteed Single Cookie Prophecy
       const cookiePrize = customPrizes.cookieSingle || DEFAULT_PRIZES.cookieSingle;
@@ -2720,6 +1806,10 @@
       document.getElementById('adminMsgGame4').value = msgs.afterGame4;
       document.getElementById('adminMsgGame5').value = msgs.afterGame5;
 
+      // Carousel URLs
+      const photos = customPrizes.carouselPhotos || DEFAULT_PRIZES.carouselPhotos;
+      renderAdminPhotoList();
+
       // Toggle state
       document.getElementById('adminBypassLockToggle').checked = bypassLock;
 
@@ -2739,6 +1829,16 @@
     function toggleBypassLock(checked) {
       bypassLock = checked;
       renderArcadeHub();
+      updateCountdownGate();
+    }
+
+    function returnToCountdownGate() {
+      closeAdminModal();
+      const gate = document.getElementById('countdownGateView');
+      if (gate) {
+        gate.style.opacity = '1';
+        gate.classList.remove('hidden', 'pointer-events-none');
+      }
     }
 
     function resetAllGamePlays() {
@@ -2805,7 +1905,7 @@
       // Save Game 3: Gold Scratch
       customPrizes.scratch.title = document.getElementById('adminPrizeScratch').value || customPrizes.scratch.title;
 
-      // Save Game 4: Fortune Wheel slices & preset winner
+      // Game 4: Fortune Wheel slices & preset winner
       const rawSlices = document.getElementById('adminWheelSlices').value.split('\n').map(s => s.trim()).filter(Boolean);
       if (rawSlices.length === 8) {
         customPrizes.wheel = rawSlices;
@@ -2813,7 +1913,7 @@
       const presetWinner = document.getElementById('adminPresetWheelWinner').value.trim();
       customPrizes.presetWheelWinner = presetWinner;
       if (presetWinner && !customPrizes.wheel.map(s => s.toLowerCase()).includes(presetWinner.toLowerCase())) {
-        customPrizes.wheel[3] = presetWinner;
+        customPrizes.wheel[0] = presetWinner;
       }
 
       // Save Game 5: Fortune Cookie Guaranteed Single Prophecy
@@ -2840,15 +1940,1412 @@
       customPrizes.heroMessages.afterGame4 = document.getElementById('adminMsgGame4').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame4;
       customPrizes.heroMessages.afterGame5 = document.getElementById('adminMsgGame5').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame5;
 
+      saveCarouselPhotosToStorage();
+      renderCarousel();
       updateHeroLoveMessage();
       drawWorkshopWheel();
       closeAdminModal();
     }
 
     /* =========================================================
+       PHOTO UPLOADER & DEVICE PERSISTENCE (IndexedDB)
+       ========================================================= */
+    const DB_NAME = 'HannahBirthdayPhotosDB';
+    const DB_VERSION = 1;
+    const STORE_NAME = 'photos';
+
+    function openPhotoDB() {
+      return new Promise((resolve, reject) => {
+        if (!('indexedDB' in window)) {
+          resolve(null);
+          return;
+        }
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    async function loadSavedPhotos() {
+      try {
+        const db = await openPhotoDB();
+        if (!db) return;
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.get('carousel_photos');
+        req.onsuccess = () => {
+          if (req.result && Array.isArray(req.result.photos) && req.result.photos.length > 0) {
+            customPrizes.carouselPhotos = req.result.photos;
+            currentCarouselIndex = 0;
+            renderCarousel();
+          }
+        };
+      } catch (err) {
+        console.warn('Could not load saved photos from IndexedDB:', err);
+      }
+    }
+
+    async function saveCarouselPhotosToStorage() {
+      try {
+        const db = await openPhotoDB();
+        if (!db) return;
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        store.put({ id: 'carousel_photos', photos: customPrizes.carouselPhotos });
+      } catch (err) {
+        console.warn('Could not save photos to IndexedDB:', err);
+      }
+    }
+
+    // Compress & downscale iPhone photos before saving so storage is smooth & fast
+    function compressImageFile(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 900;
+            const MAX_HEIGHT = 650;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+              if (width > MAX_WIDTH) {
+                height *= MAX_WIDTH / width;
+                width = MAX_WIDTH;
+              }
+            } else {
+              if (height > MAX_HEIGHT) {
+                width *= MAX_HEIGHT / height;
+                height = MAX_HEIGHT;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.85));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handlePhotoUpload(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+
+      if (!Array.isArray(customPrizes.carouselPhotos)) {
+        customPrizes.carouselPhotos = [];
+      }
+
+      for (let i = 0; i < files.length; i++) {
+        const compressedBase64 = await compressImageFile(files[i]);
+        customPrizes.carouselPhotos.push({
+          url: compressedBase64,
+          caption: "Our Sweet Moments 💕"
+        });
+      }
+
+      event.target.value = '';
+      await saveCarouselPhotosToStorage();
+      renderAdminPhotoList();
+      renderCarousel();
+      playTone('fanfare');
+    }
+
+    function renderAdminPhotoList() {
+      const container = document.getElementById('adminPhotoThumbnails');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const photos = customPrizes.carouselPhotos || [];
+      if (photos.length === 0) {
+        container.innerHTML = '<p class="text-[9px] text-slate-400 italic">No photos uploaded yet. Tap "Upload Photos" above.</p>';
+        return;
+      }
+
+      photos.forEach((photo, idx) => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-2.5 p-2 bg-white rounded-xl border border-pink-100 shadow-xs';
+        row.innerHTML = `
+          <img src="${photo.url}" class="w-11 h-11 rounded-lg object-cover flex-shrink-0 border border-slate-200">
+          <div class="flex-1 min-w-0">
+            <input type="text" value="${photo.caption || ''}" placeholder="Caption for Hannah" 
+              class="w-full text-[10px] p-1 rounded-md border border-slate-200 focus:border-rose-400 focus:outline-none"
+              onchange="updatePhotoCaption(${idx}, this.value)">
+          </div>
+          <button type="button" onclick="deleteUploadedPhoto(${idx})" class="p-1 rounded-md text-rose-500 hover:bg-rose-50 active:scale-90" title="Delete Photo">
+            ✕
+          </button>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function updatePhotoCaption(idx, newCaption) {
+      if (customPrizes.carouselPhotos && customPrizes.carouselPhotos[idx]) {
+        customPrizes.carouselPhotos[idx].caption = newCaption;
+        saveCarouselPhotosToStorage();
+        renderCarousel();
+      }
+    }
+
+    async function deleteUploadedPhoto(idx) {
+      if (customPrizes.carouselPhotos && customPrizes.carouselPhotos[idx]) {
+        customPrizes.carouselPhotos.splice(idx, 1);
+        await saveCarouselPhotosToStorage();
+        currentCarouselIndex = 0;
+        renderAdminPhotoList();
+        renderCarousel();
+      }
+    }
+
+    async function resetToDefaultPhotos() {
+      customPrizes.carouselPhotos = JSON.parse(JSON.stringify(DEFAULT_PRIZES.carouselPhotos));
+      await saveCarouselPhotosToStorage();
+      currentCarouselIndex = 0;
+      renderAdminPhotoList();
+      renderCarousel();
+      alert('Photos reset to default!');
+    }
+
+    /* =========================================================
+       WEB AUDIO SYNTHESIZER (No external audio files)
+       ========================================================= */
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function playTone(type) {
+      try {
+        if (!audioCtx) audioCtx = new AudioCtx();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const now = audioCtx.currentTime;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        if (type === 'pop') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(280, now);
+          osc.frequency.exponentialRampToValueAtTime(70, now + 0.12);
+          gain.gain.setValueAtTime(0.4, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } else if (type === 'unwrap') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(450, now);
+          osc.frequency.linearRampToValueAtTime(800, now + 0.25);
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        } else if (type === 'fanfare') {
+          const notes = [523.25, 659.25, 783.99, 1046.5];
+          notes.forEach((freq, idx) => {
+            const o = audioCtx.createOscillator();
+            const g = audioCtx.createGain();
+            o.connect(g);
+            g.connect(audioCtx.destination);
+            o.type = 'sine';
+            o.frequency.value = freq;
+            g.gain.setValueAtTime(0.2, now + idx * 0.1);
+            g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.35);
+            o.start(now + idx * 0.1);
+            o.stop(now + idx * 0.1 + 0.35);
+          });
+        } else if (type === 'tick') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(900, now);
+          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+          osc.start(now);
+          osc.stop(now + 0.04);
+        } else if (type === 'puff') {
+          osc.type = 'pink' || 'sine';
+          osc.frequency.setValueAtTime(220, now);
+          osc.frequency.linearRampToValueAtTime(110, now + 0.2);
+          gain.gain.setValueAtTime(0.18, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+          osc.start(now);
+          osc.stop(now + 0.2);
+        }
+      } catch (e) {
+        console.warn('Audio not initialized yet or unsupported', e);
+      }
+    }
+
+    /* =========================================================
+       NAVIGATION ROUTING & GUARDS
+       ========================================================= */
+    const ALL_VIEWS = [
+      'view-home', 'view-arcade-hub', 'game-balloons', 'game-boxes', 
+      'game-scratch', 'game-wheel', 'game-cookie', 'game-candles', 'view-wallet'
+    ];
+
+    function navigateTo(targetViewId) {
+      // Check if target is a completed game
+      const gameIdx = GAME_SCHEDULE.findIndex(g => g.view === targetViewId);
+      if (gameIdx !== -1 && gamePlayState[gameIdx].completed) {
+        showAlreadyClaimedModal(gameIdx);
+        return;
+      }
+
+      // Check time locks for arcade games
+      if (gameIdx !== -1 && !bypassLock) {
+        const sched = GAME_SCHEDULE[gameIdx];
+        const now = new Date();
+        const unlockDate = new Date(sched.unlockISO);
+        if (now < unlockDate) {
+          showLockToast(sched);
+          return;
+        }
+      }
+
+      ALL_VIEWS.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.add('hidden');
+      });
+
+      const active = document.getElementById(targetViewId);
+      if (active) active.classList.remove('hidden');
+
+      // Update bottom nav highlighting
+      const homeBtn = document.getElementById('nav-btn-home');
+      const arcadeBtn = document.getElementById('nav-btn-arcade');
+      const walletBtn = document.getElementById('nav-btn-wallet');
+
+      if (homeBtn && arcadeBtn && walletBtn) {
+        homeBtn.className = targetViewId === 'view-home' 
+          ? 'flex flex-col items-center py-1 text-rose-600 transition-colors' 
+          : 'flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors';
+
+        arcadeBtn.className = (targetViewId === 'view-arcade-hub' || targetViewId.startsWith('game-'))
+          ? 'flex flex-col items-center py-1 text-rose-600 transition-colors' 
+          : 'flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors';
+
+        walletBtn.className = targetViewId === 'view-wallet'
+          ? 'relative flex flex-col items-center py-1 text-rose-600 transition-colors' 
+          : 'relative flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors';
+      }
+
+      if (targetViewId === 'view-arcade-hub') renderArcadeHub();
+      if (targetViewId === 'view-wallet') renderWallet();
+      if (targetViewId === 'game-scratch') initScratchCanvas();
+      if (targetViewId === 'game-wheel') initWheel();
+      if (targetViewId === 'game-candles') initCandlesGame();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* =========================================================
+       DYNAMIC HOMEPAGE LOVE MESSAGE
+       ========================================================= */
+    function updateHeroLoveMessage() {
+      const heroText = document.getElementById('heroSubtitleText');
+      if (!heroText) return;
+
+      const msgs = customPrizes.heroMessages || DEFAULT_PRIZES.heroMessages;
+
+      // Find the latest completed game
+      let latestCompleted = -1;
+      for (let i = 5; i >= 0; i--) {
+        if (gamePlayState[i].completed) {
+          latestCompleted = i;
+          break;
+        }
+      }
+
+      if (latestCompleted === -1) {
+        heroText.textContent = msgs.initial;
+      } else if (latestCompleted === 0) {
+        heroText.textContent = msgs.afterGame0;
+      } else if (latestCompleted === 1) {
+        heroText.textContent = msgs.afterGame1;
+      } else if (latestCompleted === 2) {
+        heroText.textContent = msgs.afterGame2;
+      } else if (latestCompleted === 3) {
+        heroText.textContent = msgs.afterGame3;
+      } else if (latestCompleted === 4) {
+        heroText.textContent = msgs.afterGame4;
+      } else if (latestCompleted === 5) {
+        heroText.textContent = msgs.afterGame5;
+      }
+    }
+
+    /* =========================================================
+       KISSES FROM DEAN & SECRET GIFT REWARD
+       ========================================================= */
+    function handleSendLove() {
+      kissesCount++;
+      const badge = document.getElementById('kissCountBadge');
+      if (badge) badge.textContent = kissesCount;
+
+      playTone('pop');
+
+      confetti({
+        particleCount: 15,
+        spread: 60,
+        origin: { y: 0.8 },
+        colors: ['#f43f5e', '#fb7185', '#fda4af', '#facc15']
+      });
+
+      if (kissesCount >= 10 && !bonusGiftClaimed) {
+        const bonusBtn = document.getElementById('bonusGiftBtn');
+        if (bonusBtn) bonusBtn.classList.remove('hidden');
+        playTone('fanfare');
+      }
+    }
+
+    function claimBonusKissGift() {
+      if (bonusGiftClaimed) return;
+      const bonusData = customPrizes.bonusKissGift || DEFAULT_PRIZES.bonusKissGift;
+      pendingPrize = {
+        title: bonusData.title,
+        desc: bonusData.desc,
+        icon: bonusData.icon,
+        gameId: 'bonus-kiss',
+        claimedAt: '10 Kisses Reward'
+      };
+      showPrizeModal(pendingPrize);
+      bonusGiftClaimed = true;
+      const bonusBtn = document.getElementById('bonusGiftBtn');
+      if (bonusBtn) bonusBtn.classList.add('hidden');
+    }
+
+    function testTriggerBonus() {
+      kissesCount = 10;
+      const badge = document.getElementById('kissCountBadge');
+      if (badge) badge.textContent = kissesCount;
+      const bonusBtn = document.getElementById('bonusGiftBtn');
+      if (bonusBtn) bonusBtn.classList.remove('hidden');
+      closeAdminModal();
+    }
+
+    function resetKissCount() {
+      kissesCount = 0;
+      bonusGiftClaimed = false;
+      const badge = document.getElementById('kissCountBadge');
+      if (badge) badge.textContent = '0';
+      const bonusBtn = document.getElementById('bonusGiftBtn');
+      if (bonusBtn) bonusBtn.classList.add('hidden');
+      alert('Kiss count reset back to 0!');
+    }
+
+    /* =========================================================
+       ARCADE SCHEDULE & TIMELINE RENDERING
+       ========================================================= */
+    function renderArcadeHub() {
+      const now = new Date();
+      const listEl = document.getElementById('arcadeTimelineList');
+      const spotlightEl = document.getElementById('nextGameSpotlight');
+      if (!listEl) return;
+
+      listEl.innerHTML = '';
+
+      let nextGame = null;
+
+      GAME_SCHEDULE.forEach((sched, idx) => {
+        const unlockDate = new Date(sched.unlockISO);
+        const isUnlocked = bypassLock || (now >= unlockDate);
+        const isCompleted = gamePlayState[idx].completed;
+
+        if (!isCompleted && !nextGame) {
+          nextGame = { ...sched, isUnlocked };
+        }
+
+        const item = document.createElement('div');
+        item.className = 'p-3.5 rounded-2xl border transition-all flex items-center justify-between ' +
+          (isCompleted 
+            ? 'bg-emerald-50/70 border-emerald-200' 
+            : isUnlocked 
+              ? 'bg-rose-50/80 border-rose-200 hover:shadow-sm cursor-pointer' 
+              : 'bg-slate-50/60 border-slate-200 opacity-80 cursor-pointer');
+
+        item.onclick = () => {
+          if (isCompleted) {
+            showAlreadyClaimedModal(idx);
+          } else if (isUnlocked) {
+            navigateTo(sched.view);
+          } else {
+            showLockToast(sched);
+          }
+        };
+
+        let badgeHtml = '';
+        if (isCompleted) {
+          badgeHtml = '<span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">✓ Claimed</span>';
+        } else if (isUnlocked) {
+          badgeHtml = '<span class="text-[10px] font-bold text-rose-600 bg-white border border-rose-200 px-2.5 py-1 rounded-full shadow-xs">Play Now &rarr;</span>';
+        } else {
+          badgeHtml = `<span class="text-[10px] font-medium text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-full">🔒 ${sched.timeStr}</span>`;
+        }
+
+        item.innerHTML = `
+          <div class="flex items-center space-x-3">
+            <span class="text-2xl">${sched.icon}</span>
+            <div>
+              <h4 class="font-bold text-xs text-slate-800">${sched.name}</h4>
+              <p class="text-[10px] text-slate-500">${isCompleted ? 'Prize claimed in wallet' : 'Scheduled: ' + sched.timeStr}</p>
+            </div>
+          </div>
+          <div>${badgeHtml}</div>
+        `;
+        listEl.appendChild(item);
+      });
+
+      // Render Spotlight Card
+      if (spotlightEl) {
+        if (!nextGame) {
+          spotlightEl.innerHTML = `
+            <div class="relative z-10 text-center py-3">
+              <span class="text-4xl block mb-1">🎉</span>
+              <h3 class="font-serif text-xl font-bold">All 6 Surprises Claimed!</h3>
+              <p class="text-xs text-rose-100 mt-1">Hannah, you've unlocked every birthday game! Check your wallet to enjoy your vouchers.</p>
+              <button onclick="navigateTo('view-wallet')" class="mt-3 px-5 py-2 rounded-full bg-white text-rose-600 font-bold text-xs shadow-md">
+                Open Wallet 💌
+              </button>
+            </div>
+          `;
+        } else {
+          spotlightEl.innerHTML = `
+            <div class="relative z-10 flex items-center justify-between">
+              <div class="space-y-1">
+                <span class="inline-block px-2.5 py-0.5 bg-white/20 backdrop-blur rounded-full text-[9px] font-bold tracking-wider uppercase">
+                  ${nextGame.isUnlocked ? 'Unlocked & Ready' : 'Next Up On Schedule'}
+                </span>
+                <h3 class="font-serif text-xl font-bold">${nextGame.name}</h3>
+                <p class="text-xs text-rose-100">${nextGame.timeStr}</p>
+              </div>
+              <span class="text-5xl filter drop-shadow">${nextGame.icon}</span>
+            </div>
+            <div class="mt-4 pt-3 border-t border-white/20 flex items-center justify-between">
+              <span class="text-xs text-rose-100">${nextGame.isUnlocked ? 'Available to play right now!' : 'Unlocks at scheduled ADST time'}</span>
+              <button onclick="${nextGame.isUnlocked ? `navigateTo('${nextGame.view}')` : `showLockToast(GAME_SCHEDULE[${nextGame.id}])`}" class="px-4 py-2 rounded-full font-bold text-xs shadow-md transition-all ${nextGame.isUnlocked ? 'bg-white text-rose-600 active:scale-95' : 'bg-white/30 text-white cursor-not-allowed'}">
+                ${nextGame.isUnlocked ? 'Play Now 🎁' : '🔒 Locked'}
+              </button>
+            </div>
+          `;
+        }
+      }
+    }
+
+    function showLockToast(sched) {
+      document.getElementById('lockToastTitle').textContent = `Patience, Hannah! ❤️`;
+      document.getElementById('lockToastMsg').textContent = `${sched.name} unlocks at ${sched.timeStr} on 29th November 2026 ADST. Dean has a wonderful surprise waiting for you!`;
+      document.getElementById('lockToastModal').classList.remove('hidden');
+    }
+
+    function closeLockToast() {
+      document.getElementById('lockToastModal').classList.add('hidden');
+    }
+
+    function showAlreadyClaimedModal(gameIdx) {
+      const won = gamePlayState[gameIdx].prizeWon;
+      const msg = document.getElementById('alreadyClaimedMsg');
+      if (msg && won) {
+        msg.textContent = `You've already completed this game and won "${won.title}"! It is safely stored in your permanent Prize Wallet.`;
+      }
+      document.getElementById('alreadyClaimedModal').classList.remove('hidden');
+    }
+
+    function closeAlreadyClaimedModal() {
+      document.getElementById('alreadyClaimedModal').classList.add('hidden');
+    }
+
+    /* =========================================================
+       PRIZE MODAL & WALLET DEDUPLICATION
+       ========================================================= */
+    function showPrizeModal(prize) {
+      pendingPrize = prize;
+      document.getElementById('modalPrizeIcon').textContent = prize.icon || '🎁';
+      document.getElementById('modalPrizeTitle').textContent = prize.title;
+      document.getElementById('modalPrizeDesc').textContent = prize.desc;
+      document.getElementById('prizeModal').classList.remove('hidden');
+
+      confetti({
+        particleCount: 50,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function confirmPrizeToWallet() {
+      if (!pendingPrize) {
+        document.getElementById('prizeModal').classList.add('hidden');
+        return;
+      }
+
+      // Prevent duplicate voucher from same gameId
+      const exists = walletSurprises.some(w => w.gameId === pendingPrize.gameId && w.title === pendingPrize.title);
+      if (!exists) {
+        walletSurprises.push({
+          ...pendingPrize,
+          id: Date.now()
+        });
+      }
+
+      const pGameId = pendingPrize.gameId;
+      pendingPrize = null;
+
+      document.getElementById('prizeModal').classList.add('hidden');
+      updateWalletBadges();
+      updateHeroLoveMessage();
+
+      // Show wallet dot
+      const dot = document.getElementById('navWalletDot');
+      if (dot) dot.classList.remove('hidden');
+
+      navigateTo('view-wallet');
+    }
+
+    function updateWalletBadges() {
+      const count = walletSurprises.length;
+      const b1 = document.getElementById('walletBadge');
+      if (b1) b1.textContent = count;
+    }
+
+    function renderWallet() {
+      const container = document.getElementById('walletItemsList');
+      const emptyNotice = document.getElementById('emptyWalletNotice');
+      if (!container || !emptyNotice) return;
+
+      container.innerHTML = '';
+
+      if (walletSurprises.length === 0) {
+        emptyNotice.classList.remove('hidden');
+      } else {
+        emptyNotice.classList.add('hidden');
+        walletSurprises.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'p-4 rounded-3xl bg-white border border-rose-100 shadow-sm relative overflow-hidden flex items-start gap-3.5';
+          card.innerHTML = `
+            <div class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-2xl flex-shrink-0">
+              ${item.icon || '💌'}
+            </div>
+            <div class="flex-1 pr-2">
+              <span class="text-[9px] font-bold uppercase tracking-wider text-rose-500">${item.claimedAt || 'Official Birthday Token'}</span>
+              <h4 class="font-serif font-bold text-slate-900 text-sm mt-0.5">${item.title}</h4>
+              <p class="text-xs text-slate-600 mt-1 leading-snug">${item.desc}</p>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      }
+    }
+
+    /* =========================================================
+       GAME 1: BALLOON POP (Single Guaranteed Prize)
+       ========================================================= */
+    function popBalloon(index) {
+      if (gamePlayState[0].completed) return;
+
+      playTone('pop');
+
+      for (let i = 0; i < 4; i++) {
+        const wrap = document.getElementById(`balloon-wrap-${i}`);
+        if (wrap) {
+          wrap.classList.add('pointer-events-none');
+          if (i !== index) wrap.classList.add('opacity-40');
+        }
+      }
+
+      const pData = customPrizes.balloonSingle || DEFAULT_PRIZES.balloonSingle;
+      const winningPrize = {
+        title: pData.title,
+        desc: pData.desc,
+        icon: '🎈',
+        gameId: 'game-0',
+        claimedAt: 'Game 1: Balloon Pop'
+      };
+
+      gamePlayState[0].completed = true;
+      gamePlayState[0].prizeWon = winningPrize;
+
+      setTimeout(() => {
+        showPrizeModal(winningPrize);
+      }, 350);
+    }
+
+    /* =========================================================
+       GAME 2: BOX UNWRAP (Single Guaranteed Prize)
+       ========================================================= */
+    function openGiftBox(index) {
+      if (gamePlayState[1].completed) return;
+
+      playTone('unwrap');
+
+      const targetBox = document.getElementById(`gift-box-${index}`);
+      if (targetBox) targetBox.classList.add('is-opened');
+
+      for (let i = 0; i < 4; i++) {
+        const b = document.getElementById(`gift-box-${i}`);
+        if (b) {
+          b.classList.add('pointer-events-none');
+          if (i !== index) b.classList.add('opacity-40');
+        }
+      }
+
+      const pData = customPrizes.boxSingle || DEFAULT_PRIZES.boxSingle;
+      const winningPrize = {
+        title: pData.title,
+        desc: pData.desc,
+        icon: '🎁',
+        gameId: 'game-1',
+        claimedAt: 'Game 2: Box Unwrap'
+      };
+
+      gamePlayState[1].completed = true;
+      gamePlayState[1].prizeWon = winningPrize;
+
+      setTimeout(() => {
+        showPrizeModal(winningPrize);
+      }, 550);
+    }
+
+    /* =========================================================
+       GAME 3: GOLD FOIL SCRATCH CARD
+       ========================================================= */
+    let scratchCanvasInited = false;
+    let scratchRevealed = false;
+
+    function initScratchCanvas() {
+      const pData = customPrizes.scratch || DEFAULT_PRIZES.scratch;
+      const titleEl = document.getElementById('scratchPrizeTitle');
+      if (titleEl) titleEl.textContent = pData.title;
+
+      if (scratchCanvasInited) return;
+      scratchCanvasInited = true;
+
+      const canvas = document.getElementById('scratchCanvas');
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * 2 || 600;
+      canvas.height = rect.height * 2 || 450;
+
+      const ctx = canvas.getContext('2d');
+      ctx.scale(2, 2);
+
+      // Gold shimmer foil gradient
+      const grad = ctx.createLinearGradient(0, 0, rect.width, rect.height);
+      grad.addColorStop(0, '#fef08a');
+      grad.addColorStop(0.3, '#facc15');
+      grad.addColorStop(0.7, '#ca8a04');
+      grad.addColorStop(1, '#eab308');
+
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, rect.width, rect.height);
+
+      ctx.fillStyle = '#78350f';
+      ctx.font = 'bold 16px "Plus Jakarta Sans", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('✨ Rub with finger to scratch ✨', rect.width / 2, rect.height / 2);
+
+      let isDrawing = false;
+      let scratchedPixels = 0;
+
+      function scratchAt(x, y) {
+        if (scratchRevealed || gamePlayState[2].completed) return;
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.beginPath();
+        ctx.arc(x, y, 22, 0, Math.PI * 2);
+        ctx.fill();
+
+        scratchedPixels++;
+        if (scratchedPixels % 12 === 0) playTone('tick');
+
+        // Check scratch surface coverage every 10 scratch strokes
+        if (scratchedPixels % 10 === 0 && !scratchRevealed) {
+          const w = canvas.width;
+          const h = canvas.height;
+          // Sample pixel alpha values across the canvas (step size of 16 for mobile performance)
+          const imgData = ctx.getImageData(0, 0, w, h);
+          const data = imgData.data;
+          let transparentPixels = 0;
+          let totalSampled = 0;
+
+          for (let i = 3; i < data.length; i += 16) {
+            totalSampled++;
+            if (data[i] === 0) {
+              transparentPixels++;
+            }
+          }
+
+          const percentCleared = Math.min(100, Math.round((transparentPixels / totalSampled) * 100));
+          const progressEl = document.getElementById('scratchProgressText');
+          if (progressEl) {
+            progressEl.textContent = `${percentCleared}% Scratched`;
+          }
+
+          // Trigger reveal only when 90% or more has been scratched
+          if (percentCleared >= 90) {
+            scratchRevealed = true;
+            if (progressEl) {
+              progressEl.textContent = '100% Uncovered! 🎉';
+            }
+            canvas.style.transition = 'opacity 0.6s ease';
+            canvas.style.opacity = '0';
+            setTimeout(() => {
+              canvas.style.display = 'none';
+            }, 600);
+
+            const winningPrize = {
+              title: pData.title,
+              desc: pData.desc,
+              icon: '✨',
+              gameId: 'game-2',
+              claimedAt: 'Game 3: Gold Scratch'
+            };
+            gamePlayState[2].completed = true;
+            gamePlayState[2].prizeWon = winningPrize;
+
+            setTimeout(() => {
+              showPrizeModal(winningPrize);
+            }, 350);
+          }
+        }
+      }
+
+      function handleMove(e) {
+        if (!isDrawing) return;
+        const box = canvas.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        scratchAt(clientX - box.left, clientY - box.top);
+      }
+
+      canvas.addEventListener('mousedown', (e) => { isDrawing = true; handleMove(e); });
+      window.addEventListener('mouseup', () => { isDrawing = false; });
+      canvas.addEventListener('mousemove', handleMove);
+
+      canvas.addEventListener('touchstart', (e) => { isDrawing = true; handleMove(e); }, { passive: false });
+      window.addEventListener('touchend', () => { isDrawing = false; });
+      canvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleMove(e); }, { passive: false });
+    }
+
+    /* =========================================================
+       GAME 4: FORTUNE WHEEL & WORKSHOP WHEEL
+       ========================================================= */
+    function getWheelPrizes() {
+      return (customPrizes.wheel && customPrizes.wheel.length === 8) 
+        ? customPrizes.wheel 
+        : DEFAULT_PRIZES.wheel;
+    }
+
+    let wheelCanvasInited = false;
+    let currentWheelAngle = 0;
+    let isSpinning = false;
+
+    function initWheel() {
+      drawWheel('wheelCanvas', 280, 280);
+    }
+
+    function drawWorkshopWheel() {
+      drawWheel('workshopWheelCanvas', 160, 160);
+    }
+
+    function drawWheel(canvasId, width, height) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const radius = width / 2 - 4;
+
+      const prizes = getWheelPrizes();
+      const numSlices = prizes.length;
+      const sliceAngle = (Math.PI * 2) / numSlices;
+
+      const colors = ['#f43f5e', '#fb7185', '#f59e0b', '#fbbf24', '#ec4899', '#f472b6', '#8b5cf6', '#a78bfa'];
+
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < numSlices; i++) {
+        const start = currentWheelAngle + i * sliceAngle;
+        const end = start + sliceAngle;
+
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, start, end);
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.fill();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.save();
+        ctx.translate(centerX, centerY);
+        ctx.rotate(start + sliceAngle / 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `bold ${width > 200 ? '10px' : '7px'} sans-serif`;
+        ctx.textAlign = 'right';
+        ctx.fillText(prizes[i].slice(0, 14), radius - 12, 4);
+        ctx.restore();
+      }
+    }
+
+    function spinWheel() {
+      if (isSpinning || gamePlayState[3].completed) return;
+      isSpinning = true;
+
+      const prizes = getWheelPrizes();
+      const targetPrizeName = customPrizes.presetWheelWinner || prizes[3];
+
+      let targetIdx = prizes.findIndex(p => p.toLowerCase() === targetPrizeName.toLowerCase());
+      if (targetIdx === -1) targetIdx = 0;
+
+      const numSlices = prizes.length;
+      const sliceAngle = (Math.PI * 2) / numSlices;
+
+      // Pointer is at the top (-PI/2)
+      const targetAngle = (Math.PI * 1.5) - (targetIdx * sliceAngle + sliceAngle / 2);
+      const spins = 5;
+      const finalAngle = currentWheelAngle + (Math.PI * 2 * spins) + (targetAngle - (currentWheelAngle % (Math.PI * 2)));
+
+      const duration = 4000;
+      const startTime = performance.now();
+      const initialAngle = currentWheelAngle;
+
+      function animateSpin(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease-out cubic
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+
+        currentWheelAngle = initialAngle + (finalAngle - initialAngle) * easeOut;
+        drawWheel('wheelCanvas', 280, 280);
+
+        if (progress < 1) {
+          requestAnimationFrame(animateSpin);
+        } else {
+          isSpinning = false;
+          playTone('fanfare');
+
+          const wonTitle = prizes[targetIdx];
+          const descText = customPrizes.wheelPrizeDesc || "Claimed from Hannah's 34th Birthday Wheel of Fortune!";
+
+          const winningPrize = {
+            title: wonTitle,
+            desc: descText,
+            icon: '🎡',
+            gameId: 'game-3',
+            claimedAt: 'Game 4: Fortune Wheel'
+          };
+
+          gamePlayState[3].completed = true;
+          gamePlayState[3].prizeWon = winningPrize;
+
+          setTimeout(() => {
+            showPrizeModal(winningPrize);
+          }, 350);
+        }
+      }
+
+      requestAnimationFrame(animateSpin);
+    }
+
+    /* =========================================================
+       GAME 5: FORTUNE COOKIE (Single Guaranteed Prophecy)
+       ========================================================= */
+    function crackCookie(index) {
+      if (gamePlayState[4].completed) return;
+
+      playTone('unwrap');
+
+      for (let i = 0; i < 3; i++) {
+        const card = document.getElementById(`cookie-card-${i}`);
+        if (card) {
+          card.classList.add('pointer-events-none');
+          if (i === index) {
+            card.classList.add('bg-amber-50', 'border-amber-300');
+          } else {
+            card.classList.add('opacity-40');
+          }
+        }
+      }
+
+      const pData = customPrizes.cookieSingle || DEFAULT_PRIZES.cookieSingle;
+      const winningPrize = {
+        title: pData.title,
+        desc: pData.desc,
+        icon: pData.icon || '🍝',
+        gameId: 'game-4',
+        claimedAt: 'Game 5: Fortune Cookie'
+      };
+
+      gamePlayState[4].completed = true;
+      gamePlayState[4].prizeWon = winningPrize;
+
+      setTimeout(() => {
+        showPrizeModal(winningPrize);
+      }, 500);
+    }
+
+    /* =========================================================
+       GAME 6: BLOW THE CANDLES OUT 🎂
+       ========================================================= */
+    let candlesBlownCount = 0;
+    const candleStates = [false, false, false, false, false];
+
+    function initCandlesGame() {
+      candlesBlownCount = 0;
+      for (let i = 0; i < 5; i++) {
+        candleStates[i] = false;
+        const fl = document.getElementById(`flame-${i}`);
+        const sm = document.getElementById(`smoke-${i}`);
+        if (fl) fl.classList.remove('flame-extinguished');
+        if (sm) sm.classList.remove('smoke-active');
+      }
+      const counter = document.getElementById('candlesBlownCounter');
+      if (counter) counter.textContent = '0';
+
+      const container = document.getElementById('cakeContainer');
+      if (!container) return;
+
+      function checkTouchTarget(x, y) {
+        if (gamePlayState[5].completed) return;
+        for (let i = 0; i < 5; i++) {
+          if (!candleStates[i]) {
+            const grp = document.getElementById(`candle-group-${i}`);
+            if (grp) {
+              const r = grp.getBoundingClientRect();
+              if (x >= r.left - 15 && x <= r.right + 15 && y >= r.top - 15 && y <= r.bottom + 15) {
+                extinguishCandle(i);
+              }
+            }
+          }
+        }
+      }
+
+      container.onmousemove = (e) => checkTouchTarget(e.clientX, e.clientY);
+      container.ontouchmove = (e) => {
+        if (e.touches.length > 0) {
+          checkTouchTarget(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      };
+
+      for (let i = 0; i < 5; i++) {
+        const grp = document.getElementById(`candle-group-${i}`);
+        if (grp) {
+          grp.onclick = () => extinguishCandle(i);
+        }
+      }
+    }
+
+    function extinguishCandle(index) {
+      if (candleStates[index] || gamePlayState[5].completed) return;
+      candleStates[index] = true;
+      candlesBlownCount++;
+
+      playTone('puff');
+
+      const fl = document.getElementById(`flame-${index}`);
+      const sm = document.getElementById(`smoke-${index}`);
+      if (fl) fl.classList.add('flame-extinguished');
+      if (sm) sm.classList.add('smoke-active');
+
+      const counter = document.getElementById('candlesBlownCounter');
+      if (counter) counter.textContent = candlesBlownCount;
+
+      if (candlesBlownCount === 5) {
+        playTone('fanfare');
+
+        confetti({
+          particleCount: 80,
+          spread: 90,
+          origin: { y: 0.5 }
+        });
+
+        const pData = customPrizes.candlesPrize || DEFAULT_PRIZES.candlesPrize;
+        const winningPrize = {
+          title: pData.title,
+          desc: pData.desc,
+          icon: '🎂',
+          gameId: 'game-5',
+          claimedAt: 'Game 6: Candles Grand Finale'
+        };
+
+        gamePlayState[5].completed = true;
+        gamePlayState[5].prizeWon = winningPrize;
+
+        setTimeout(() => {
+          showPrizeModal(winningPrize);
+        }, 650);
+      }
+    }
+
+    /* =========================================================
+       IPHONE WEB PUSH & NOTIFICATIONS
+       ========================================================= */
+    function checkNotificationStatus() {
+      const badge = document.getElementById('notifStatusBadge');
+      if (!badge) return;
+
+      if (!('Notification' in window)) {
+        badge.textContent = 'Unsupported';
+        badge.className = 'text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-slate-200 text-slate-700';
+      } else if (Notification.permission === 'granted') {
+        badge.textContent = 'Active ✓';
+        badge.className = 'text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800';
+      } else if (Notification.permission === 'denied') {
+        badge.textContent = 'Blocked ✕';
+        badge.className = 'text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-rose-100 text-rose-800';
+      } else {
+        badge.textContent = 'Needs Setup ⚠️';
+        badge.className = 'text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800';
+      }
+    }
+
+    async function requestNotificationPermission() {
+      if (!('Notification' in window)) {
+        alert('Web notifications are not supported on this browser. On iPhone, make sure you tap Share [↑] -> Add to Home Screen first!');
+        return;
+      }
+
+      const perm = await Notification.requestPermission();
+      checkNotificationStatus();
+
+      if (perm === 'granted') {
+        playTone('fanfare');
+        alert('iOS Push Notifications Enabled! You will now receive alerts for Hannah.');
+        const field = document.getElementById('adminPushEndpointField');
+        if (field) field.value = 'https://push.apple.com/sub/' + Math.random().toString(36).substring(2);
+      } else {
+        alert('Notification permission was not granted. Please enable in iOS Settings -> Notifications.');
+      }
+    }
+
+    function sendTestNotification() {
+      playTone('fanfare');
+
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification("Hannah's 34th Birthday Surprise! 🎂", {
+          body: "Hey birthday girl! This is a test alert. Your next arcade surprise is ready to unlock!",
+          icon: "https://placehold.co/192x192/f43f6e/ffffff?text=H34"
+        });
+      } else {
+        alert("Hey birthday girl! This is a test alert. Your next arcade surprise is ready to unlock!");
+      }
+    }
+
+    function scheduleGameAlerts() {
+      alert("In-App alert schedule armed for Hannah's 6 games on 29th November 2026 ADST!");
+    }
+
+    function copyPushEndpoint() {
+      const field = document.getElementById('adminPushEndpointField');
+      if (field && field.value) {
+        field.select();
+        document.execCommand('copy');
+        alert('Copied Push Token to clipboard!');
+      } else {
+        alert('Please tap "Enable iOS Push" first to generate a token.');
+      }
+    }
+
+    /* =========================================================
+       COUNTDOWN LANDING GATE LOGIC (29/11/2026 12:00 AM ADST)
+       ========================================================= */
+    function updateCountdownGate() {
+      const targetTime = new Date(TARGET_BIRTHDAY_GATE_ISO).getTime();
+      const now = new Date().getTime();
+      const diff = targetTime - now;
+
+      const dEl = document.getElementById('gateDays');
+      const hEl = document.getElementById('gateHours');
+      const mEl = document.getElementById('gateMins');
+      const sEl = document.getElementById('gateSecs');
+      const enterBtn = document.getElementById('enterAppBtn');
+      const hintText = document.getElementById('gateHintText');
+
+      if (diff <= 0 || bypassLock) {
+        birthdayGatePassed = true;
+        if (dEl) dEl.textContent = '00';
+        if (hEl) hEl.textContent = '00';
+        if (mEl) mEl.textContent = '00';
+        if (sEl) sEl.textContent = '00';
+
+        if (enterBtn) {
+          enterBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+          enterBtn.classList.add('animate-bounce', 'ring-4', 'ring-rose-400/50');
+          enterBtn.innerHTML = bypassLock && diff > 0 
+            ? '✨ Dean Test Bypass: Enter App &rarr;' 
+            : '🎉 Happy Birthday Hannah! Open App 💖';
+        }
+
+        if (hintText) {
+          hintText.textContent = 'Tap above to begin your birthday arcade surprises!';
+        }
+      } else {
+        birthdayGatePassed = false;
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+        if (dEl) dEl.textContent = String(days).padStart(2, '0');
+        if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+        if (mEl) mEl.textContent = String(minutes).padStart(2, '0');
+        if (sEl) sEl.textContent = String(seconds).padStart(2, '0');
+
+        if (enterBtn) {
+          enterBtn.classList.add('opacity-80', 'cursor-not-allowed');
+          enterBtn.classList.remove('animate-bounce', 'ring-4', 'ring-rose-400/50');
+          enterBtn.innerHTML = '🔒 Birthday Surprises Locked';
+        }
+
+        if (hintText) {
+          hintText.textContent = 'Surprises unlock automatically at midnight Sydney ADST';
+        }
+      }
+    }
+
+    function enterAppFromGate() {
+      if (!birthdayGatePassed && !bypassLock) {
+        playTone('pop');
+        const hintText = document.getElementById('gateHintText');
+        if (hintText) {
+          hintText.textContent = '⏳ Patience, beautiful girl! Countdown ends at midnight 29/11/2026 ADST!';
+          hintText.classList.add('text-amber-300');
+          setTimeout(() => {
+            hintText.classList.remove('text-amber-300');
+          }, 3000);
+        }
+        return;
+      }
+
+      playTone('fanfare');
+      confetti({
+        particleCount: 70,
+        spread: 80,
+        origin: { y: 0.6 }
+      });
+
+      const gate = document.getElementById('countdownGateView');
+      if (gate) {
+        gate.style.opacity = '0';
+        gate.classList.add('pointer-events-none');
+        setTimeout(() => {
+          gate.classList.add('hidden');
+        }, 700);
+      }
+    }
+
+    /* =========================================================
        16. INITIALIZE ON LOAD
        ========================================================= */
     window.onload = function() {
+      // Generate lovely pink cake app icon with "34" for iPhone Home Screen & PWA
+      function generateCakeAppIcon(size = 512) {
+        const iconCanvas = document.createElement('canvas');
+        iconCanvas.width = size;
+        iconCanvas.height = size;
+        const ctx = iconCanvas.getContext('2d');
+
+        // Luxurious gradient background (blush pink to rose)
+        const bgGrad = ctx.createLinearGradient(0, 0, size, size);
+        bgGrad.addColorStop(0, '#ffe4e9');
+        bgGrad.addColorStop(0.5, '#f43f6e');
+        bgGrad.addColorStop(1, '#9f1240');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, size, size);
+
+        // Soft outer ambient glow ring
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(size / 2, size / 2, size * 0.44, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.35)';
+        ctx.lineWidth = size * 0.02;
+        ctx.stroke();
+        ctx.restore();
+
+        // Cake Plate & shadow
+        ctx.save();
+        ctx.beginPath();
+        ctx.ellipse(size / 2, size * 0.77, size * 0.38, size * 0.07, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.22)';
+        ctx.filter = 'blur(8px)';
+        ctx.fill();
+        ctx.filter = 'none';
+
+        ctx.beginPath();
+        ctx.ellipse(size / 2, size * 0.75, size * 0.36, size * 0.065, 0, 0, Math.PI * 2);
+        const plateGrad = ctx.createLinearGradient(0, size * 0.7, 0, size * 0.8);
+        plateGrad.addColorStop(0, '#ffffff');
+        plateGrad.addColorStop(1, '#cbd5e1');
+        ctx.fillStyle = plateGrad;
+        ctx.fill();
+        ctx.restore();
+
+        // Bottom Cake Tier
+        ctx.save();
+        const tier1Grad = ctx.createLinearGradient(size * 0.2, 0, size * 0.8, 0);
+        tier1Grad.addColorStop(0, '#fda4af');
+        tier1Grad.addColorStop(0.5, '#fff1f2');
+        tier1Grad.addColorStop(1, '#f43f5e');
+
+        ctx.fillStyle = tier1Grad;
+        ctx.beginPath();
+        ctx.roundRect(size * 0.2, size * 0.54, size * 0.6, size * 0.18, [18, 18, 24, 24]);
+        ctx.fill();
+
+        // Bottom Tier Icing Drips
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(size * 0.2, size * 0.54);
+        const drips = 7;
+        const dripWidth = (size * 0.6) / drips;
+        for (let i = 0; i < drips; i++) {
+          const startX = size * 0.2 + i * dripWidth;
+          const midX = startX + dripWidth / 2;
+          const endX = startX + dripWidth;
+          const dropY = (i % 2 === 0) ? size * 0.60 : size * 0.57;
+          ctx.quadraticCurveTo(midX, dropY, endX, size * 0.54);
+        }
+        ctx.lineTo(size * 0.8, size * 0.54);
+        ctx.closePath();
+        ctx.fill();
+
+        // Top Cake Tier
+        const tier2Grad = ctx.createLinearGradient(size * 0.28, 0, size * 0.72, 0);
+        tier2Grad.addColorStop(0, '#fb7185');
+        tier2Grad.addColorStop(0.5, '#ffe4e6');
+        tier2Grad.addColorStop(1, '#e11d48');
+
+        ctx.fillStyle = tier2Grad;
+        ctx.beginPath();
+        ctx.roundRect(size * 0.28, size * 0.38, size * 0.44, size * 0.17, [14, 14, 16, 16]);
+        ctx.fill();
+
+        // Top Tier Icing drips
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(size * 0.28, size * 0.38);
+        const topDrips = 5;
+        const topDripW = (size * 0.44) / topDrips;
+        for (let i = 0; i < topDrips; i++) {
+          const sX = size * 0.28 + i * topDripW;
+          const mX = sX + topDripW / 2;
+          const eX = sX + topDripW;
+          const dY = (i % 2 === 0) ? size * 0.43 : size * 0.41;
+          ctx.quadraticCurveTo(mX, dY, eX, size * 0.38);
+        }
+        ctx.lineTo(size * 0.72, size * 0.38);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+
+        // Candles on top
+        const candleXs = [size * 0.38, size * 0.5, size * 0.62];
+        candleXs.forEach((cx, idx) => {
+          // Candle body
+          ctx.save();
+          ctx.fillStyle = (idx === 1) ? '#fef08a' : '#fbcfe8';
+          ctx.beginPath();
+          ctx.roundRect(cx - size * 0.016, size * 0.27, size * 0.032, size * 0.11, [4, 4, 2, 2]);
+          ctx.fill();
+
+          // Wick
+          ctx.strokeStyle = '#475569';
+          ctx.lineWidth = size * 0.007;
+          ctx.beginPath();
+          ctx.moveTo(cx, size * 0.27);
+          ctx.lineTo(cx, size * 0.25);
+          ctx.stroke();
+
+          // Flame Aura
+          const aura = ctx.createRadialGradient(cx, size * 0.21, 0, cx, size * 0.21, size * 0.06);
+          aura.addColorStop(0, 'rgba(254, 240, 138, 0.9)');
+          aura.addColorStop(1, 'rgba(254, 240, 138, 0)');
+          ctx.fillStyle = aura;
+          ctx.beginPath();
+          ctx.arc(cx, size * 0.21, size * 0.06, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Golden Flame
+          const flameGrad = ctx.createLinearGradient(cx, size * 0.25, cx, size * 0.17);
+          flameGrad.addColorStop(0, '#f97316');
+          flameGrad.addColorStop(0.6, '#facc15');
+          flameGrad.addColorStop(1, '#ffffff');
+          ctx.fillStyle = flameGrad;
+          ctx.beginPath();
+          ctx.moveTo(cx, size * 0.17);
+          ctx.bezierCurveTo(cx + size * 0.024, size * 0.21, cx + size * 0.02, size * 0.25, cx, size * 0.25);
+          ctx.bezierCurveTo(cx - size * 0.02, size * 0.25, cx - size * 0.024, size * 0.21, cx, size * 0.17);
+          ctx.fill();
+          ctx.restore();
+        });
+
+        // Golden Badge / Medallion with "34" centered on cake
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetY = 4;
+
+        ctx.beginPath();
+        ctx.arc(size / 2, size * 0.58, size * 0.14, 0, Math.PI * 2);
+        const badgeGrad = ctx.createLinearGradient(size * 0.36, size * 0.44, size * 0.64, size * 0.72);
+        badgeGrad.addColorStop(0, '#ffffff');
+        badgeGrad.addColorStop(0.5, '#fff1f2');
+        badgeGrad.addColorStop(1, '#ffe4e6');
+        ctx.fillStyle = badgeGrad;
+        ctx.fill();
+
+        ctx.strokeStyle = '#f43f5e';
+        ctx.lineWidth = size * 0.015;
+        ctx.stroke();
+
+        // Inner dotted ring
+        ctx.beginPath();
+        ctx.arc(size / 2, size * 0.58, size * 0.118, 0, Math.PI * 2);
+        ctx.strokeStyle = '#fda4af';
+        ctx.lineWidth = size * 0.008;
+        ctx.setLineDash([size * 0.015, size * 0.012]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // "34" Typography
+        ctx.fillStyle = '#be1248';
+        ctx.font = `bold ${size * 0.14}px "Playfair Display", Georgia, serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('34', size / 2, size * 0.585);
+        ctx.restore();
+
+        // Cute mini celebration sparkles
+        ctx.save();
+        ctx.fillStyle = '#ffffff';
+        ctx.font = `${size * 0.07}px sans-serif`;
+        ctx.fillText('✨', size * 0.14, size * 0.26);
+        ctx.fillText('💖', size * 0.84, size * 0.28);
+        ctx.restore();
+
+        return iconCanvas.toDataURL('image/png');
+      }
+
+      // Generate the icon data URL
+      const cakeIconDataUrl = generateCakeAppIcon(512);
+
+      // Set Apple Touch Icon for iPhone Home Screen
+      const appleTouchLink = document.getElementById('appleTouchIcon');
+      if (appleTouchLink) appleTouchLink.href = cakeIconDataUrl;
+
       // Dynamic Manifest creation for iOS PWA Home Screen
       const manifestJson = {
         name: "Hannah's 34th Birthday",
@@ -2859,12 +3356,12 @@
         theme_color: "#FFF5F7",
         icons: [
           {
-            src: "https://placehold.co/192x192/f43f6e/ffffff?text=H34",
+            src: cakeIconDataUrl,
             sizes: "192x192",
             type: "image/png"
           },
           {
-            src: "https://placehold.co/512x512/f43f6e/ffffff?text=H34",
+            src: cakeIconDataUrl,
             sizes: "512x512",
             type: "image/png"
           }
@@ -2875,9 +3372,18 @@
       const manifestLink = document.getElementById('manifestLink');
       if (manifestLink) manifestLink.href = manifestUrl;
 
+      // Load saved photos from device storage
+      loadSavedPhotos();
+
       updateWalletBadges();
       updateHeroLoveMessage();
+      renderCarousel();
       renderArcadeHub();
+
+      // Initialize live gate countdown ticker
+      updateCountdownGate();
+      if (gateTimerInterval) clearInterval(gateTimerInterval);
+      gateTimerInterval = setInterval(updateCountdownGate, 1000);
 
       // Listen for text area changes inside workshop for live preview
       const wheelInput = document.getElementById('adminWheelSlices');
