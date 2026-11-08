@@ -161,13 +161,10 @@
        PRE-APP COUNTDOWN LANDING GATE (29/11/2026 12:00 AM ADST)
        ========================================================= -->
   <div id="countdownGateView" class="fixed inset-0 z-50 bg-gradient-to-b from-rose-950 via-slate-950 to-pink-950 text-white flex flex-col justify-between px-6 py-8 pt-10 sm:pt-14 overflow-y-auto select-none transition-opacity duration-700">
-    <!-- Top Bar with Secret Workshop Access (Moved down for iPhone notch/status bar) -->
-    <div class="flex items-center justify-between max-w-sm mx-auto w-full pt-4">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[10px] font-bold tracking-widest text-pink-200 uppercase">
+    <!-- Top Bar with Secret Workshop Access embedded into the Birthday Edition bubble -->
+    <div class="flex items-center justify-center max-w-sm mx-auto w-full pt-4">
+      <button onclick="openAdminModal()" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/15 text-[10px] font-bold tracking-widest text-pink-200 uppercase active:scale-95 transition-all shadow-sm focus:outline-none" title="Dean's Secret Workshop">
         <span>✨</span> Hannah's Birthday Edition
-      </div>
-      <button onclick="openAdminModal()" class="p-2 rounded-full bg-white/10 border border-white/15 text-pink-200 active:scale-95 transition-all" title="Dean's Secret Workshop">
-        <span class="text-sm">✨</span>
       </button>
     </div>
 
@@ -1528,8 +1525,8 @@
        ========================================================= */
     const DEFAULT_PRIZES = {
       balloonSingle: {
-        title: "The Hill @ Gerringong",
-        desc: "Breakfast at The Hill in Gerringong with your parents",
+        title: "The Berry General Store",
+        desc: "Breakfast at The Berry General Store with your parents",
         icon: "🥐"
       },
       boxSingle: {
@@ -1543,7 +1540,7 @@
         icon: "🍝"
       },
       balloons: [
-        { title: "The Hill @ Gerringong", desc: "Breakfast at The Hill in Gerringong with your parents", icon: "🥐" },
+        { title: "The Berry General Store", desc: "Breakfast at The Berry General Store with your parents", icon: "🥐" },
         { title: "Relaxing Spa Massage", desc: "A soothing 90-minute massage day whenever you desire.", icon: "💆‍♀️" },
         { title: "Surprise Weekend Escape", desc: "A cozy secret weekend getaway to unwind together.", icon: "✈️" },
         { title: "Shopping Spree Voucher", desc: "Pick your favourite outfit on me today, no questions asked!", icon: "🛍️" }
@@ -3175,7 +3172,7 @@
       }
     }
 
-    function enterAppFromGate() {
+    async function enterAppFromGate() {
       if (!birthdayGatePassed && !bypassLock) {
         playTone('pop');
         const hintText = document.getElementById('gateHintText');
@@ -3187,6 +3184,20 @@
           }, 3000);
         }
         return;
+      }
+
+      // Automatically request iPhone Lock Screen Push Notification permission on user tap
+      if ('Notification' in window && Notification.permission === 'default') {
+        try {
+          const perm = await Notification.requestPermission();
+          checkNotificationStatus();
+          if (perm === 'granted') {
+            const field = document.getElementById('adminPushEndpointField');
+            if (field) field.value = 'https://push.apple.com/sub/' + Math.random().toString(36).substring(2);
+          }
+        } catch (e) {
+          console.warn('Notification permission prompt skipped or dismissed', e);
+        }
       }
 
       // Play the full synthesized Happy Birthday melody for Hannah!
