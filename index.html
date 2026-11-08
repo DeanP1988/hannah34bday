@@ -160,9 +160,9 @@
   <!-- =========================================================
        PRE-APP COUNTDOWN LANDING GATE (29/11/2026 12:00 AM ADST)
        ========================================================= -->
-  <div id="countdownGateView" class="fixed inset-0 z-50 bg-gradient-to-b from-rose-950 via-slate-950 to-pink-950 text-white flex flex-col justify-between px-6 py-8 overflow-y-auto select-none transition-opacity duration-700">
-    <!-- Top Bar with Secret Workshop Access -->
-    <div class="flex items-center justify-between max-w-sm mx-auto w-full">
+  <div id="countdownGateView" class="fixed inset-0 z-50 bg-gradient-to-b from-rose-950 via-slate-950 to-pink-950 text-white flex flex-col justify-between px-6 py-8 pt-10 sm:pt-14 overflow-y-auto select-none transition-opacity duration-700">
+    <!-- Top Bar with Secret Workshop Access (Moved down for iPhone notch/status bar) -->
+    <div class="flex items-center justify-between max-w-sm mx-auto w-full pt-4">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-[10px] font-bold tracking-widest text-pink-200 uppercase">
         <span>✨</span> Hannah's Birthday Edition
       </div>
@@ -234,10 +234,11 @@
        TOP APP HEADER
        ========================================================= -->
   <header class="sticky top-0 z-30 backdrop-blur-md bg-white/75 border-b border-rose-100/80 px-4 py-3 flex items-center justify-between">
-    <div class="flex items-center space-x-2">
-      <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-rose-500 to-blush-400 flex items-center justify-center text-white shadow-sm font-serif font-bold text-sm">
-        H
-      </div>
+    <div class="flex items-center space-x-2.5">
+      <!-- Cake App Icon button leading into Dean's Secret Workshop (PIN protected) -->
+      <button onclick="openAdminModal()" class="w-9 h-9 rounded-2xl overflow-hidden shadow-sm border border-rose-200/80 active:scale-95 transition-all flex-shrink-0 focus:outline-none" title="Dean's Secret Workshop">
+        <img id="headerCakeAvatar" src="" alt="Cake Icon" class="w-full h-full object-cover">
+      </button>
       <div>
         <h1 class="text-sm font-bold text-slate-800 leading-none">Hannah's 34th</h1>
         <p class="text-[10px] text-rose-500 font-medium tracking-wide">30 NOVEMBER 2026</p>
@@ -245,10 +246,6 @@
     </div>
     
     <div class="flex items-center space-x-2">
-      <!-- Dean's Secret Workshop Button (Admin trigger) -->
-      <button onclick="openAdminModal()" class="p-2 rounded-full bg-rose-50 border border-rose-200 text-rose-500 active:scale-95 transition-all" title="Dean's Secret Workshop">
-        <span class="text-base">✨</span>
-      </button>
       <!-- Wallet quick button -->
       <button onclick="navigateTo('view-wallet')" class="relative p-2 rounded-full bg-rose-500 text-white shadow-sm shadow-rose-300 active:scale-95 transition-all">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -305,12 +302,12 @@
 
     <!-- Quick Action: Birthday Surprises (Renamed from Today's Arcade Games) -->
     <div class="bg-white rounded-3xl p-5 border border-rose-100 shadow-sm space-y-4">
-      <div class="flex items-center justify-between">
-        <div>
-          <h3 class="font-bold text-slate-800 text-sm">Birthday Surprises</h3>
-          <p class="text-[11px] text-slate-500">6 surprise games unlock throughout your day</p>
+      <div class="flex items-start justify-between gap-3">
+        <div class="space-y-1">
+          <h3 class="font-serif font-bold text-slate-900 text-xl leading-tight">Birthday Surprises</h3>
+          <p class="text-[11px] text-slate-500 leading-snug">6 surprise games unlock throughout your day</p>
         </div>
-        <button onclick="navigateTo('view-arcade-hub')" class="text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-full active:scale-95 transition-all">
+        <button onclick="navigateTo('view-arcade-hub')" class="shrink-0 text-xs font-bold text-rose-600 bg-rose-50 border border-rose-200/60 px-3.5 py-2 rounded-full shadow-xs active:scale-95 transition-all">
           Open Arcade &rarr;
         </button>
       </div>
@@ -1190,6 +1187,13 @@
           <span class="text-[10px] text-slate-500">Countdown Gate:</span>
           <button onclick="returnToCountdownGate()" class="text-[10px] font-bold text-amber-800 bg-white border border-amber-300 px-2.5 py-1 rounded-full active:scale-95 shadow-sm">
             Show Gate ⏳
+          </button>
+        </div>
+
+        <div class="pt-2 border-t border-amber-200/60 flex items-center justify-between">
+          <span class="text-[10px] text-slate-500">Happy Birthday Music:</span>
+          <button onclick="playHappyBirthdaySong()" class="text-[10px] font-bold text-rose-700 bg-rose-100 hover:bg-rose-200 border border-rose-300 px-3 py-1 rounded-full active:scale-95 shadow-sm flex items-center gap-1">
+            <span>🎵</span> Play Tune Test
           </button>
         </div>
       </div>
@@ -2188,6 +2192,61 @@
     }
 
     /* =========================================================
+       HAPPY BIRTHDAY MELODY SYNTHESIZER
+       Plays the complete classic Happy Birthday tune
+       ========================================================= */
+    function playHappyBirthdaySong() {
+      try {
+        if (!audioCtx) audioCtx = new AudioCtx();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        // Note frequencies (Hz)
+        const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, G4 = 392.00, A4 = 440.00, B4 = 493.88, C5 = 523.25;
+        const Bb4 = 466.16;
+
+        // Tune: [note, durationInBeats]
+        const song = [
+          // "Hap-py birth-day to you"
+          [C4, 0.75], [C4, 0.25], [D4, 1.0], [C4, 1.0], [F4, 1.0], [E4, 2.0],
+          // "Hap-py birth-day to you"
+          [C4, 0.75], [C4, 0.25], [D4, 1.0], [C4, 1.0], [G4, 1.0], [F4, 2.0],
+          // "Hap-py birth-day dear Han-nah"
+          [C4, 0.75], [C4, 0.25], [C5, 1.0], [A4, 1.0], [F4, 1.0], [E4, 1.0], [D4, 2.0],
+          // "Hap-py birth-day to you"
+          [Bb4, 0.75], [Bb4, 0.25], [A4, 1.0], [F4, 1.0], [G4, 1.0], [F4, 2.5]
+        ];
+
+        let cursorTime = audioCtx.currentTime + 0.05;
+        const beatDuration = 0.38; // Tempo
+
+        song.forEach(([freq, beats]) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'triangle'; // Warm, musical music-box tone
+          osc.frequency.setValueAtTime(freq, cursorTime);
+
+          const noteDuration = beats * beatDuration;
+          const playTime = noteDuration * 0.88; // subtle staccato gap
+
+          gain.gain.setValueAtTime(0.001, cursorTime);
+          gain.gain.linearRampToValueAtTime(0.24, cursorTime + 0.03);
+          gain.gain.setValueAtTime(0.20, cursorTime + playTime - 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, cursorTime + playTime);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+
+          osc.start(cursorTime);
+          osc.stop(cursorTime + playTime);
+
+          cursorTime += noteDuration;
+        });
+      } catch (err) {
+        console.warn('Could not play Happy Birthday tune:', err);
+      }
+    }
+
+    /* =========================================================
        NAVIGATION ROUTING & GUARDS
        ========================================================= */
     const ALL_VIEWS = [
@@ -3130,12 +3189,19 @@
         return;
       }
 
-      playTone('fanfare');
+      // Play the full synthesized Happy Birthday melody for Hannah!
+      playHappyBirthdaySong();
+
       confetti({
         particleCount: 70,
         spread: 80,
         origin: { y: 0.6 }
       });
+
+      // Instantly scroll window and document root to the very top
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
 
       const gate = document.getElementById('countdownGateView');
       if (gate) {
@@ -3143,6 +3209,10 @@
         gate.classList.add('pointer-events-none');
         setTimeout(() => {
           gate.classList.add('hidden');
+          // Re-affirm scroll position once gate element is hidden
+          window.scrollTo(0, 0);
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
         }, 700);
       }
     }
@@ -3151,6 +3221,14 @@
        16. INITIALIZE ON LOAD
        ========================================================= */
     window.onload = function() {
+      // Ensure page starts at the top
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+
+      const countdownGate = document.getElementById('countdownGateView');
+      if (countdownGate) countdownGate.scrollTop = 0;
+
       // Generate lovely pink cake app icon with "34" for iPhone Home Screen & PWA
       function generateCakeAppIcon(size = 512) {
         const iconCanvas = document.createElement('canvas');
@@ -3345,6 +3423,10 @@
       // Set Apple Touch Icon for iPhone Home Screen
       const appleTouchLink = document.getElementById('appleTouchIcon');
       if (appleTouchLink) appleTouchLink.href = cakeIconDataUrl;
+
+      // Update Top-Left Header Avatar with the exact same Cake Icon
+      const headerCakeAvatar = document.getElementById('headerCakeAvatar');
+      if (headerCakeAvatar) headerCakeAvatar.src = cakeIconDataUrl;
 
       // Dynamic Manifest creation for iOS PWA Home Screen
       const manifestJson = {
