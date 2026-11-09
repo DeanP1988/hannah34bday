@@ -1173,6 +1173,18 @@
           </label>
         </div>
 
+        <!-- Live Simulation Date Picker -->
+        <div class="pt-2 border-t border-amber-200/60 space-y-1">
+          <div class="flex items-center justify-between">
+            <label for="adminLiveDateInput" class="text-[10px] font-bold text-amber-900 uppercase">📅 Live Event Date (Test in Real-Time)</label>
+            <button type="button" onclick="setLiveDateToToday()" class="text-[9px] font-bold text-rose-600 underline">Set to Today</button>
+          </div>
+          <input type="date" id="adminLiveDateInput" onchange="updateScheduledEventDate(this.value)" class="w-full text-xs font-semibold p-1.5 rounded-lg border border-amber-300 bg-white text-slate-800 shadow-inner focus:outline-none focus:ring-1 focus:ring-rose-400">
+          <p class="text-[8px] text-amber-800 leading-normal">
+            Change this to today's date to test real-life timeline unlocks as the hours pass, then switch back to <span class="font-bold">2026-11-29</span> for Hannah!
+          </p>
+        </div>
+
         <div class="pt-2 border-t border-amber-200/60 flex items-center justify-between">
           <span class="text-[10px] text-slate-500">Reset played state so Hannah starts fresh:</span>
           <button onclick="resetAllGamePlays()" class="text-[10px] font-bold text-rose-600 bg-white border border-rose-200 px-2.5 py-1 rounded-full active:scale-95 shadow-sm">
@@ -1489,19 +1501,52 @@
     /* =========================================================
        1. SCHEDULE CONFIGURATION & STATE
        ========================================================= */
-    // Scheduled unlock times on 29th November 2026 ADST (Sydney is UTC+11)
-    const TARGET_BIRTHDAY_GATE_ISO = '2026-11-29T00:00:00+11:00';
+    // Default scheduled unlock date (YYYY-MM-DD)
+    let selectedLiveDate = '2026-11-29';
+    let TARGET_BIRTHDAY_GATE_ISO = `${selectedLiveDate}T00:00:00+11:00`;
     let birthdayGatePassed = false;
     let gateTimerInterval = null;
 
-    const GAME_SCHEDULE = [
-      { id: 0, view: 'game-balloons', name: 'Balloon Pop', icon: '🎈', timeStr: '8:00 AM ADST', unlockISO: '2026-11-29T08:00:00+11:00' },
-      { id: 1, view: 'game-boxes',    name: 'Box Unwrap',  icon: '🎁', timeStr: '9:30 AM ADST', unlockISO: '2026-11-29T09:30:00+11:00' },
-      { id: 2, view: 'game-scratch',  name: 'Gold Scratch',icon: '✨', timeStr: '11:00 AM ADST', unlockISO: '2026-11-29T11:00:00+11:00' },
-      { id: 3, view: 'game-wheel',    name: 'Fortune Wheel',icon: '🎡', timeStr: '12:30 PM ADST', unlockISO: '2026-11-29T12:30:00+11:00' },
-      { id: 4, view: 'game-cookie',   name: 'Fortune Cookie',icon: '🥠', timeStr: '2:00 PM ADST', unlockISO: '2026-11-29T14:00:00+11:00' },
-      { id: 5, view: 'game-candles',  name: 'Blow Candles',icon: '🎂', timeStr: '3:00 PM ADST', unlockISO: '2026-11-29T15:00:00+11:00' }
+    const GAME_HOURS = [
+      { id: 0, view: 'game-balloons', name: 'Balloon Pop', icon: '🎈', timeStr: '8:00 AM ADST', timeSuffix: '08:00:00+11:00' },
+      { id: 1, view: 'game-boxes',    name: 'Box Unwrap',  icon: '🎁', timeStr: '9:30 AM ADST', timeSuffix: '09:30:00+11:00' },
+      { id: 2, view: 'game-scratch',  name: 'Gold Scratch',icon: '✨', timeStr: '11:00 AM ADST', timeSuffix: '11:00:00+11:00' },
+      { id: 3, view: 'game-wheel',    name: 'Fortune Wheel',icon: '🎡', timeStr: '12:30 PM ADST', timeSuffix: '12:30:00+11:00' },
+      { id: 4, view: 'game-cookie',   name: 'Fortune Cookie',icon: '🥠', timeStr: '2:00 PM ADST', timeSuffix: '14:00:00+11:00' },
+      { id: 5, view: 'game-candles',  name: 'Blow Candles',icon: '🎂', timeStr: '3:00 PM ADST', timeSuffix: '15:00:00+11:00' }
     ];
+
+    let GAME_SCHEDULE = [];
+
+    function rebuildGameSchedule(dateStr) {
+      selectedLiveDate = dateStr;
+      TARGET_BIRTHDAY_GATE_ISO = `${dateStr}T00:00:00+11:00`;
+      GAME_SCHEDULE = GAME_HOURS.map(g => ({
+        ...g,
+        unlockISO: `${dateStr}T${g.timeSuffix}`
+      }));
+    }
+
+    rebuildGameSchedule(selectedLiveDate);
+
+    function updateScheduledEventDate(newDate) {
+      if (!newDate) return;
+      rebuildGameSchedule(newDate);
+      updateCountdownGate();
+      renderArcadeHub();
+      playTone('tick');
+    }
+
+    function setLiveDateToToday() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const todayStr = `${year}-${month}-${day}`;
+      const input = document.getElementById('adminLiveDateInput');
+      if (input) input.value = todayStr;
+      updateScheduledEventDate(todayStr);
+    }
 
     let bypassLock = false;
     let kissesCount = 0;
@@ -1764,6 +1809,10 @@
     }
 
     function revealAdminDrawer() {
+      // Set current date input
+      const dateInput = document.getElementById('adminLiveDateInput');
+      if (dateInput) dateInput.value = selectedLiveDate;
+
       // Bonus kiss customizer inputs
       const bonusData = customPrizes.bonusKissGift || DEFAULT_PRIZES.bonusKissGift;
       document.getElementById('adminBonusGiftTitle').value = bonusData.title;
@@ -2500,7 +2549,7 @@
 
     function showLockToast(sched) {
       document.getElementById('lockToastTitle').textContent = `Patience, Hannah! ❤️`;
-      document.getElementById('lockToastMsg').textContent = `${sched.name} unlocks at ${sched.timeStr} on 29th November 2026 ADST. Dean has a wonderful surprise waiting for you!`;
+      document.getElementById('lockToastMsg').textContent = `${sched.name} unlocks at ${sched.timeStr} on ${selectedLiveDate}. Dean has a wonderful surprise waiting for you!`;
       document.getElementById('lockToastModal').classList.remove('hidden');
     }
 
@@ -3177,7 +3226,7 @@
         playTone('pop');
         const hintText = document.getElementById('gateHintText');
         if (hintText) {
-          hintText.textContent = '⏳ Patience, beautiful girl! Countdown ends at midnight 29/11/2026 ADST!';
+          hintText.textContent = `⏳ Patience, beautiful girl! Countdown ends at midnight ${selectedLiveDate}!`;
           hintText.classList.add('text-amber-300');
           setTimeout(() => {
             hintText.classList.remove('text-amber-300');
