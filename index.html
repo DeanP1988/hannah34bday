@@ -746,29 +746,58 @@
       </div>
 
       <div class="text-center py-2">
-        <h2 class="font-serif text-2xl font-bold text-slate-900">Gold Foil Scratch Card ✨</h2>
-        <p class="text-xs text-slate-500 mt-1">Rub your finger across the golden foil to uncover your surprise!</p>
+        <h2 class="font-serif text-2xl font-bold text-slate-900">Gold Foil Scratch Cards ✨</h2>
+        <p class="text-xs text-slate-500 mt-1">Pick 1 of the 3 cards and rub your finger across the golden foil!</p>
       </div>
 
-      <div class="relative w-full max-w-xs mx-auto aspect-[4/3] rounded-3xl overflow-hidden shadow-xl border-4 border-amber-300 bg-white">
-        <!-- Revealed Mystery Voucher Beneath Canvas -->
-        <div id="scratchPrizeUnderlay" class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-gradient-to-br from-amber-50 to-rose-50 select-none">
-          <span class="text-4xl mb-2">💆‍♀️</span>
-          <span class="text-xs uppercase font-extrabold text-amber-800 tracking-wider">Hannah's Mystery Surprise</span>
-          <h3 id="scratchPrizeTitle" class="text-lg font-serif font-bold text-slate-900 mt-1">$50 Voucher for The Head Spa Studio</h3>
-          <p class="text-[11px] text-slate-600 mt-1">Valid anytime for a relaxing, luxurious head spa session!</p>
-          <div class="mt-2 text-[10px] font-bold text-rose-600 bg-rose-100 px-3 py-1 rounded-full">
-            100% Guaranteed Love
+      <!-- 3 Gold Scratch Cards Stack -->
+      <div class="space-y-4 max-w-xs mx-auto">
+        <!-- Card 0 -->
+        <div id="scratchCardWrap-0" class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden shadow-md border-2 border-amber-300 bg-white transition-all">
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-3 bg-gradient-to-br from-amber-50 to-rose-50 select-none">
+            <span class="text-2xl">💆‍♀️</span>
+            <span class="text-[9px] uppercase font-extrabold text-amber-800 tracking-wider">Hannah's Mystery Surprise</span>
+            <h3 class="scratchPrizeTitleLabel text-sm font-serif font-bold text-slate-900 mt-0.5">$50 Voucher for The Head Spa Studio</h3>
+            <p class="text-[9px] text-slate-600 mt-0.5">Valid anytime for a relaxing, luxurious head spa session!</p>
+          </div>
+          <canvas id="scratchCanvas-0" class="absolute inset-0 z-10 w-full h-full cursor-pointer touch-none"></canvas>
+          <div id="scratchLockOverlay-0" class="hidden absolute inset-0 z-20 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center">
+            <span class="text-xs font-bold text-white bg-black/40 px-3 py-1 rounded-full border border-white/20">🔒 Locked</span>
           </div>
         </div>
 
-        <!-- Scratch-off Canvas Overlay -->
-        <canvas id="scratchCanvas" class="absolute inset-0 z-10 w-full h-full cursor-pointer"></canvas>
+        <!-- Card 1 -->
+        <div id="scratchCardWrap-1" class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden shadow-md border-2 border-amber-300 bg-white transition-all">
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-3 bg-gradient-to-br from-amber-50 to-rose-50 select-none">
+            <span class="text-2xl">💆‍♀️</span>
+            <span class="text-[9px] uppercase font-extrabold text-amber-800 tracking-wider">Hannah's Mystery Surprise</span>
+            <h3 class="scratchPrizeTitleLabel text-sm font-serif font-bold text-slate-900 mt-0.5">$50 Voucher for The Head Spa Studio</h3>
+            <p class="text-[9px] text-slate-600 mt-0.5">Valid anytime for a relaxing, luxurious head spa session!</p>
+          </div>
+          <canvas id="scratchCanvas-1" class="absolute inset-0 z-10 w-full h-full cursor-pointer touch-none"></canvas>
+          <div id="scratchLockOverlay-1" class="hidden absolute inset-0 z-20 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center">
+            <span class="text-xs font-bold text-white bg-black/40 px-3 py-1 rounded-full border border-white/20">🔒 Locked</span>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div id="scratchCardWrap-2" class="relative w-full aspect-[16/9] rounded-2xl overflow-hidden shadow-md border-2 border-amber-300 bg-white transition-all">
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-3 bg-gradient-to-br from-amber-50 to-rose-50 select-none">
+            <span class="text-2xl">💆‍♀️</span>
+            <span class="text-[9px] uppercase font-extrabold text-amber-800 tracking-wider">Hannah's Mystery Surprise</span>
+            <h3 class="scratchPrizeTitleLabel text-sm font-serif font-bold text-slate-900 mt-0.5">$50 Voucher for The Head Spa Studio</h3>
+            <p class="text-[9px] text-slate-600 mt-0.5">Valid anytime for a relaxing, luxurious head spa session!</p>
+          </div>
+          <canvas id="scratchCanvas-2" class="absolute inset-0 z-10 w-full h-full cursor-pointer touch-none"></canvas>
+          <div id="scratchLockOverlay-2" class="hidden absolute inset-0 z-20 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center">
+            <span class="text-xs font-bold text-white bg-black/40 px-3 py-1 rounded-full border border-white/20">🔒 Locked</span>
+          </div>
+        </div>
       </div>
 
-      <div class="text-center">
+      <div class="text-center pt-1">
         <span id="scratchProgressText" class="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full">
-          0% Scratched
+          Choose 1 card to scratch (0% Scratched)
         </span>
       </div>
     </div>
@@ -1272,302 +1301,199 @@
           <input type="text" id="adminBonusGiftNote" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
         </div>
         <div class="flex items-center justify-between pt-1">
-          <button onclick="testTriggerBonus()" class="text-[10px] font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full active:scale-95">
-            Test Trigger Button
+          <button onclick="testTriggerBonus()" class="text-[9px] font-bold text-rose-600 bg-white border border-rose-200 px-2 py-1 rounded-full shadow-xs active:scale-95">
+            Test Unlock 🎁
           </button>
-          <button onclick="resetKissCount()" class="text-[10px] font-bold text-rose-600 bg-white border border-rose-200 px-2.5 py-1 rounded-full active:scale-95">
-            Reset Kisses to 0
+          <button onclick="resetKissCount()" class="text-[9px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-1 rounded-full shadow-xs active:scale-95">
+            Reset Kisses ↺
           </button>
         </div>
       </div>
 
-      <!-- Fortune Wheel Workshop Customizer -->
-      <div class="p-3 bg-indigo-50/70 rounded-2xl border border-indigo-200 space-y-2">
+      <!-- Photo Carousel Uploader & Manager -->
+      <div class="p-3 bg-pink-50/70 rounded-2xl border border-pink-200 space-y-2.5">
         <div class="flex items-center justify-between">
-          <h4 class="font-bold text-xs text-indigo-900 flex items-center gap-1.5">
-            <span>🎡</span> Game 4: Fortune Wheel Workshop
+          <h4 class="font-bold text-xs text-pink-900 flex items-center gap-1.5">
+            <span>📸</span> Photo Carousel Storage
           </h4>
-          <span class="text-[9px] text-indigo-600 font-semibold">Live Preview</span>
+          <span class="text-[9px] font-bold text-pink-700 bg-white px-2 py-0.5 rounded-full border border-pink-200">
+            Device Stored
+          </span>
         </div>
-        <div>
-          <label class="block text-[9px] font-bold text-indigo-800 uppercase">🎯 Desired Winning Prize for Hannah</label>
-          <input type="text" id="adminPresetWheelWinner" placeholder="e.g. Weekend Getaway" class="w-full mt-0.5 p-1.5 rounded-lg border border-indigo-200 text-xs bg-white font-medium text-slate-800">
-          <p class="text-[8px] text-indigo-600 mt-0.5">Hannah will naturally land on this slice when she spins!</p>
+        <p class="text-[10px] text-slate-600 leading-snug">
+          Upload photos directly from your iPhone camera roll or library. Photos are compressed and saved directly on Hannah's device!
+        </p>
+        <div class="flex items-center gap-2">
+          <label class="flex-1 cursor-pointer py-2 px-3 rounded-xl bg-pink-600 hover:bg-pink-700 active:scale-95 text-white font-bold text-xs text-center shadow-xs transition-all flex items-center justify-center gap-1.5">
+            <span>📷</span> Upload Photos
+            <input type="file" id="photoFileInput" accept="image/*" multiple onchange="handlePhotoUpload(event)" class="hidden">
+          </label>
+          <button type="button" onclick="resetToDefaultPhotos()" class="py-2 px-3 rounded-xl bg-white border border-pink-200 text-pink-700 hover:bg-pink-50 font-bold text-xs active:scale-95 shadow-xs transition-all">
+            Reset Photos
+          </button>
         </div>
-        <div>
-          <label class="block text-[9px] font-bold text-slate-500 uppercase">8 Wheel Slices (1 per line)</label>
-          <textarea id="adminWheelSlices" rows="4" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs font-mono"></textarea>
-        </div>
-        <div class="flex items-center justify-center pt-2">
-          <canvas id="workshopWheelCanvas" width="160" height="160" class="rounded-full shadow-sm border-2 border-indigo-200"></canvas>
+        <!-- Uploaded Photo List & Caption Editor -->
+        <div id="adminPhotoThumbnails" class="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+          <!-- Populated by JavaScript -->
         </div>
       </div>
 
-      <!-- Custom Prize Editors matching the 6 Arcade Games -->
+      <!-- Customizable Prizes for All 6 Games -->
       <div class="space-y-4">
-        <h4 class="font-bold text-slate-800 text-sm border-b border-slate-100 pb-1">Customize All 6 Arcade Game Surprises</h4>
-
-        <!-- Game 1: Balloon Pop (Single Prize for all balloons) -->
-        <div class="p-3 bg-rose-50/50 rounded-2xl border border-rose-100 space-y-2">
-          <h5 class="font-bold text-xs text-rose-700 flex items-center gap-1.5">
-            <span>🎈</span> Game 1: Balloon Pop (Guaranteed Prize)
-          </h5>
-          <p class="text-[9px] text-slate-500">Hannah will win this exact prize no matter which of the 4 balloons she pops!</p>
+        <!-- Game 1 Customizer -->
+        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 space-y-1.5">
+          <h4 class="font-bold text-xs text-slate-800">🎈 Game 1: Balloon Pop Prize</h4>
           <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">Winning Prize Title</label>
-            <input type="text" id="adminPrizeBalloonSingle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prize Title</label>
+            <input type="text" id="adminBalloonTitle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
           </div>
           <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prize Note / Description</label>
-            <input type="text" id="adminPrizeBalloonSingleDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Description</label>
+            <input type="text" id="adminBalloonDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
           </div>
         </div>
 
-        <!-- Game 2: Box Unwrap (Single Prize for all boxes) -->
-        <div class="p-3 bg-amber-50/50 rounded-2xl border border-amber-100 space-y-2">
-          <h5 class="font-bold text-xs text-amber-800 flex items-center gap-1.5">
-            <span>🎁</span> Game 2: Box Unwrap (Guaranteed Prize)
-          </h5>
-          <p class="text-[9px] text-slate-500">Hannah will win this exact prize no matter which of the 4 gift boxes she opens!</p>
+        <!-- Game 2 Customizer -->
+        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 space-y-1.5">
+          <h4 class="font-bold text-xs text-slate-800">🎁 Game 2: Mystery Box Prize</h4>
           <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">Winning Prize Title</label>
-            <input type="text" id="adminPrizeBoxSingle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prize Title</label>
+            <input type="text" id="adminBoxTitle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
           </div>
           <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prize Note / Description</label>
-            <input type="text" id="adminPrizeBoxSingleDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Description</label>
+            <input type="text" id="adminBoxDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
           </div>
         </div>
 
-        <!-- Game 3: Gold Scratch -->
-        <div class="p-3 bg-amber-50/70 rounded-2xl border border-amber-200 space-y-2">
-          <h5 class="font-bold text-xs text-amber-900 flex items-center gap-1.5">
-            <span>✨</span> Game 3: Gold Scratch
-          </h5>
+        <!-- Game 3 Customizer -->
+        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 space-y-1.5">
+          <h4 class="font-bold text-xs text-slate-800">✨ Game 3: Gold Scratch Prize</h4>
           <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">Scratch Foil Secret Prize Title</label>
-            <input type="text" id="adminPrizeScratch" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prize Title</label>
+            <input type="text" id="adminScratchTitle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+          </div>
+          <div>
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Description</label>
+            <input type="text" id="adminScratchDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
           </div>
         </div>
 
-        <!-- Game 5: Fortune Cookie (Single Prophecy/Prize for all cookies) -->
-        <div class="p-3 bg-rose-50/50 rounded-2xl border border-rose-100 space-y-2">
-          <h5 class="font-bold text-xs text-rose-800 flex items-center gap-1.5">
-            <span>🥠</span> Game 5: Fortune Cookie (Guaranteed Prophecy)
-          </h5>
-          <p class="text-[9px] text-slate-500">Hannah will receive this exact prophecy no matter which of the 3 cookies she cracks!</p>
-          <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prophecy / Prize Title</label>
-            <input type="text" id="adminPrizeCookieSingle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+        <!-- Game 4 Wheel Customizer -->
+        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+          <h4 class="font-bold text-xs text-slate-800">🎡 Game 4: Fortune Wheel</h4>
+          <div class="flex items-center gap-3">
+            <canvas id="workshopWheelCanvas" width="160" height="160" class="w-20 h-20 rounded-full border-2 border-amber-300"></canvas>
+            <div class="flex-1 space-y-1">
+              <label class="block text-[9px] font-bold text-slate-500 uppercase">Preset Winning Prize</label>
+              <input type="text" id="adminPresetWheelWinner" class="w-full p-1.5 rounded-lg border border-slate-200 text-xs">
+            </div>
           </div>
           <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prophecy Note / Message</label>
-            <input type="text" id="adminPrizeCookieSingleDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">8 Wheel Slices (One Per Line)</label>
+            <textarea id="adminWheelSlices" rows="4" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs font-mono"></textarea>
           </div>
         </div>
 
-        <!-- Game 6: Blow the Candles Out (Grand Finale) -->
-        <div class="p-3 bg-purple-50/50 rounded-2xl border border-purple-100 space-y-2">
-          <h5 class="font-bold text-xs text-purple-800 flex items-center gap-1.5">
-            <span>🎂</span> Game 6: Blow the Candles Out Grand Finale Prize
-          </h5>
+        <!-- Game 5 Customizer -->
+        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 space-y-1.5">
+          <h4 class="font-bold text-xs text-slate-800">🥠 Game 5: Fortune Cookie Prize</h4>
           <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">Grand Birthday Wish / Surprise Title</label>
-            <input type="text" id="adminPrizeCandles" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Prize Title</label>
+            <input type="text" id="adminCookieTitle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
           </div>
           <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">Grand Surprise Note / Details</label>
-            <input type="text" id="adminPrizeCandlesDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Description</label>
+            <input type="text" id="adminCookieDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
           </div>
         </div>
 
-        <!-- Scheduled Love Messages Section -->
-        <div class="p-3 bg-rose-50/70 rounded-2xl border border-rose-200 space-y-2">
-          <h5 class="font-bold text-xs text-rose-900 flex items-center gap-1.5">
-            <span>💌</span> Homepage Love Messages Schedule
-          </h5>
-          <p class="text-[9px] text-slate-500">Replaces text under 'For Hannah, With Love' as games are played:</p>
+        <!-- Game 6 Customizer -->
+        <div class="p-3 bg-slate-50 rounded-2xl border border-slate-200 space-y-1.5">
+          <h4 class="font-bold text-xs text-slate-800">🎂 Game 6: Candle Grand Finale Prize</h4>
           <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">Initial Greeting (Before Games)</label>
-            <input type="text" id="adminMsgInitial" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Grand Finale Title</label>
+            <input type="text" id="adminCandlesTitle" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
           </div>
           <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 1 (Balloon Pop)</label>
-            <input type="text" id="adminMsgGame0" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
-          </div>
-          <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 2 (Box Unwrap)</label>
-            <input type="text" id="adminMsgGame1" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
-          </div>
-          <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 3 (Gold Scratch)</label>
-            <input type="text" id="adminMsgGame2" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
-          </div>
-          <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 4 (Fortune Wheel)</label>
-            <input type="text" id="adminMsgGame3" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
-          </div>
-          <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 5 (Fortune Cookie)</label>
-            <input type="text" id="adminMsgGame4" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
-          </div>
-          <div>
-            <label class="block text-[9px] font-bold text-slate-500 uppercase">After Game 6 (Candles Finale)</label>
-            <input type="text" id="adminMsgGame5" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
-          </div>
-        </div>
-
-        <!-- Custom Photo Carousel Editor -->
-        <div class="p-3 bg-pink-50/70 rounded-2xl border border-pink-200 space-y-2">
-          <h5 class="font-bold text-xs text-pink-900 flex items-center gap-1.5">
-            <span>📸</span> Homepage Photo Gallery Uploader
-          </h5>
-          <p class="text-[9px] text-slate-500">
-            Upload photos straight from your iPhone camera or camera roll. They are securely saved directly onto this device!
-          </p>
-
-          <div class="flex items-center gap-2 pt-1">
-            <label class="cursor-pointer py-2 px-3 rounded-xl bg-pink-600 hover:bg-pink-700 text-white font-bold text-[10px] shadow-sm active:scale-95 transition-all inline-flex items-center gap-1.5">
-              <span>📷</span> Upload Photos
-              <input type="file" id="photoFileInput" accept="image/*" multiple class="hidden" onchange="handlePhotoUpload(event)">
-            </label>
-            <button type="button" onclick="resetToDefaultPhotos()" class="py-2 px-2.5 rounded-xl bg-white border border-pink-200 text-pink-700 font-bold text-[10px] active:scale-95 shadow-sm">
-              Reset Photos
-            </button>
-          </div>
-
-          <!-- Thumbnails with editable captions -->
-          <div id="adminPhotoThumbnails" class="space-y-2 pt-2 max-h-56 overflow-y-auto">
-            <!-- Populated dynamically -->
+            <label class="block text-[9px] font-bold text-slate-500 uppercase">Grand Finale Description</label>
+            <input type="text" id="adminCandlesDesc" class="w-full mt-0.5 p-1.5 rounded-lg border border-slate-200 text-xs">
           </div>
         </div>
       </div>
 
-      <div class="pt-2">
-        <button onclick="saveAdminSettings()" class="w-full py-3 bg-rose-500 text-white font-bold text-xs rounded-full shadow-md shadow-rose-300 active:scale-95 transition-all">
-          Save Customizations ✨
+      <!-- Workshop Bottom Save & Close Buttons -->
+      <div class="pt-2 flex gap-2">
+        <button onclick="saveAdminSettings()" class="flex-1 py-3 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-md shadow-rose-300 active:scale-95 transition-all">
+          Save All Changes 💾
+        </button>
+        <button onclick="closeAdminModal()" class="py-3 px-5 rounded-full bg-slate-100 text-slate-700 font-bold text-xs active:scale-95 transition-all">
+          Done
         </button>
       </div>
     </div>
   </div>
 
   <!-- =========================================================
-       MODAL: PIN CODE LOCK FOR DEAN'S WORKSHOP (011188)
+       MODAL: DEAN'S PIN PASSCODE PAD (PIN: 011188)
        ========================================================= -->
-  <div id="pinLockModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-sm animate-pop-in">
+  <div id="pinModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-pop-in">
     <div class="bg-white rounded-3xl p-6 max-w-xs w-full text-center border border-rose-200 shadow-2xl space-y-4">
-      <div class="w-12 h-12 rounded-full bg-rose-100 text-rose-500 flex items-center justify-center mx-auto text-xl shadow-inner">
+      <div class="w-12 h-12 rounded-full bg-rose-50 text-2xl flex items-center justify-center mx-auto shadow-inner text-rose-500">
         🔒
       </div>
       <div>
-        <h3 class="font-serif font-bold text-slate-900 text-lg">Dean's Secret Passcode</h3>
-        <p class="text-xs text-slate-500 mt-1">Enter PIN to access workshop settings</p>
+        <h3 class="font-serif font-bold text-slate-900 text-base">Dean's Secret Workshop</h3>
+        <p class="text-xs text-slate-500 mt-1">Enter 6-digit passcode to unlock</p>
       </div>
 
-      <!-- PIN dots display -->
-      <div class="flex items-center justify-center gap-3 py-1">
-        <span id="pinDot-0" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
-        <span id="pinDot-1" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
-        <span id="pinDot-2" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
-        <span id="pinDot-3" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
-        <span id="pinDot-4" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
-        <span id="pinDot-5" class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></span>
+      <!-- PIN Display Dots -->
+      <div id="pinDots" class="flex items-center justify-center gap-3 py-2">
+        <div class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></div>
+        <div class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></div>
+        <div class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></div>
+        <div class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></div>
+        <div class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></div>
+        <div class="w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all"></div>
       </div>
-
-      <p id="pinErrorMessage" class="text-[11px] text-rose-600 font-bold min-h-[16px]"></p>
+      <p id="pinErrorMsg" class="text-[10px] text-rose-500 font-bold h-3"></p>
 
       <!-- Keypad -->
-      <div class="grid grid-cols-3 gap-2 max-w-[210px] mx-auto pt-1">
-        <button onclick="pressPinKey('1')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">1</button>
-        <button onclick="pressPinKey('2')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">2</button>
-        <button onclick="pressPinKey('3')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">3</button>
-        <button onclick="pressPinKey('4')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">4</button>
-        <button onclick="pressPinKey('5')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">5</button>
-        <button onclick="pressPinKey('6')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">6</button>
-        <button onclick="pressPinKey('7')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">7</button>
-        <button onclick="pressPinKey('8')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">8</button>
-        <button onclick="pressPinKey('9')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">9</button>
-        <button onclick="closePinLockModal()" class="h-11 rounded-2xl bg-slate-100 text-slate-500 font-bold text-xs active:scale-95">Cancel</button>
-        <button onclick="pressPinKey('0')" class="h-11 rounded-2xl bg-slate-50 font-bold text-sm text-slate-800 border border-slate-200 active:bg-rose-100 active:scale-95">0</button>
-        <button onclick="deletePinKey()" class="h-11 rounded-2xl bg-rose-50 text-rose-600 font-bold text-xs border border-rose-200 active:scale-95">⌫</button>
+      <div class="grid grid-cols-3 gap-2.5 max-w-[220px] mx-auto pt-1">
+        <button onclick="pressPinKey('1')" class="h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 font-bold text-sm text-slate-800 transition-all">1</button>
+        <button onclick="pressPinKey('2')" class="h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 font-bold text-sm text-slate-800 transition-all">2</button>
+        <button onclick="pressPinKey('3')" class="h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 font-bold text-sm text-slate-800 transition-all">3</button>
+        <button onclick="pressPinKey('4')" class="h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 font-bold text-sm text-slate-800 transition-all">4</button>
+        <button onclick="pressPinKey('5')" class="h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 font-bold text-sm text-slate-800 transition-all">5</button>
+        <button onclick="pressPinKey('6')" class="h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 font-bold text-sm text-slate-800 transition-all">6</button>
+        <button onclick="pressPinKey('7')" class="h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 font-bold text-sm text-slate-800 transition-all">7</button>
+        <button onclick="pressPinKey('8')" class="h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 font-bold text-sm text-slate-800 transition-all">8</button>
+        <button onclick="pressPinKey('9')" class="h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 font-bold text-sm text-slate-800 transition-all">9</button>
+        <button onclick="closePinModal()" class="h-11 rounded-xl bg-slate-50 text-slate-500 active:scale-95 text-xs font-semibold">Cancel</button>
+        <button onclick="pressPinKey('0')" class="h-11 rounded-xl bg-slate-100 hover:bg-slate-200 active:scale-95 font-bold text-sm text-slate-800 transition-all">0</button>
+        <button onclick="clearPinKey()" class="h-11 rounded-xl bg-slate-50 text-rose-500 active:scale-95 text-xs font-bold">⌫</button>
       </div>
     </div>
   </div>
 
-  <!-- =========================================================
-       AUDIO & LOGIC JAVASCRIPT
-       ========================================================= -->
   <script>
     /* =========================================================
-       1. SCHEDULE CONFIGURATION & STATE
+       APPLICATION STATE & CONFIGURATION
        ========================================================= */
-    // Default scheduled unlock date (YYYY-MM-DD)
+    const DEAN_WORKSHOP_PIN = '011188';
+    let enteredPin = '';
+
     let selectedLiveDate = '2026-11-29';
     let TARGET_BIRTHDAY_GATE_ISO = `${selectedLiveDate}T00:00:00+11:00`;
     let birthdayGatePassed = false;
+    let bypassLock = false;
     let gateTimerInterval = null;
 
-    const GAME_HOURS = [
-      { id: 0, view: 'game-balloons', name: 'Balloon Pop', icon: '🎈', timeStr: '8:00 AM ADST', timeSuffix: '08:00:00+11:00' },
-      { id: 1, view: 'game-boxes',    name: 'Box Unwrap',  icon: '🎁', timeStr: '9:30 AM ADST', timeSuffix: '09:30:00+11:00' },
-      { id: 2, view: 'game-scratch',  name: 'Gold Scratch',icon: '✨', timeStr: '11:00 AM ADST', timeSuffix: '11:00:00+11:00' },
-      { id: 3, view: 'game-wheel',    name: 'Fortune Wheel',icon: '🎡', timeStr: '12:30 PM ADST', timeSuffix: '12:30:00+11:00' },
-      { id: 4, view: 'game-cookie',   name: 'Fortune Cookie',icon: '🥠', timeStr: '2:00 PM ADST', timeSuffix: '14:00:00+11:00' },
-      { id: 5, view: 'game-candles',  name: 'Blow Candles',icon: '🎂', timeStr: '3:00 PM ADST', timeSuffix: '15:00:00+11:00' }
-    ];
-
-    let GAME_SCHEDULE = [];
-
-    function rebuildGameSchedule(dateStr) {
-      selectedLiveDate = dateStr;
-      TARGET_BIRTHDAY_GATE_ISO = `${dateStr}T00:00:00+11:00`;
-      GAME_SCHEDULE = GAME_HOURS.map(g => ({
-        ...g,
-        unlockISO: `${dateStr}T${g.timeSuffix}`
-      }));
-    }
-
-    rebuildGameSchedule(selectedLiveDate);
-
-    function updateScheduledEventDate(newDate) {
-      if (!newDate) return;
-      rebuildGameSchedule(newDate);
-      updateCountdownGate();
-      renderArcadeHub();
-      playTone('tick');
-    }
-
-    function setLiveDateToToday() {
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const todayStr = `${year}-${month}-${day}`;
-      const input = document.getElementById('adminLiveDateInput');
-      if (input) input.value = todayStr;
-      updateScheduledEventDate(todayStr);
-    }
-
-    let bypassLock = false;
     let kissesCount = 0;
     let bonusGiftClaimed = false;
-
-    // Track single-play completion for all 6 games
-    let gamePlayState = [
-      { completed: false, prizeWon: null },
-      { completed: false, prizeWon: null },
-      { completed: false, prizeWon: null },
-      { completed: false, prizeWon: null },
-      { completed: false, prizeWon: null },
-      { completed: false, prizeWon: null }
-    ];
-
+    let currentCarouselIndex = 0;
     let pendingPrize = null;
-    let walletSurprises = [];
 
-    /* =========================================================
-       2. DEFAULT REWARDS & CUSTOM PRIZES
-       ========================================================= */
     const DEFAULT_PRIZES = {
       balloonSingle: {
         title: "The Berry General Store",
@@ -1579,47 +1505,31 @@
         desc: "Sorry but only 1 present for today and the rest tomorrow",
         icon: "🎁"
       },
+      scratch: {
+        title: "$50 Voucher for The Head Spa Studio",
+        desc: "Valid anytime for a relaxing, luxurious head spa session!",
+        icon: "💆‍♀️"
+      },
+      wheel: [
+        "Harbour Picnic",
+        "Romantic Dinner",
+        "Spa Massage",
+        "Crazy Pasta!",
+        "Sunset Cruise",
+        "Weekend Getaway",
+        "Shopping Spree",
+        "Surprise Dessert"
+      ],
+      presetWheelWinner: "Romantic Dinner",
+      wheelPrizeDesc: "Claimed from Hannah's 34th Birthday Wheel of Fortune!",
       cookieSingle: {
         title: "Crazy Pasta!",
         desc: "Dinner tonight will be at Crazy Pasta!",
         icon: "🍝"
       },
-      balloons: [
-        { title: "The Berry General Store", desc: "Breakfast at The Berry General Store with your parents", icon: "🥐" },
-        { title: "Relaxing Spa Massage", desc: "A soothing 90-minute massage day whenever you desire.", icon: "💆‍♀️" },
-        { title: "Surprise Weekend Escape", desc: "A cozy secret weekend getaway to unwind together.", icon: "✈️" },
-        { title: "Shopping Spree Voucher", desc: "Pick your favourite outfit on me today, no questions asked!", icon: "🛍️" }
-      ],
-      boxes: [
-        { title: "1 Present only", desc: "Sorry but only 1 present for today and the rest tomorrow", icon: "🎁" },
-        { title: "Dinner by the Harbour", desc: "Candlelight dinner with wine, your favourite dessert & harbour views.", icon: "🍷" },
-        { title: "Breakfast in Bed + Coffee", desc: "Valid anytime you want to sleep in and be pampered.", icon: "🥐" },
-        { title: "Picnic Under the Stars", desc: "Gourmet cheese board, wine, blankets & stargazing night.", icon: "🧺" }
-      ],
-      scratch: {
-        title: "$50 Voucher for The Head Spa Studio",
-        desc: "A $50 pampering voucher to relax and unwind at The Head Spa Studio.",
-        icon: "💆‍♀️"
-      },
-      wheel: [
-        "Romantic Dinner",
-        "10 Free Kisses",
-        "Spa Day Pass",
-        "Harbour Picnic",
-        "Foot Massage Pass",
-        "Cocktail Night",
-        "Gold Cinema Tickets",
-        "Surprise Wish Token"
-      ],
-      wheelPrizeDesc: "Claimed from Hannah's 34th Birthday Wheel of Fortune!",
-      cookies: [
-        { title: "Crazy Pasta!", desc: "Dinner tonight will be at Crazy Pasta!", icon: "🍝" },
-        { title: "The Golden Journey", desc: "Whatever dreams you chase this year, I promise to stand by you 100%.", icon: "🌟" },
-        { title: "The Endless Smile", desc: "Every single day with you is a gift; this year will be your most beautiful chapter.", icon: "💫" }
-      ],
       candlesPrize: {
-        title: "The Ultimate Love Wish 👑",
-        desc: "Redeemable for any 1 wish, holiday, or special dream of your choice anytime in 2026/2027!",
+        title: "Grand Finale Mystery Surprise!",
+        desc: "A magical anniversary & birthday celebration adventure planned with all my love.",
         icon: "🎂"
       },
       bonusKissGift: {
@@ -1627,58 +1537,299 @@
         desc: "Because you collected 10 sweet kisses from Dean you have won an advent calendar of Love for December!.",
         icon: "🎁"
       },
-      heroMessages: {
-        initial: "Counting down every single heartbeat until your special day in Sydney, Australia.",
-        afterGame0: "First surprise unlocked! You've started 34 with a bang, beautiful girl. Keep going! 🎈",
-        afterGame1: "Look at that lovely box unwrapped! Another sweet memory to add to our story today. 🎁",
-        afterGame2: "Your smile shines brighter than pure gold foil! Hope that scratch surprise made your day shimmer. ✨",
-        afterGame3: "A lucky spin for the girl who deserves the whole world and every ounce of happiness! 🎡",
-        afterGame4: "Your fortune is sealed with all my love: 34 is going to be your most gorgeous chapter yet. 🥠",
-        afterGame5: "All 5 candles blown out and every wish made! Happy 34th Birthday Hannah, I love you forever. 🎂"
-      },
       carouselPhotos: [
         {
-          url: "https://placehold.co/600x375/ffe4e9/be1248?text=Hannah+%26+Dean+❤️",
-          caption: "Our Favourite Adventures"
+          url: "https://placehold.co/600x400/ffe4e9/831438?text=Hannah+%26+Dean+❤️",
+          caption: "Our Favourite Memories Together"
         },
         {
-          url: "https://placehold.co/600x375/fecdd3/9f1240?text=Sydney+Smiles+✨",
-          caption: "Celebrating Year 34"
+          url: "https://placehold.co/600x400/fecdd7/9f1240?text=Sydney+Adventures+🌊",
+          caption: "Exploring Sydney Hand-in-Hand"
         },
         {
-          url: "https://placehold.co/600x375/fce7f3/831438?text=Forever+Together+💍",
-          caption: "To A Lifetime of Laughs & Cuddles"
-        },
-        {
-          url: "https://placehold.co/600x375/fed7aa/c2410c?text=Sunset+Walks+🌅",
+          url: "https://placehold.co/600x400/fed7aa/9a3412?text=Sunset+Walks+🌅",
           caption: "Chasing Golden Sunsets With You"
         },
         {
-          url: "https://placehold.co/600x375/fef08a/854d0e?text=Best+Dates+%26+Wine+🍷",
+          url: "https://placehold.co/600x400/e9d5ff/581c87?text=Best+Dates+%26+Wine+🍷",
           caption: "Every Candlelight Dinner & Late Night Talk"
         },
         {
-          url: "https://placehold.co/600x375/bbf7d0/166534?text=Weekend+Getaways+🌿",
+          url: "https://placehold.co/600x400/ccfbf1/134e4a?text=Weekend+Getaways+🌿",
           caption: "Road Trips & Cozy Weekend Escapes"
         },
         {
-          url: "https://placehold.co/600x375/e9d5ff/6b21a8?text=Morning+Cuddles+☕",
+          url: "https://placehold.co/600x400/fef08a/854d0e?text=Morning+Cuddles+☕",
           caption: "Lazy Sunday Mornings & Your Beautiful Smile"
         },
         {
-          url: "https://placehold.co/600x375/fbcfe8/9d174d?text=My+Favourite+Person+💖",
+          url: "https://placehold.co/600x400/fbcfe8/831438?text=My+Favourite+Person+💖",
           caption: "Happy 34th Birthday to My Whole World"
         }
-      ]
+      ],
+      heroMessages: {
+        initial: "Counting down every single heartbeat until your special day in Sydney, Australia.",
+        afterGame0: "Breakfast surprise revealed! Next mystery unlocks soon.",
+        afterGame1: "Present mystery solved! Get ready for your morning spa pampering.",
+        afterGame2: "Spa voucher in wallet! The Fortune Wheel spins early afternoon.",
+        afterGame3: "Fortune wheel spun! Time for dinner prophecies.",
+        afterGame4: "Dinner plans revealed! Grand Finale cake candles unlock next.",
+        afterGame5: "Happy 34th Birthday Hannah! All surprises are yours to keep forever!"
+      }
     };
 
     let customPrizes = JSON.parse(JSON.stringify(DEFAULT_PRIZES));
+    let walletSurprises = [];
+
+    const GAME_SCHEDULE = [
+      { id: 0, name: "Balloon Pop", timeStr: "8:00 AM", unlockISO: "2026-11-29T08:00:00+11:00", icon: "🎈", view: "game-balloons" },
+      { id: 1, name: "Mystery Box", timeStr: "9:30 AM", unlockISO: "2026-11-29T09:30:00+11:00", icon: "🎁", view: "game-boxes" },
+      { id: 2, name: "Gold Scratch", timeStr: "11:00 AM", unlockISO: "2026-11-29T11:00:00+11:00", icon: "✨", view: "game-scratch" },
+      { id: 3, name: "Fortune Wheel", timeStr: "12:30 PM", unlockISO: "2026-11-29T12:30:00+11:00", icon: "🎡", view: "game-wheel" },
+      { id: 4, name: "Fortune Cookie", timeStr: "2:00 PM", unlockISO: "2026-11-29T14:00:00+11:00", icon: "🥠", view: "game-cookie" },
+      { id: 5, name: "Blow Candles 🎂", timeStr: "3:00 PM", unlockISO: "2026-11-29T15:00:00+11:00", icon: "🎂", view: "game-candles" }
+    ];
+
+    const gamePlayState = [
+      { completed: false, prizeWon: null },
+      { completed: false, prizeWon: null },
+      { completed: false, prizeWon: null },
+      { completed: false, prizeWon: null },
+      { completed: false, prizeWon: null },
+      { completed: false, prizeWon: null }
+    ];
 
     /* =========================================================
-       PHOTO CAROUSEL LOGIC
+       PIN CODE MODAL & DEAN'S WORKSHOP MANAGEMENT
        ========================================================= */
-    let currentCarouselIndex = 0;
+    function openAdminModal() {
+      enteredPin = '';
+      updatePinDots();
+      const err = document.getElementById('pinErrorMsg');
+      if (err) err.textContent = '';
+      document.getElementById('pinModal')?.classList.remove('hidden');
+    }
 
+    function closePinModal() {
+      enteredPin = '';
+      document.getElementById('pinModal')?.classList.add('hidden');
+    }
+
+    function pressPinKey(digit) {
+      if (enteredPin.length < 6) {
+        enteredPin += digit;
+        playTone('tick');
+        updatePinDots();
+        if (enteredPin.length === 6) {
+          setTimeout(verifyPin, 150);
+        }
+      }
+    }
+
+    function clearPinKey() {
+      if (enteredPin.length > 0) {
+        enteredPin = enteredPin.slice(0, -1);
+        playTone('tick');
+        updatePinDots();
+      }
+    }
+
+    function updatePinDots() {
+      const dots = document.querySelectorAll('#pinDots div');
+      dots.forEach((dot, idx) => {
+        if (idx < enteredPin.length) {
+          dot.className = 'w-3.5 h-3.5 rounded-full bg-rose-500 border-2 border-rose-500 scale-110 transition-all';
+        } else {
+          dot.className = 'w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all';
+        }
+      });
+    }
+
+    function verifyPin() {
+      if (enteredPin === DEAN_WORKSHOP_PIN) {
+        closePinModal();
+        showActualAdminDrawer();
+      } else {
+        playTone('pop');
+        const err = document.getElementById('pinErrorMsg');
+        if (err) err.textContent = 'Incorrect PIN passcode. Try again.';
+        enteredPin = '';
+        updatePinDots();
+      }
+    }
+
+    function showActualAdminDrawer() {
+      // Pre-populate input fields
+      const bTitle = document.getElementById('adminBalloonTitle');
+      const bDesc = document.getElementById('adminBalloonDesc');
+      if (bTitle) bTitle.value = customPrizes.balloonSingle?.title || DEFAULT_PRIZES.balloonSingle.title;
+      if (bDesc) bDesc.value = customPrizes.balloonSingle?.desc || DEFAULT_PRIZES.balloonSingle.desc;
+
+      const boxTitle = document.getElementById('adminBoxTitle');
+      const boxDesc = document.getElementById('adminBoxDesc');
+      if (boxTitle) boxTitle.value = customPrizes.boxSingle?.title || DEFAULT_PRIZES.boxSingle.title;
+      if (boxDesc) boxDesc.value = customPrizes.boxSingle?.desc || DEFAULT_PRIZES.boxSingle.desc;
+
+      const scTitle = document.getElementById('adminScratchTitle');
+      const scDesc = document.getElementById('adminScratchDesc');
+      if (scTitle) scTitle.value = customPrizes.scratch?.title || DEFAULT_PRIZES.scratch.title;
+      if (scDesc) scDesc.value = customPrizes.scratch?.desc || DEFAULT_PRIZES.scratch.desc;
+
+      const ckTitle = document.getElementById('adminCookieTitle');
+      const ckDesc = document.getElementById('adminCookieDesc');
+      if (ckTitle) ckTitle.value = customPrizes.cookieSingle?.title || DEFAULT_PRIZES.cookieSingle.title;
+      if (ckDesc) ckDesc.value = customPrizes.cookieSingle?.desc || DEFAULT_PRIZES.cookieSingle.desc;
+
+      const cndTitle = document.getElementById('adminCandlesTitle');
+      const cndDesc = document.getElementById('adminCandlesDesc');
+      if (cndTitle) cndTitle.value = customPrizes.candlesPrize?.title || DEFAULT_PRIZES.candlesPrize.title;
+      if (cndDesc) cndDesc.value = customPrizes.candlesPrize?.desc || DEFAULT_PRIZES.candlesPrize.desc;
+
+      const kissTitle = document.getElementById('adminBonusGiftTitle');
+      const kissDesc = document.getElementById('adminBonusGiftNote');
+      if (kissTitle) kissTitle.value = customPrizes.bonusKissGift?.title || DEFAULT_PRIZES.bonusKissGift.title;
+      if (kissDesc) kissDesc.value = customPrizes.bonusKissGift?.desc || DEFAULT_PRIZES.bonusKissGift.desc;
+
+      const wheelPreset = document.getElementById('adminPresetWheelWinner');
+      if (wheelPreset) wheelPreset.value = customPrizes.presetWheelWinner || DEFAULT_PRIZES.presetWheelWinner;
+
+      const wheelSlices = document.getElementById('adminWheelSlices');
+      if (wheelSlices) {
+        const slices = customPrizes.wheel || DEFAULT_PRIZES.wheel;
+        wheelSlices.value = slices.join('\n');
+      }
+
+      const datePicker = document.getElementById('adminLiveDateInput');
+      if (datePicker) datePicker.value = selectedLiveDate;
+
+      const toggle = document.getElementById('adminBypassLockToggle');
+      if (toggle) toggle.checked = bypassLock;
+
+      renderAdminPhotoList();
+      checkNotificationStatus();
+      drawWorkshopWheel();
+
+      document.getElementById('adminModal')?.classList.remove('hidden');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal')?.classList.add('hidden');
+    }
+
+    function toggleBypassLock(checked) {
+      bypassLock = checked;
+      updateCountdownGate();
+      renderArcadeHub();
+    }
+
+    function updateScheduledEventDate(newDateStr) {
+      if (!newDateStr) return;
+      selectedLiveDate = newDateStr;
+      TARGET_BIRTHDAY_GATE_ISO = `${selectedLiveDate}T00:00:00+11:00`;
+
+      GAME_SCHEDULE[0].unlockISO = `${selectedLiveDate}T08:00:00+11:00`;
+      GAME_SCHEDULE[1].unlockISO = `${selectedLiveDate}T09:30:00+11:00`;
+      GAME_SCHEDULE[2].unlockISO = `${selectedLiveDate}T11:00:00+11:00`;
+      GAME_SCHEDULE[3].unlockISO = `${selectedLiveDate}T12:30:00+11:00`;
+      GAME_SCHEDULE[4].unlockISO = `${selectedLiveDate}T14:00:00+11:00`;
+      GAME_SCHEDULE[5].unlockISO = `${selectedLiveDate}T15:00:00+11:00`;
+
+      updateCountdownGate();
+      renderArcadeHub();
+    }
+
+    function setLiveDateToToday() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const todayStr = `${year}-${month}-${day}`;
+
+      const datePicker = document.getElementById('adminLiveDateInput');
+      if (datePicker) datePicker.value = todayStr;
+      updateScheduledEventDate(todayStr);
+    }
+
+    function resetAllGamePlays() {
+      for (let i = 0; i < 6; i++) {
+        gamePlayState[i].completed = false;
+        gamePlayState[i].prizeWon = null;
+      }
+      walletSurprises = [];
+      scratchCardsInited = false;
+      scratchRevealed = false;
+      activeScratchCardIndex = null;
+      updateWalletBadges();
+      renderArcadeHub();
+      renderWalletView();
+      alert('All 6 games and wallet prizes have been reset for Hannah!');
+    }
+
+    function returnToCountdownGate() {
+      closeAdminModal();
+      const gate = document.getElementById('countdownGateView');
+      if (gate) {
+        gate.classList.remove('hidden', 'pointer-events-none');
+        gate.style.opacity = '1';
+        window.scrollTo(0, 0);
+      }
+    }
+
+    function saveAdminSettings() {
+      // Game 1
+      const bTitle = document.getElementById('adminBalloonTitle')?.value.trim();
+      const bDesc = document.getElementById('adminBalloonDesc')?.value.trim();
+      if (bTitle) customPrizes.balloonSingle.title = bTitle;
+      if (bDesc) customPrizes.balloonSingle.desc = bDesc;
+
+      // Game 2
+      const boxTitle = document.getElementById('adminBoxTitle')?.value.trim();
+      const boxDesc = document.getElementById('adminBoxDesc')?.value.trim();
+      if (boxTitle) customPrizes.boxSingle.title = boxTitle;
+      if (boxDesc) customPrizes.boxSingle.desc = boxDesc;
+
+      // Game 3
+      const scTitle = document.getElementById('adminScratchTitle')?.value.trim();
+      const scDesc = document.getElementById('adminScratchDesc')?.value.trim();
+      if (scTitle) customPrizes.scratch.title = scTitle;
+      if (scDesc) customPrizes.scratch.desc = scDesc;
+
+      // Game 4
+      const wheelPreset = document.getElementById('adminPresetWheelWinner')?.value.trim();
+      if (wheelPreset) customPrizes.presetWheelWinner = wheelPreset;
+
+      const wheelSlices = document.getElementById('adminWheelSlices')?.value.split('\n').map(s => s.trim()).filter(Boolean);
+      if (wheelSlices && wheelSlices.length === 8) {
+        customPrizes.wheel = wheelSlices;
+      }
+
+      // Game 5
+      const ckTitle = document.getElementById('adminCookieTitle')?.value.trim();
+      const ckDesc = document.getElementById('adminCookieDesc')?.value.trim();
+      if (ckTitle) customPrizes.cookieSingle.title = ckTitle;
+      if (ckDesc) customPrizes.cookieSingle.desc = ckDesc;
+
+      // Game 6
+      const cndTitle = document.getElementById('adminCandlesTitle')?.value.trim();
+      const cndDesc = document.getElementById('adminCandlesDesc')?.value.trim();
+      if (cndTitle) customPrizes.candlesPrize.title = cndTitle;
+      if (cndDesc) customPrizes.candlesPrize.desc = cndDesc;
+
+      // 10 Kisses Extra Surprise
+      const kissTitle = document.getElementById('adminBonusGiftTitle')?.value.trim();
+      const kissDesc = document.getElementById('adminBonusGiftNote')?.value.trim();
+      if (kissTitle) customPrizes.bonusKissGift.title = kissTitle;
+      if (kissDesc) customPrizes.bonusKissGift.desc = kissDesc;
+
+      // Draw workshop wheel
+      drawWorkshopWheel();
+
+      closeAdminModal();
+    }
+
+    /* =========================================================
+       PHOTO CAROUSEL RENDERING
+       ========================================================= */
     function renderCarousel() {
       const track = document.getElementById('photoCarouselTrack');
       const dotsContainer = document.getElementById('carouselDots');
@@ -1689,43 +1840,22 @@
       dotsContainer.innerHTML = '';
 
       photos.forEach((photo, idx) => {
-        // Slide item
         const slide = document.createElement('div');
-        slide.className = 'w-full h-full flex-shrink-0 relative flex items-center justify-center overflow-hidden';
+        slide.className = 'w-full h-full flex-shrink-0 relative overflow-hidden flex flex-col justify-end p-3.5';
         slide.innerHTML = `
-          <img src="${photo.url}" alt="${photo.caption}" class="w-full h-full object-cover select-none pointer-events-none" onerror="this.src='https://placehold.co/600x375/ffe4e9/be1248?text=Hannah+%26+Dean+❤️'">
-          <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/75 via-slate-900/35 to-transparent p-3 pt-6 text-white text-left">
-            <p class="text-xs font-bold leading-tight drop-shadow-sm">${photo.caption}</p>
-          </div>
+          <img src="${photo.url}" alt="Memory" class="absolute inset-0 w-full h-full object-cover">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+          <p class="relative z-10 text-white font-serif font-bold text-xs tracking-wide drop-shadow">${photo.caption || ''}</p>
         `;
         track.appendChild(slide);
 
-        // Dot
         const dot = document.createElement('button');
-        dot.className = `w-2 h-2 rounded-full transition-all ${idx === currentCarouselIndex ? 'bg-rose-500 w-5' : 'bg-rose-200'}`;
+        dot.className = `w-2 h-2 rounded-full transition-all ${idx === currentCarouselIndex ? 'bg-rose-500 w-4' : 'bg-rose-200'}`;
         dot.onclick = () => goToCarouselSlide(idx);
         dotsContainer.appendChild(dot);
       });
 
-      updateCarouselPosition();
-    }
-
-    function updateCarouselPosition() {
-      const track = document.getElementById('photoCarouselTrack');
-      const dots = document.getElementById('carouselDots')?.children;
-      if (!track) return;
-
       track.style.transform = `translateX(-${currentCarouselIndex * 100}%)`;
-
-      if (dots) {
-        for (let i = 0; i < dots.length; i++) {
-          if (i === currentCarouselIndex) {
-            dots[i].className = 'w-5 h-2 rounded-full bg-rose-500 transition-all';
-          } else {
-            dots[i].className = 'w-2 h-2 rounded-full bg-rose-200 transition-all';
-          }
-        }
-      }
     }
 
     function nextCarouselSlide() {
@@ -1745,316 +1875,130 @@
       updateCarouselPosition();
     }
 
-    /* =========================================================
-       PIN CODE LOCK FOR DEAN'S WORKSHOP (011188)
-       ========================================================= */
-    const WORKSHOP_PIN = '011188';
-    let currentPinInput = '';
+    function updateCarouselPosition() {
+      const track = document.getElementById('photoCarouselTrack');
+      const dotsContainer = document.getElementById('carouselDots');
+      if (track) track.style.transform = `translateX(-${currentCarouselIndex * 100}%)`;
 
-    function openAdminModal() {
-      // Instead of opening directly, show PIN keypad
-      currentPinInput = '';
-      updatePinDisplay();
-      document.getElementById('pinErrorMessage').textContent = '';
-      document.getElementById('pinLockModal').classList.remove('hidden');
-    }
-
-    function closePinLockModal() {
-      currentPinInput = '';
-      document.getElementById('pinLockModal').classList.add('hidden');
-    }
-
-    function pressPinKey(digit) {
-      if (currentPinInput.length >= 6) return;
-      currentPinInput += digit;
-      playTone('tick');
-      updatePinDisplay();
-
-      if (currentPinInput.length === 6) {
-        if (currentPinInput === WORKSHOP_PIN) {
-          playTone('fanfare');
-          closePinLockModal();
-          revealAdminDrawer();
-        } else {
-          playTone('pop');
-          const errMsg = document.getElementById('pinErrorMessage');
-          if (errMsg) errMsg.textContent = 'Incorrect PIN. Please try again.';
-          setTimeout(() => {
-            currentPinInput = '';
-            updatePinDisplay();
-          }, 600);
-        }
-      }
-    }
-
-    function deletePinKey() {
-      if (currentPinInput.length > 0) {
-        currentPinInput = currentPinInput.slice(0, -1);
-        updatePinDisplay();
-        document.getElementById('pinErrorMessage').textContent = '';
-      }
-    }
-
-    function updatePinDisplay() {
-      for (let i = 0; i < 6; i++) {
-        const dot = document.getElementById(`pinDot-${i}`);
-        if (dot) {
-          if (i < currentPinInput.length) {
-            dot.className = 'w-3.5 h-3.5 rounded-full bg-rose-500 border-2 border-rose-500 scale-110 transition-all';
+      if (dotsContainer) {
+        const dots = dotsContainer.children;
+        for (let i = 0; i < dots.length; i++) {
+          if (i === currentCarouselIndex) {
+            dots[i].className = 'w-4 h-2 rounded-full bg-rose-500 transition-all';
           } else {
-            dot.className = 'w-3.5 h-3.5 rounded-full border-2 border-slate-300 transition-all';
+            dots[i].className = 'w-2 h-2 rounded-full bg-rose-200 transition-all';
           }
         }
       }
     }
 
-    function revealAdminDrawer() {
-      // Set current date input
-      const dateInput = document.getElementById('adminLiveDateInput');
-      if (dateInput) dateInput.value = selectedLiveDate;
-
-      // Bonus kiss customizer inputs
-      const bonusData = customPrizes.bonusKissGift || DEFAULT_PRIZES.bonusKissGift;
-      document.getElementById('adminBonusGiftTitle').value = bonusData.title;
-      document.getElementById('adminBonusGiftNote').value = bonusData.desc;
-
-      // Game 1: Guaranteed Single Balloon Prize
-      const balloonPrize = customPrizes.balloonSingle || DEFAULT_PRIZES.balloonSingle;
-      document.getElementById('adminPrizeBalloonSingle').value = balloonPrize.title;
-      document.getElementById('adminPrizeBalloonSingleDesc').value = balloonPrize.desc;
-
-      // Game 2: Guaranteed Single Box Prize
-      const boxPrize = customPrizes.boxSingle || DEFAULT_PRIZES.boxSingle;
-      document.getElementById('adminPrizeBoxSingle').value = boxPrize.title;
-      document.getElementById('adminPrizeBoxSingleDesc').value = boxPrize.desc;
-
-      // Game 3: Gold Scratch input
-      document.getElementById('adminPrizeScratch').value = customPrizes.scratch?.title || DEFAULT_PRIZES.scratch.title;
-
-      // Game 4: Fortune Wheel slices & preset winner
-      const slices = getWheelPrizes();
-      document.getElementById('adminWheelSlices').value = slices.join('\n');
-      document.getElementById('adminPresetWheelWinner').value = customPrizes.presetWheelWinner || "Romantic Dinner";
-
-      // Game 5: Guaranteed Single Cookie Prophecy
-      const cookiePrize = customPrizes.cookieSingle || DEFAULT_PRIZES.cookieSingle;
-      document.getElementById('adminPrizeCookieSingle').value = cookiePrize.title;
-      document.getElementById('adminPrizeCookieSingleDesc').value = cookiePrize.desc;
-
-      // Game 6: Blow Candles input
-      const candlesPrize = customPrizes.candlesPrize || DEFAULT_PRIZES.candlesPrize;
-      document.getElementById('adminPrizeCandles').value = candlesPrize.title;
-      document.getElementById('adminPrizeCandlesDesc').value = candlesPrize.desc;
-
-      // Homepage Scheduled Love Messages
-      const msgs = customPrizes.heroMessages || DEFAULT_PRIZES.heroMessages;
-      document.getElementById('adminMsgInitial').value = msgs.initial;
-      document.getElementById('adminMsgGame0').value = msgs.afterGame0;
-      document.getElementById('adminMsgGame1').value = msgs.afterGame1;
-      document.getElementById('adminMsgGame2').value = msgs.afterGame2;
-      document.getElementById('adminMsgGame3').value = msgs.afterGame3;
-      document.getElementById('adminMsgGame4').value = msgs.afterGame4;
-      document.getElementById('adminMsgGame5').value = msgs.afterGame5;
-
-      // Carousel URLs
-      const photos = customPrizes.carouselPhotos || DEFAULT_PRIZES.carouselPhotos;
-      renderAdminPhotoList();
-
-      // Toggle state
-      document.getElementById('adminBypassLockToggle').checked = bypassLock;
-
-      // Update iOS notification permission status badge
-      checkNotificationStatus();
-
-      // Draw preview wheel in workshop
-      drawWorkshopWheel();
-
-      document.getElementById('adminModal').classList.remove('hidden');
-    }
-
-    function closeAdminModal() {
-      document.getElementById('adminModal').classList.add('hidden');
-    }
-
-    function toggleBypassLock(checked) {
-      bypassLock = checked;
-      renderArcadeHub();
-      updateCountdownGate();
-    }
-
-    function returnToCountdownGate() {
-      closeAdminModal();
-      const gate = document.getElementById('countdownGateView');
-      if (gate) {
-        gate.style.opacity = '1';
-        gate.classList.remove('hidden', 'pointer-events-none');
-      }
-    }
-
-    function resetAllGamePlays() {
-      gamePlayState = [
-        { completed: false, prizeWon: null },
-        { completed: false, prizeWon: null },
-        { completed: false, prizeWon: null },
-        { completed: false, prizeWon: null },
-        { completed: false, prizeWon: null },
-        { completed: false, prizeWon: null }
-      ];
-
-      walletSurprises = [];
-      updateWalletBadges();
-      updateHeroLoveMessage();
-
-      // Reset UI elements
-      for (let i = 0; i < 4; i++) {
-        const wrap = document.getElementById(`balloon-wrap-${i}`);
-        if (wrap) {
-          wrap.classList.remove('pointer-events-none', 'opacity-70');
-          wrap.onclick = () => popBalloon(i);
-        }
-        const box = document.getElementById(`gift-box-${i}`);
-        if (box) {
-          box.classList.remove('pointer-events-none', 'opacity-70', 'border-rose-300', 'bg-rose-50', 'is-opened');
-          box.onclick = () => openGiftBox(i);
-        }
-      }
-
-      for (let i = 0; i < 3; i++) {
-        const card = document.getElementById(`cookie-card-${i}`);
-        if (card) {
-          card.classList.remove('pointer-events-none', 'opacity-70', 'bg-amber-50', 'border-amber-300');
-          card.onclick = () => crackCookie(i);
-        }
-      }
-
-      renderArcadeHub();
-      alert('All 6 Arcade game plays & claimed wallet items have been reset!');
-    }
-
-    function saveAdminSettings() {
-      // Save Bonus Kiss Gift
-      const bonusTitle = document.getElementById('adminBonusGiftTitle').value.trim();
-      const bonusNote = document.getElementById('adminBonusGiftNote').value.trim();
-      if (bonusTitle) customPrizes.bonusKissGift.title = bonusTitle;
-      if (bonusNote) customPrizes.bonusKissGift.desc = bonusNote;
-
-      // Save Game 1: Balloon Pop Guaranteed Single Prize
-      const balloonTitle = document.getElementById('adminPrizeBalloonSingle').value.trim();
-      const balloonDesc = document.getElementById('adminPrizeBalloonSingleDesc').value.trim();
-      if (!customPrizes.balloonSingle) customPrizes.balloonSingle = {};
-      if (balloonTitle) customPrizes.balloonSingle.title = balloonTitle;
-      if (balloonDesc) customPrizes.balloonSingle.desc = balloonDesc;
-
-      // Save Game 2: Box Unwrap Guaranteed Single Prize
-      const boxTitle = document.getElementById('adminPrizeBoxSingle').value.trim();
-      const boxDesc = document.getElementById('adminPrizeBoxSingleDesc').value.trim();
-      if (!customPrizes.boxSingle) customPrizes.boxSingle = {};
-      if (boxTitle) customPrizes.boxSingle.title = boxTitle;
-      if (boxDesc) customPrizes.boxSingle.desc = boxDesc;
-
-      // Save Game 3: Gold Scratch
-      customPrizes.scratch.title = document.getElementById('adminPrizeScratch').value || customPrizes.scratch.title;
-
-      // Game 4: Fortune Wheel slices & preset winner
-      const rawSlices = document.getElementById('adminWheelSlices').value.split('\n').map(s => s.trim()).filter(Boolean);
-      if (rawSlices.length === 8) {
-        customPrizes.wheel = rawSlices;
-      }
-      const presetWinner = document.getElementById('adminPresetWheelWinner').value.trim();
-      customPrizes.presetWheelWinner = presetWinner;
-      if (presetWinner && !customPrizes.wheel.map(s => s.toLowerCase()).includes(presetWinner.toLowerCase())) {
-        customPrizes.wheel[0] = presetWinner;
-      }
-
-      // Save Game 5: Fortune Cookie Guaranteed Single Prophecy
-      const cookieTitle = document.getElementById('adminPrizeCookieSingle').value.trim();
-      const cookieDesc = document.getElementById('adminPrizeCookieSingleDesc').value.trim();
-      if (!customPrizes.cookieSingle) customPrizes.cookieSingle = {};
-      if (cookieTitle) customPrizes.cookieSingle.title = cookieTitle;
-      if (cookieDesc) customPrizes.cookieSingle.desc = cookieDesc;
-
-      // Save Game 6: Blow the Candles Out Grand Prize
-      const candlesTitle = document.getElementById('adminPrizeCandles').value.trim();
-      const candlesDesc = document.getElementById('adminPrizeCandlesDesc').value.trim();
-      if (!customPrizes.candlesPrize) customPrizes.candlesPrize = {};
-      if (candlesTitle) customPrizes.candlesPrize.title = candlesTitle;
-      if (candlesDesc) customPrizes.candlesPrize.desc = candlesDesc;
-
-      // Save Scheduled Love Messages
-      if (!customPrizes.heroMessages) customPrizes.heroMessages = {};
-      customPrizes.heroMessages.initial = document.getElementById('adminMsgInitial').value.trim() || DEFAULT_PRIZES.heroMessages.initial;
-      customPrizes.heroMessages.afterGame0 = document.getElementById('adminMsgGame0').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame0;
-      customPrizes.heroMessages.afterGame1 = document.getElementById('adminMsgGame1').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame1;
-      customPrizes.heroMessages.afterGame2 = document.getElementById('adminMsgGame2').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame2;
-      customPrizes.heroMessages.afterGame3 = document.getElementById('adminMsgGame3').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame3;
-      customPrizes.heroMessages.afterGame4 = document.getElementById('adminMsgGame4').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame4;
-      customPrizes.heroMessages.afterGame5 = document.getElementById('adminMsgGame5').value.trim() || DEFAULT_PRIZES.heroMessages.afterGame5;
-
-      saveCarouselPhotosToStorage();
-      renderCarousel();
-      updateHeroLoveMessage();
-      drawWorkshopWheel();
-      closeAdminModal();
-    }
-
     /* =========================================================
-       PHOTO UPLOADER & DEVICE PERSISTENCE (IndexedDB)
+       PHOTO UPLOAD & INDEXEDDB STORAGE (iPhone Local Storage)
        ========================================================= */
     const DB_NAME = 'HannahBirthdayPhotosDB';
-    const DB_VERSION = 1;
-    const STORE_NAME = 'photos';
+    const DB_STORE = 'photos';
 
-    function openPhotoDB() {
+    function openPhotosDB() {
       return new Promise((resolve, reject) => {
-        if (!('indexedDB' in window)) {
-          resolve(null);
-          return;
-        }
-        const request = indexedDB.open(DB_NAME, DB_VERSION);
-        request.onupgradeneeded = (e) => {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = (e) => {
           const db = e.target.result;
-          if (!db.objectStoreNames.contains(STORE_NAME)) {
-            db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+          if (!db.objectStoreNames.contains(DB_STORE)) {
+            db.createObjectStore(DB_STORE, { keyPath: 'id' });
           }
         };
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
       });
     }
 
     async function loadSavedPhotos() {
       try {
-        const db = await openPhotoDB();
-        if (!db) return;
-        const tx = db.transaction(STORE_NAME, 'readonly');
-        const store = tx.objectStore(STORE_NAME);
-        const req = store.get('carousel_photos');
+        const db = await openPhotosDB();
+        const tx = db.transaction(DB_STORE, 'readonly');
+        const store = tx.objectStore(DB_STORE);
+        const req = store.get('carouselPhotos');
+
         req.onsuccess = () => {
-          if (req.result && Array.isArray(req.result.photos) && req.result.photos.length > 0) {
-            customPrizes.carouselPhotos = req.result.photos;
-            currentCarouselIndex = 0;
-            renderCarousel();
+          if (req.result && Array.isArray(req.result.data) && req.result.data.length > 0) {
+            customPrizes.carouselPhotos = req.result.data;
+          } else {
+            customPrizes.carouselPhotos = JSON.parse(JSON.stringify(DEFAULT_PRIZES.carouselPhotos));
           }
+          renderCarousel();
+          renderAdminPhotoList();
         };
       } catch (err) {
-        console.warn('Could not load saved photos from IndexedDB:', err);
+        console.warn('IndexedDB not supported or accessible, fallback to default photos:', err);
+        customPrizes.carouselPhotos = JSON.parse(JSON.stringify(DEFAULT_PRIZES.carouselPhotos));
+        renderCarousel();
+        renderAdminPhotoList();
       }
     }
 
     async function saveCarouselPhotosToStorage() {
       try {
-        const db = await openPhotoDB();
-        if (!db) return;
-        const tx = db.transaction(STORE_NAME, 'readwrite');
-        const store = tx.objectStore(STORE_NAME);
-        store.put({ id: 'carousel_photos', photos: customPrizes.carouselPhotos });
+        const db = await openPhotosDB();
+        const tx = db.transaction(DB_STORE, 'readwrite');
+        const store = tx.objectStore(DB_STORE);
+        store.put({ id: 'carouselPhotos', data: customPrizes.carouselPhotos });
       } catch (err) {
-        console.warn('Could not save photos to IndexedDB:', err);
+        console.warn('Failed to save photos to IndexedDB:', err);
       }
     }
 
-    // Compress & downscale iPhone photos before saving so storage is smooth & fast
-    function compressImageFile(file) {
+    function renderAdminPhotoList() {
+      const container = document.getElementById('adminPhotoThumbnails');
+      if (!container) return;
+
+      const photos = customPrizes.carouselPhotos || DEFAULT_PRIZES.carouselPhotos;
+      container.innerHTML = '';
+
+      photos.forEach((item, idx) => {
+        const row = document.createElement('div');
+        row.className = 'flex items-center gap-2 p-1.5 bg-white rounded-xl border border-pink-200/80 shadow-xs';
+        row.innerHTML = `
+          <img src="${item.url}" alt="Preview" class="w-10 h-10 object-cover rounded-lg border border-pink-100 flex-shrink-0">
+          <input type="text" value="${item.caption || ''}" onchange="updatePhotoCaption(${idx}, this.value)" placeholder="Photo caption..." class="flex-1 text-[11px] p-1 border border-slate-200 rounded-lg">
+          <button type="button" onclick="deletePhotoSlide(${idx})" class="text-xs text-rose-500 hover:text-rose-700 p-1 px-2 font-bold" title="Delete Photo">✕</button>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function updatePhotoCaption(index, newCaption) {
+      if (customPrizes.carouselPhotos[index]) {
+        customPrizes.carouselPhotos[index].caption = newCaption.trim() || 'Our Memory 💖';
+        saveCarouselPhotosToStorage();
+        renderCarousel();
+      }
+    }
+
+    function deletePhotoSlide(index) {
+      if (!customPrizes.carouselPhotos || customPrizes.carouselPhotos.length <= 1) {
+        alert('You must keep at least 1 photo in the carousel!');
+        return;
+      }
+      customPrizes.carouselPhotos.splice(index, 1);
+      if (currentCarouselIndex >= customPrizes.carouselPhotos.length) {
+        currentCarouselIndex = 0;
+      }
+      saveCarouselPhotosToStorage();
+      renderCarousel();
+      renderAdminPhotoList();
+    }
+
+    async function resetToDefaultPhotos() {
+      customPrizes.carouselPhotos = JSON.parse(JSON.stringify(DEFAULT_PRIZES.carouselPhotos));
+      currentCarouselIndex = 0;
+      await saveCarouselPhotosToStorage();
+      renderCarousel();
+      renderAdminPhotoList();
+      playTone('fanfare');
+      alert('Photo carousel restored to defaults!');
+    }
+
+    function compressAndReadImage(file) {
       return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -2062,7 +2006,7 @@
           img.onload = () => {
             const canvas = document.createElement('canvas');
             const MAX_WIDTH = 900;
-            const MAX_HEIGHT = 650;
+            const MAX_HEIGHT = 900;
             let width = img.width;
             let height = img.height;
 
@@ -2082,7 +2026,7 @@
             canvas.height = height;
             const ctx = canvas.getContext('2d');
             ctx.drawImage(img, 0, 0, width, height);
-            resolve(canvas.toDataURL('image/jpeg', 0.85));
+            resolve(canvas.toDataURL('image/jpeg', 0.82));
           };
           img.src = e.target.result;
         };
@@ -2094,584 +2038,391 @@
       const files = event.target.files;
       if (!files || files.length === 0) return;
 
-      if (!Array.isArray(customPrizes.carouselPhotos)) {
-        customPrizes.carouselPhotos = [];
-      }
-
+      const loadedPhotos = [];
       for (let i = 0; i < files.length; i++) {
-        const compressedBase64 = await compressImageFile(files[i]);
-        customPrizes.carouselPhotos.push({
-          url: compressedBase64,
-          caption: "Our Sweet Moments 💕"
+        const dataUrl = await compressAndReadImage(files[i]);
+        loadedPhotos.push({
+          url: dataUrl,
+          caption: `Hannah & Dean Memory #${(customPrizes.carouselPhotos?.length || 0) + i + 1}`
         });
       }
 
-      event.target.value = '';
+      if (!customPrizes.carouselPhotos) customPrizes.carouselPhotos = [];
+      customPrizes.carouselPhotos.push(...loadedPhotos);
+
       await saveCarouselPhotosToStorage();
-      renderAdminPhotoList();
       renderCarousel();
+      renderAdminPhotoList();
       playTone('fanfare');
-    }
-
-    function renderAdminPhotoList() {
-      const container = document.getElementById('adminPhotoThumbnails');
-      if (!container) return;
-      container.innerHTML = '';
-
-      const photos = customPrizes.carouselPhotos || [];
-      if (photos.length === 0) {
-        container.innerHTML = '<p class="text-[9px] text-slate-400 italic">No photos uploaded yet. Tap "Upload Photos" above.</p>';
-        return;
-      }
-
-      photos.forEach((photo, idx) => {
-        const row = document.createElement('div');
-        row.className = 'flex items-center gap-2.5 p-2 bg-white rounded-xl border border-pink-100 shadow-xs';
-        row.innerHTML = `
-          <img src="${photo.url}" class="w-11 h-11 rounded-lg object-cover flex-shrink-0 border border-slate-200">
-          <div class="flex-1 min-w-0">
-            <input type="text" value="${photo.caption || ''}" placeholder="Caption for Hannah" 
-              class="w-full text-[10px] p-1 rounded-md border border-slate-200 focus:border-rose-400 focus:outline-none"
-              onchange="updatePhotoCaption(${idx}, this.value)">
-          </div>
-          <button type="button" onclick="deleteUploadedPhoto(${idx})" class="p-1 rounded-md text-rose-500 hover:bg-rose-50 active:scale-90" title="Delete Photo">
-            ✕
-          </button>
-        `;
-        container.appendChild(row);
-      });
-    }
-
-    function updatePhotoCaption(idx, newCaption) {
-      if (customPrizes.carouselPhotos && customPrizes.carouselPhotos[idx]) {
-        customPrizes.carouselPhotos[idx].caption = newCaption;
-        saveCarouselPhotosToStorage();
-        renderCarousel();
-      }
-    }
-
-    async function deleteUploadedPhoto(idx) {
-      if (customPrizes.carouselPhotos && customPrizes.carouselPhotos[idx]) {
-        customPrizes.carouselPhotos.splice(idx, 1);
-        await saveCarouselPhotosToStorage();
-        currentCarouselIndex = 0;
-        renderAdminPhotoList();
-        renderCarousel();
-      }
-    }
-
-    async function resetToDefaultPhotos() {
-      customPrizes.carouselPhotos = JSON.parse(JSON.stringify(DEFAULT_PRIZES.carouselPhotos));
-      await saveCarouselPhotosToStorage();
-      currentCarouselIndex = 0;
-      renderAdminPhotoList();
-      renderCarousel();
-      alert('Photos reset to default!');
+      alert(`${loadedPhotos.length} photo(s) added and saved to your device!`);
+      event.target.value = '';
     }
 
     /* =========================================================
-       WEB AUDIO SYNTHESIZER (No external audio files)
+       WEB AUDIO SYNTHESIZER ENGINE (Music-Box Sound Effects)
        ========================================================= */
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
     let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
 
     function playTone(type) {
       try {
-        if (!audioCtx) audioCtx = new AudioCtx();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-
-        const now = audioCtx.currentTime;
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
+        const ctx = getAudioContext();
+        const now = ctx.currentTime;
 
         if (type === 'pop') {
-          osc.type = 'triangle';
-          osc.frequency.setValueAtTime(280, now);
-          osc.frequency.exponentialRampToValueAtTime(70, now + 0.12);
-          gain.gain.setValueAtTime(0.4, now);
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, now);
+          osc.frequency.exponentialRampToValueAtTime(110, now + 0.12);
+          gain.gain.setValueAtTime(0.3, now);
           gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
           osc.start(now);
           osc.stop(now + 0.12);
         } else if (type === 'unwrap') {
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(450, now);
-          osc.frequency.linearRampToValueAtTime(800, now + 0.25);
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(320, now);
+          osc.frequency.exponentialRampToValueAtTime(640, now + 0.18);
           gain.gain.setValueAtTime(0.25, now);
-          gain.gain.linearRampToValueAtTime(0.01, now + 0.25);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
           osc.start(now);
-          osc.stop(now + 0.25);
-        } else if (type === 'fanfare') {
-          const notes = [523.25, 659.25, 783.99, 1046.5];
-          notes.forEach((freq, idx) => {
-            const o = audioCtx.createOscillator();
-            const g = audioCtx.createGain();
-            o.connect(g);
-            g.connect(audioCtx.destination);
-            o.type = 'sine';
-            o.frequency.value = freq;
-            g.gain.setValueAtTime(0.2, now + idx * 0.1);
-            g.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.35);
-            o.start(now + idx * 0.1);
-            o.stop(now + idx * 0.1 + 0.35);
-          });
+          osc.stop(now + 0.18);
         } else if (type === 'tick') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
           osc.type = 'sine';
           osc.frequency.setValueAtTime(900, now);
-          gain.gain.setValueAtTime(0.06, now);
+          gain.gain.setValueAtTime(0.08, now);
           gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
           osc.start(now);
           osc.stop(now + 0.04);
+        } else if (type === 'fanfare') {
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, idx) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.09);
+            gain.gain.setValueAtTime(0.2, now + idx * 0.09);
+            gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.09 + 0.28);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now + idx * 0.09);
+            osc.stop(now + idx * 0.09 + 0.28);
+          });
         } else if (type === 'puff') {
-          osc.type = 'pink' || 'sine';
-          osc.frequency.setValueAtTime(220, now);
-          osc.frequency.linearRampToValueAtTime(110, now + 0.2);
-          gain.gain.setValueAtTime(0.18, now);
-          gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
-          osc.start(now);
-          osc.stop(now + 0.2);
+          const bufferSize = ctx.sampleRate * 0.15;
+          const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+          }
+          const noise = ctx.createBufferSource();
+          noise.buffer = buffer;
+          const filter = ctx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(800, now);
+          filter.frequency.exponentialRampToValueAtTime(120, now + 0.15);
+          const gain = ctx.createGain();
+          gain.gain.setValueAtTime(0.35, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+          noise.connect(filter);
+          filter.connect(gain);
+          gain.connect(ctx.destination);
+          noise.start(now);
+          noise.stop(now + 0.15);
         }
-      } catch (e) {
-        console.warn('Audio not initialized yet or unsupported', e);
+      } catch (err) {
+        console.warn('Audio playback error:', err);
       }
     }
 
-    /* =========================================================
-       HAPPY BIRTHDAY MELODY SYNTHESIZER
-       Plays the complete classic Happy Birthday tune
-       ========================================================= */
     function playHappyBirthdaySong() {
       try {
-        if (!audioCtx) audioCtx = new AudioCtx();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const ctx = getAudioContext();
+        const now = ctx.currentTime + 0.1;
 
-        // Note frequencies (Hz)
-        const C4 = 261.63, D4 = 293.66, E4 = 329.63, F4 = 349.23, G4 = 392.00, A4 = 440.00, B4 = 493.88, C5 = 523.25;
-        const Bb4 = 466.16;
+        // Notes and durations (in beats) for full classic Happy Birthday
+        const melody = [
+          { note: 261.63, dur: 0.75 }, // C4
+          { note: 261.63, dur: 0.25 }, // C4
+          { note: 293.66, dur: 1.0 },  // D4
+          { note: 261.63, dur: 1.0 },  // C4
+          { note: 349.23, dur: 1.0 },  // F4
+          { note: 329.63, dur: 2.0 },  // E4
 
-        // Tune: [note, durationInBeats]
-        const song = [
-          // "Hap-py birth-day to you"
-          [C4, 0.75], [C4, 0.25], [D4, 1.0], [C4, 1.0], [F4, 1.0], [E4, 2.0],
-          // "Hap-py birth-day to you"
-          [C4, 0.75], [C4, 0.25], [D4, 1.0], [C4, 1.0], [G4, 1.0], [F4, 2.0],
-          // "Hap-py birth-day dear Han-nah"
-          [C4, 0.75], [C4, 0.25], [C5, 1.0], [A4, 1.0], [F4, 1.0], [E4, 1.0], [D4, 2.0],
-          // "Hap-py birth-day to you"
-          [Bb4, 0.75], [Bb4, 0.25], [A4, 1.0], [F4, 1.0], [G4, 1.0], [F4, 2.5]
+          { note: 261.63, dur: 0.75 }, // C4
+          { note: 261.63, dur: 0.25 }, // C4
+          { note: 293.66, dur: 1.0 },  // D4
+          { note: 261.63, dur: 1.0 },  // C4
+          { note: 392.00, dur: 1.0 },  // G4
+          { note: 349.23, dur: 2.0 },  // F4
+
+          { note: 261.63, dur: 0.75 }, // C4
+          { note: 261.63, dur: 0.25 }, // C4
+          { note: 523.25, dur: 1.0 },  // C5
+          { note: 440.00, dur: 1.0 },  // A4
+          { note: 349.23, dur: 1.0 },  // F4
+          { note: 329.63, dur: 1.0 },  // E4
+          { note: 293.66, dur: 2.0 },  // D4
+
+          { note: 466.16, dur: 0.75 }, // Bb4
+          { note: 466.16, dur: 0.25 }, // Bb4
+          { note: 440.00, dur: 1.0 },  // A4
+          { note: 349.23, dur: 1.0 },  // F4
+          { note: 392.00, dur: 1.0 },  // G4
+          { note: 349.23, dur: 2.5 }   // F4
         ];
 
-        let cursorTime = audioCtx.currentTime + 0.05;
-        const beatDuration = 0.38; // Tempo
+        const tempo = 0.45;
+        let cumulativeTime = 0;
 
-        song.forEach(([freq, beats]) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.type = 'triangle'; // Warm, musical music-box tone
-          osc.frequency.setValueAtTime(freq, cursorTime);
+        melody.forEach(step => {
+          const startTime = now + cumulativeTime;
+          const duration = step.dur * tempo;
 
-          const noteDuration = beats * beatDuration;
-          const playTime = noteDuration * 0.88; // subtle staccato gap
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
 
-          gain.gain.setValueAtTime(0.001, cursorTime);
-          gain.gain.linearRampToValueAtTime(0.24, cursorTime + 0.03);
-          gain.gain.setValueAtTime(0.20, cursorTime + playTime - 0.05);
-          gain.gain.exponentialRampToValueAtTime(0.001, cursorTime + playTime);
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(step.note, startTime);
+
+          gain.gain.setValueAtTime(0.24, startTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration * 0.95);
 
           osc.connect(gain);
-          gain.connect(audioCtx.destination);
+          gain.connect(ctx.destination);
 
-          osc.start(cursorTime);
-          osc.stop(cursorTime + playTime);
+          osc.start(startTime);
+          osc.stop(startTime + duration);
 
-          cursorTime += noteDuration;
+          cumulativeTime += duration;
         });
       } catch (err) {
-        console.warn('Could not play Happy Birthday tune:', err);
+        console.warn('Happy Birthday song audio error:', err);
       }
     }
 
     /* =========================================================
-       NAVIGATION ROUTING & GUARDS
+       NAVIGATION & ROUTING SYSTEM
        ========================================================= */
     const ALL_VIEWS = [
-      'view-home', 'view-arcade-hub', 'game-balloons', 'game-boxes', 
-      'game-scratch', 'game-wheel', 'game-cookie', 'game-candles', 'view-wallet'
+      'view-home',
+      'view-arcade-hub',
+      'game-balloons',
+      'game-boxes',
+      'game-scratch',
+      'game-wheel',
+      'game-cookie',
+      'game-candles',
+      'view-wallet'
     ];
 
     function navigateTo(targetViewId) {
-      // Check if target is a completed game
-      const gameIdx = GAME_SCHEDULE.findIndex(g => g.view === targetViewId);
-      if (gameIdx !== -1 && gamePlayState[gameIdx].completed) {
-        showAlreadyClaimedModal(gameIdx);
-        return;
-      }
+      window.scrollTo(0, 0);
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
 
-      // Check time locks for arcade games
-      if (gameIdx !== -1 && !bypassLock) {
-        const sched = GAME_SCHEDULE[gameIdx];
-        const now = new Date();
-        const unlockDate = new Date(sched.unlockISO);
-        if (now < unlockDate) {
-          showLockToast(sched);
-          return;
-        }
-      }
-
-      ALL_VIEWS.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.classList.add('hidden');
-      });
-
-      const active = document.getElementById(targetViewId);
-      if (active) active.classList.remove('hidden');
-
-      // Update bottom nav highlighting
-      const homeBtn = document.getElementById('nav-btn-home');
-      const arcadeBtn = document.getElementById('nav-btn-arcade');
-      const walletBtn = document.getElementById('nav-btn-wallet');
-
-      if (homeBtn && arcadeBtn && walletBtn) {
-        homeBtn.className = targetViewId === 'view-home' 
-          ? 'flex flex-col items-center py-1 text-rose-600 transition-colors' 
-          : 'flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors';
-
-        arcadeBtn.className = (targetViewId === 'view-arcade-hub' || targetViewId.startsWith('game-'))
-          ? 'flex flex-col items-center py-1 text-rose-600 transition-colors' 
-          : 'flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors';
-
-        walletBtn.className = targetViewId === 'view-wallet'
-          ? 'relative flex flex-col items-center py-1 text-rose-600 transition-colors' 
-          : 'relative flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors';
-      }
-
-      if (targetViewId === 'view-arcade-hub') renderArcadeHub();
-      if (targetViewId === 'view-wallet') renderWallet();
-      if (targetViewId === 'game-scratch') initScratchCanvas();
-      if (targetViewId === 'game-wheel') initWheel();
-      if (targetViewId === 'game-candles') initCandlesGame();
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /* =========================================================
-       DYNAMIC HOMEPAGE LOVE MESSAGE
-       ========================================================= */
-    function updateHeroLoveMessage() {
-      const heroText = document.getElementById('heroSubtitleText');
-      if (!heroText) return;
-
-      const msgs = customPrizes.heroMessages || DEFAULT_PRIZES.heroMessages;
-
-      // Find the latest completed game
-      let latestCompleted = -1;
-      for (let i = 5; i >= 0; i--) {
-        if (gamePlayState[i].completed) {
-          latestCompleted = i;
-          break;
-        }
-      }
-
-      if (latestCompleted === -1) {
-        heroText.textContent = msgs.initial;
-      } else if (latestCompleted === 0) {
-        heroText.textContent = msgs.afterGame0;
-      } else if (latestCompleted === 1) {
-        heroText.textContent = msgs.afterGame1;
-      } else if (latestCompleted === 2) {
-        heroText.textContent = msgs.afterGame2;
-      } else if (latestCompleted === 3) {
-        heroText.textContent = msgs.afterGame3;
-      } else if (latestCompleted === 4) {
-        heroText.textContent = msgs.afterGame4;
-      } else if (latestCompleted === 5) {
-        heroText.textContent = msgs.afterGame5;
-      }
-    }
-
-    /* =========================================================
-       KISSES FROM DEAN & SECRET GIFT REWARD
-       ========================================================= */
-    function handleSendLove() {
-      kissesCount++;
-      const badge = document.getElementById('kissCountBadge');
-      if (badge) badge.textContent = kissesCount;
-
-      playTone('pop');
-
-      confetti({
-        particleCount: 15,
-        spread: 60,
-        origin: { y: 0.8 },
-        colors: ['#f43f5e', '#fb7185', '#fda4af', '#facc15']
-      });
-
-      if (kissesCount >= 10 && !bonusGiftClaimed) {
-        const bonusBtn = document.getElementById('bonusGiftBtn');
-        if (bonusBtn) bonusBtn.classList.remove('hidden');
-        playTone('fanfare');
-      }
-    }
-
-    function claimBonusKissGift() {
-      if (bonusGiftClaimed) return;
-      const bonusData = customPrizes.bonusKissGift || DEFAULT_PRIZES.bonusKissGift;
-      pendingPrize = {
-        title: bonusData.title,
-        desc: bonusData.desc,
-        icon: bonusData.icon,
-        gameId: 'bonus-kiss',
-        claimedAt: '10 Kisses Reward'
-      };
-      showPrizeModal(pendingPrize);
-      bonusGiftClaimed = true;
-      const bonusBtn = document.getElementById('bonusGiftBtn');
-      if (bonusBtn) bonusBtn.classList.add('hidden');
-    }
-
-    function testTriggerBonus() {
-      kissesCount = 10;
-      const badge = document.getElementById('kissCountBadge');
-      if (badge) badge.textContent = kissesCount;
-      const bonusBtn = document.getElementById('bonusGiftBtn');
-      if (bonusBtn) bonusBtn.classList.remove('hidden');
-      closeAdminModal();
-    }
-
-    function resetKissCount() {
-      kissesCount = 0;
-      bonusGiftClaimed = false;
-      const badge = document.getElementById('kissCountBadge');
-      if (badge) badge.textContent = '0';
-      const bonusBtn = document.getElementById('bonusGiftBtn');
-      if (bonusBtn) bonusBtn.classList.add('hidden');
-      alert('Kiss count reset back to 0!');
-    }
-
-    /* =========================================================
-       ARCADE SCHEDULE & TIMELINE RENDERING
-       ========================================================= */
-    function renderArcadeHub() {
-      const now = new Date();
-      const listEl = document.getElementById('arcadeTimelineList');
-      const spotlightEl = document.getElementById('nextGameSpotlight');
-      if (!listEl) return;
-
-      listEl.innerHTML = '';
-
-      let nextGame = null;
-
-      GAME_SCHEDULE.forEach((sched, idx) => {
-        const unlockDate = new Date(sched.unlockISO);
-        const isUnlocked = bypassLock || (now >= unlockDate);
-        const isCompleted = gamePlayState[idx].completed;
-
-        if (!isCompleted && !nextGame) {
-          nextGame = { ...sched, isUnlocked };
-        }
-
-        const item = document.createElement('div');
-        item.className = 'p-3.5 rounded-2xl border transition-all flex items-center justify-between ' +
-          (isCompleted 
-            ? 'bg-emerald-50/70 border-emerald-200' 
-            : isUnlocked 
-              ? 'bg-rose-50/80 border-rose-200 hover:shadow-sm cursor-pointer' 
-              : 'bg-slate-50/60 border-slate-200 opacity-80 cursor-pointer');
-
-        item.onclick = () => {
-          if (isCompleted) {
-            showAlreadyClaimedModal(idx);
-          } else if (isUnlocked) {
-            navigateTo(sched.view);
+      ALL_VIEWS.forEach(viewId => {
+        const el = document.getElementById(viewId);
+        if (el) {
+          if (viewId === targetViewId) {
+            el.classList.remove('hidden');
           } else {
-            showLockToast(sched);
+            el.classList.add('hidden');
+          }
+        }
+      });
+
+      // Update bottom navigation bar state
+      const navHome = document.getElementById('nav-btn-home');
+      const navArcade = document.getElementById('nav-btn-arcade');
+      const navWallet = document.getElementById('nav-btn-wallet');
+
+      if (navHome && navArcade && navWallet) {
+        navHome.className = 'flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors';
+        navArcade.className = 'flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors';
+        navWallet.className = 'relative flex flex-col items-center py-1 text-slate-400 hover:text-rose-500 transition-colors';
+
+        if (targetViewId === 'view-home') {
+          navHome.className = 'flex flex-col items-center py-1 text-rose-600 transition-colors';
+        } else if (targetViewId === 'view-wallet') {
+          navWallet.className = 'relative flex flex-col items-center py-1 text-rose-600 transition-colors';
+        } else {
+          navArcade.className = 'flex flex-col items-center py-1 text-rose-600 transition-colors';
+        }
+      }
+
+      // Initialize game visuals if entering specific games
+      if (targetViewId === 'view-arcade-hub') {
+        renderArcadeHub();
+      } else if (targetViewId === 'game-scratch') {
+        setTimeout(initScratchCanvas, 50);
+      } else if (targetViewId === 'game-wheel') {
+        setTimeout(initWheel, 50);
+      } else if (targetViewId === 'game-candles') {
+        setTimeout(initCandlesGame, 50);
+      } else if (targetViewId === 'view-wallet') {
+        renderWalletView();
+      }
+    }
+
+    /* =========================================================
+       ARCADE HUB RENDERING & SCHEDULE CHECKING
+       ========================================================= */
+    function isGameUnlocked(gameScheduleItem) {
+      if (bypassLock) return true;
+      const targetTime = new Date(gameScheduleItem.unlockISO).getTime();
+      return new Date().getTime() >= targetTime;
+    }
+
+    function renderArcadeHub() {
+      const timelineList = document.getElementById('arcadeTimelineList');
+      const spotlight = document.getElementById('nextGameSpotlight');
+      if (!timelineList || !spotlight) return;
+
+      timelineList.innerHTML = '';
+      let nextUpcomingGame = null;
+
+      GAME_SCHEDULE.forEach((g) => {
+        const unlocked = isGameUnlocked(g);
+        const played = gamePlayState[g.id].completed;
+
+        if (!unlocked && !nextUpcomingGame) {
+          nextUpcomingGame = g;
+        }
+
+        const card = document.createElement('div');
+        card.className = `p-3 rounded-2xl border flex items-center justify-between transition-all ${
+          played 
+            ? 'bg-emerald-50/70 border-emerald-200' 
+            : unlocked 
+              ? 'bg-rose-50/70 border-rose-200 cursor-pointer active:scale-98' 
+              : 'bg-slate-50 border-slate-200 opacity-75'
+        }`;
+
+        card.onclick = () => {
+          if (played) {
+            showAlreadyClaimedNotice();
+          } else if (unlocked) {
+            navigateTo(g.view);
+          } else {
+            showLockToast(g);
           }
         };
 
-        let badgeHtml = '';
-        if (isCompleted) {
-          badgeHtml = '<span class="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">✓ Claimed</span>';
-        } else if (isUnlocked) {
-          badgeHtml = '<span class="text-[10px] font-bold text-rose-600 bg-white border border-rose-200 px-2.5 py-1 rounded-full shadow-xs">Play Now &rarr;</span>';
-        } else {
-          badgeHtml = `<span class="text-[10px] font-medium text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-full">🔒 ${sched.timeStr}</span>`;
-        }
-
-        item.innerHTML = `
+        card.innerHTML = `
           <div class="flex items-center space-x-3">
-            <span class="text-2xl">${sched.icon}</span>
+            <span class="text-2xl">${g.icon}</span>
             <div>
-              <h4 class="font-bold text-xs text-slate-800">${sched.name}</h4>
-              <p class="text-[10px] text-slate-500">${isCompleted ? 'Prize claimed in wallet' : 'Scheduled: ' + sched.timeStr}</p>
+              <div class="flex items-center gap-1.5">
+                <h4 class="font-bold text-xs text-slate-800">${g.name}</h4>
+                ${played ? '<span class="text-[9px] bg-emerald-200 text-emerald-800 px-1.5 py-0.2 rounded font-bold">Claimed ✓</span>' : ''}
+              </div>
+              <p class="text-[10px] text-slate-500">${g.timeStr}</p>
             </div>
           </div>
-          <div>${badgeHtml}</div>
+          <div>
+            ${
+              played 
+                ? '<span class="text-xs font-bold text-emerald-600">Won 💌</span>' 
+                : unlocked 
+                  ? '<span class="text-xs font-bold text-rose-600 bg-white px-2.5 py-1 rounded-full border border-rose-200 shadow-xs">Play &rarr;</span>' 
+                  : '<span class="text-xs text-slate-400">🔒 Locked</span>'
+            }
+          </div>
         `;
-        listEl.appendChild(item);
+        timelineList.appendChild(card);
       });
 
-      // Render Spotlight Card
-      if (spotlightEl) {
-        if (!nextGame) {
-          spotlightEl.innerHTML = `
-            <div class="relative z-10 text-center py-3">
-              <span class="text-4xl block mb-1">🎉</span>
-              <h3 class="font-serif text-xl font-bold">All 6 Surprises Claimed!</h3>
-              <p class="text-xs text-rose-100 mt-1">Hannah, you've unlocked every birthday game! Check your wallet to enjoy your vouchers.</p>
-              <button onclick="navigateTo('view-wallet')" class="mt-3 px-5 py-2 rounded-full bg-white text-rose-600 font-bold text-xs shadow-md">
-                Open Wallet 💌
-              </button>
-            </div>
-          `;
-        } else {
-          spotlightEl.innerHTML = `
-            <div class="relative z-10 flex items-center justify-between">
-              <div class="space-y-1">
-                <span class="inline-block px-2.5 py-0.5 bg-white/20 backdrop-blur rounded-full text-[9px] font-bold tracking-wider uppercase">
-                  ${nextGame.isUnlocked ? 'Unlocked & Ready' : 'Next Up On Schedule'}
-                </span>
-                <h3 class="font-serif text-xl font-bold">${nextGame.name}</h3>
-                <p class="text-xs text-rose-100">${nextGame.timeStr}</p>
-              </div>
-              <span class="text-5xl filter drop-shadow">${nextGame.icon}</span>
-            </div>
-            <div class="mt-4 pt-3 border-t border-white/20 flex items-center justify-between">
-              <span class="text-xs text-rose-100">${nextGame.isUnlocked ? 'Available to play right now!' : 'Unlocks at scheduled ADST time'}</span>
-              <button onclick="${nextGame.isUnlocked ? `navigateTo('${nextGame.view}')` : `showLockToast(GAME_SCHEDULE[${nextGame.id}])`}" class="px-4 py-2 rounded-full font-bold text-xs shadow-md transition-all ${nextGame.isUnlocked ? 'bg-white text-rose-600 active:scale-95' : 'bg-white/30 text-white cursor-not-allowed'}">
-                ${nextGame.isUnlocked ? 'Play Now 🎁' : '🔒 Locked'}
-              </button>
-            </div>
-          `;
-        }
+      // Spotlight Header
+      if (nextUpcomingGame) {
+        spotlight.innerHTML = `
+          <div class="relative z-10 space-y-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-rose-200">Next Upcoming Surprise</span>
+            <h3 class="font-serif text-xl font-bold">${nextUpcomingGame.name} ${nextUpcomingGame.icon}</h3>
+            <p class="text-xs text-rose-100">Unlocks at ${nextUpcomingGame.timeStr} on ${selectedLiveDate}</p>
+          </div>
+        `;
+      } else {
+        spotlight.innerHTML = `
+          <div class="relative z-10 space-y-1">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-rose-200">All Surprises Active!</span>
+            <h3 class="font-serif text-xl font-bold">Happy 34th Birthday! 💖</h3>
+            <p class="text-xs text-rose-100">All birthday arcade games are ready for Hannah to enjoy!</p>
+          </div>
+        `;
       }
     }
 
-    function showLockToast(sched) {
-      document.getElementById('lockToastTitle').textContent = `Patience, Hannah! ❤️`;
-      document.getElementById('lockToastMsg').textContent = `${sched.name} unlocks at ${sched.timeStr} on ${selectedLiveDate}. Dean has a wonderful surprise waiting for you!`;
-      document.getElementById('lockToastModal').classList.remove('hidden');
+    function showLockToast(game) {
+      playTone('tick');
+      const title = document.getElementById('lockToastTitle');
+      const msg = document.getElementById('lockToastMsg');
+      if (title) title.textContent = `${game.name} is Locked ⏳`;
+      if (msg) msg.textContent = `Patience, beautiful girl! This game unlocks at ${game.timeStr} on ${selectedLiveDate}.`;
+      document.getElementById('lockToastModal')?.classList.remove('hidden');
     }
 
     function closeLockToast() {
-      document.getElementById('lockToastModal').classList.add('hidden');
+      document.getElementById('lockToastModal')?.classList.add('hidden');
     }
 
-    function showAlreadyClaimedModal(gameIdx) {
-      const won = gamePlayState[gameIdx].prizeWon;
-      const msg = document.getElementById('alreadyClaimedMsg');
-      if (msg && won) {
-        msg.textContent = `You've already completed this game and won "${won.title}"! It is safely stored in your permanent Prize Wallet.`;
-      }
-      document.getElementById('alreadyClaimedModal').classList.remove('hidden');
+    function showAlreadyClaimedNotice() {
+      playTone('tick');
+      document.getElementById('alreadyClaimedModal')?.classList.remove('hidden');
     }
 
     function closeAlreadyClaimedModal() {
-      document.getElementById('alreadyClaimedModal').classList.add('hidden');
+      document.getElementById('alreadyClaimedModal')?.classList.add('hidden');
     }
 
     /* =========================================================
-       PRIZE MODAL & WALLET DEDUPLICATION
-       ========================================================= */
-    function showPrizeModal(prize) {
-      pendingPrize = prize;
-      document.getElementById('modalPrizeIcon').textContent = prize.icon || '🎁';
-      document.getElementById('modalPrizeTitle').textContent = prize.title;
-      document.getElementById('modalPrizeDesc').textContent = prize.desc;
-      document.getElementById('prizeModal').classList.remove('hidden');
-
-      confetti({
-        particleCount: 50,
-        spread: 80,
-        origin: { y: 0.6 }
-      });
-    }
-
-    function confirmPrizeToWallet() {
-      if (!pendingPrize) {
-        document.getElementById('prizeModal').classList.add('hidden');
-        return;
-      }
-
-      // Prevent duplicate voucher from same gameId
-      const exists = walletSurprises.some(w => w.gameId === pendingPrize.gameId && w.title === pendingPrize.title);
-      if (!exists) {
-        walletSurprises.push({
-          ...pendingPrize,
-          id: Date.now()
-        });
-      }
-
-      const pGameId = pendingPrize.gameId;
-      pendingPrize = null;
-
-      document.getElementById('prizeModal').classList.add('hidden');
-      updateWalletBadges();
-      updateHeroLoveMessage();
-
-      // Show wallet dot
-      const dot = document.getElementById('navWalletDot');
-      if (dot) dot.classList.remove('hidden');
-
-      navigateTo('view-wallet');
-    }
-
-    function updateWalletBadges() {
-      const count = walletSurprises.length;
-      const b1 = document.getElementById('walletBadge');
-      if (b1) b1.textContent = count;
-    }
-
-    function renderWallet() {
-      const container = document.getElementById('walletItemsList');
-      const emptyNotice = document.getElementById('emptyWalletNotice');
-      if (!container || !emptyNotice) return;
-
-      container.innerHTML = '';
-
-      if (walletSurprises.length === 0) {
-        emptyNotice.classList.remove('hidden');
-      } else {
-        emptyNotice.classList.add('hidden');
-        walletSurprises.forEach(item => {
-          const card = document.createElement('div');
-          card.className = 'p-4 rounded-3xl bg-white border border-rose-100 shadow-sm relative overflow-hidden flex items-start gap-3.5';
-          card.innerHTML = `
-            <div class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-2xl flex-shrink-0">
-              ${item.icon || '💌'}
-            </div>
-            <div class="flex-1 pr-2">
-              <span class="text-[9px] font-bold uppercase tracking-wider text-rose-500">${item.claimedAt || 'Official Birthday Token'}</span>
-              <h4 class="font-serif font-bold text-slate-900 text-sm mt-0.5">${item.title}</h4>
-              <p class="text-xs text-slate-600 mt-1 leading-snug">${item.desc}</p>
-            </div>
-          `;
-          container.appendChild(card);
-        });
-      }
-    }
-
-    /* =========================================================
-       GAME 1: BALLOON POP (Single Guaranteed Prize)
+       GAME 1 & GAME 2 HANDLERS
        ========================================================= */
     function popBalloon(index) {
       if (gamePlayState[0].completed) return;
 
       playTone('pop');
+      confetti({
+        particleCount: 45,
+        spread: 60,
+        origin: { y: 0.6 }
+      });
+
+      const wrap = document.getElementById(`balloon-wrap-${index}`);
+      if (wrap) {
+        wrap.classList.add('pointer-events-none', 'opacity-70');
+        wrap.innerHTML = `<span class="text-5xl animate-pop-in">💥</span><span class="text-xs font-bold text-rose-500 mt-2">POPPED!</span>`;
+      }
 
       for (let i = 0; i < 4; i++) {
-        const wrap = document.getElementById(`balloon-wrap-${i}`);
-        if (wrap) {
-          wrap.classList.add('pointer-events-none');
-          if (i !== index) wrap.classList.add('opacity-40');
-        }
+        const otherWrap = document.getElementById(`balloon-wrap-${i}`);
+        if (otherWrap) otherWrap.classList.add('pointer-events-none');
       }
 
       const pData = customPrizes.balloonSingle || DEFAULT_PRIZES.balloonSingle;
       const winningPrize = {
         title: pData.title,
         desc: pData.desc,
-        icon: '🎈',
+        icon: pData.icon || '🥐',
         gameId: 'game-0',
         claimedAt: 'Game 1: Balloon Pop'
       };
@@ -2681,35 +2432,36 @@
 
       setTimeout(() => {
         showPrizeModal(winningPrize);
-      }, 350);
+      }, 400);
     }
 
-    /* =========================================================
-       GAME 2: BOX UNWRAP (Single Guaranteed Prize)
-       ========================================================= */
     function openGiftBox(index) {
       if (gamePlayState[1].completed) return;
 
       playTone('unwrap');
+      confetti({
+        particleCount: 50,
+        spread: 70,
+        origin: { y: 0.6 }
+      });
 
-      const targetBox = document.getElementById(`gift-box-${index}`);
-      if (targetBox) targetBox.classList.add('is-opened');
+      const box = document.getElementById(`gift-box-${index}`);
+      if (box) {
+        box.classList.add('is-opened');
+      }
 
       for (let i = 0; i < 4; i++) {
         const b = document.getElementById(`gift-box-${i}`);
-        if (b) {
-          b.classList.add('pointer-events-none');
-          if (i !== index) b.classList.add('opacity-40');
-        }
+        if (b) b.classList.add('pointer-events-none');
       }
 
       const pData = customPrizes.boxSingle || DEFAULT_PRIZES.boxSingle;
       const winningPrize = {
         title: pData.title,
         desc: pData.desc,
-        icon: '🎁',
+        icon: pData.icon || '🎁',
         gameId: 'game-1',
-        claimedAt: 'Game 2: Box Unwrap'
+        claimedAt: 'Game 2: Mystery Box'
       };
 
       gamePlayState[1].completed = true;
@@ -2717,66 +2469,259 @@
 
       setTimeout(() => {
         showPrizeModal(winningPrize);
-      }, 550);
+      }, 650);
     }
 
     /* =========================================================
-       GAME 3: GOLD FOIL SCRATCH CARD
+       PRIZE WALLET, MODALS & KISSES SYSTEM
        ========================================================= */
-    let scratchCanvasInited = false;
+    function showPrizeModal(prize) {
+      pendingPrize = prize;
+      playTone('fanfare');
+
+      const iconEl = document.getElementById('modalPrizeIcon');
+      const titleEl = document.getElementById('modalPrizeTitle');
+      const descEl = document.getElementById('modalPrizeDesc');
+      const subtitleEl = document.getElementById('modalPrizeSubtitle');
+
+      if (iconEl) iconEl.textContent = prize.icon || '🎁';
+      if (titleEl) titleEl.textContent = prize.title;
+      if (descEl) descEl.textContent = prize.desc;
+      if (subtitleEl) subtitleEl.textContent = prize.claimedAt || 'Surprise Unlocked!';
+
+      document.getElementById('prizeModal')?.classList.remove('hidden');
+    }
+
+    function confirmPrizeToWallet() {
+      if (pendingPrize) {
+        walletSurprises.push(pendingPrize);
+        pendingPrize = null;
+      }
+      document.getElementById('prizeModal')?.classList.add('hidden');
+      updateWalletBadges();
+      updateHeroLoveMessage();
+      navigateTo('view-wallet');
+    }
+
+    function updateWalletBadges() {
+      const badge = document.getElementById('walletBadge');
+      const dot = document.getElementById('navWalletDot');
+      const count = walletSurprises.length;
+
+      if (badge) badge.textContent = count;
+      if (dot) {
+        if (count > 0) dot.classList.remove('hidden');
+        else dot.classList.add('hidden');
+      }
+    }
+
+    function renderWalletView() {
+      const list = document.getElementById('walletItemsList');
+      const empty = document.getElementById('emptyWalletNotice');
+      if (!list || !empty) return;
+
+      list.innerHTML = '';
+      if (walletSurprises.length === 0) {
+        empty.classList.remove('hidden');
+      } else {
+        empty.classList.add('hidden');
+        walletSurprises.forEach((p, idx) => {
+          const item = document.createElement('div');
+          item.className = 'p-4 rounded-3xl bg-white border border-rose-200/80 shadow-sm flex items-start gap-3.5 animate-pop-in';
+          item.innerHTML = `
+            <div class="w-12 h-12 rounded-2xl bg-rose-50 border border-rose-100 flex items-center justify-center text-2xl flex-shrink-0">
+              ${p.icon || '🎁'}
+            </div>
+            <div class="flex-1 min-w-0">
+              <span class="text-[9px] uppercase font-bold text-rose-500 tracking-wider">${p.claimedAt || 'Surprise Gift'}</span>
+              <h4 class="font-serif font-bold text-slate-900 text-sm mt-0.5">${p.title}</h4>
+              <p class="text-xs text-slate-600 mt-1 leading-snug">${p.desc}</p>
+            </div>
+          `;
+          list.appendChild(item);
+        });
+      }
+    }
+
+    function updateHeroLoveMessage() {
+      const subtitleEl = document.getElementById('heroSubtitleText');
+      if (!subtitleEl) return;
+
+      const msgs = customPrizes.heroMessages || DEFAULT_PRIZES.heroMessages;
+
+      if (gamePlayState[5].completed) {
+        subtitleEl.textContent = msgs.afterGame5 || DEFAULT_PRIZES.heroMessages.afterGame5;
+      } else if (gamePlayState[4].completed) {
+        subtitleEl.textContent = msgs.afterGame4 || DEFAULT_PRIZES.heroMessages.afterGame4;
+      } else if (gamePlayState[3].completed) {
+        subtitleEl.textContent = msgs.afterGame3 || DEFAULT_PRIZES.heroMessages.afterGame3;
+      } else if (gamePlayState[2].completed) {
+        subtitleEl.textContent = msgs.afterGame2 || DEFAULT_PRIZES.heroMessages.afterGame2;
+      } else if (gamePlayState[1].completed) {
+        subtitleEl.textContent = msgs.afterGame1 || DEFAULT_PRIZES.heroMessages.afterGame1;
+      } else if (gamePlayState[0].completed) {
+        subtitleEl.textContent = msgs.afterGame0 || DEFAULT_PRIZES.heroMessages.afterGame0;
+      } else {
+        subtitleEl.textContent = msgs.initial || DEFAULT_PRIZES.heroMessages.initial;
+      }
+    }
+
+    /* =========================================================
+       KISSES FROM DEAN SYSTEM (10 Kisses = Extra Surprise)
+       ========================================================= */
+    function handleSendLove() {
+      kissesCount++;
+      playTone('pop');
+
+      confetti({
+        particleCount: 20,
+        spread: 45,
+        origin: { y: 0.7 }
+      });
+
+      const badge = document.getElementById('kissCountBadge');
+      if (badge) badge.textContent = kissesCount;
+
+      if (kissesCount >= 10 && !bonusGiftClaimed) {
+        const bonusBtn = document.getElementById('bonusGiftBtn');
+        if (bonusBtn) {
+          bonusBtn.classList.remove('hidden');
+          playTone('fanfare');
+        }
+      }
+    }
+
+    function claimBonusKissGift() {
+      if (bonusGiftClaimed) return;
+      bonusGiftClaimed = true;
+
+      const bonusBtn = document.getElementById('bonusGiftBtn');
+      if (bonusBtn) bonusBtn.classList.add('hidden');
+
+      const bData = customPrizes.bonusKissGift || DEFAULT_PRIZES.bonusKissGift;
+      const winningPrize = {
+        title: bData.title,
+        desc: bData.desc,
+        icon: bData.icon || '🎁',
+        gameId: 'kiss-bonus',
+        claimedAt: '10 Kisses Extra Gift 💋'
+      };
+
+      showPrizeModal(winningPrize);
+    }
+
+    function testTriggerBonus() {
+      kissesCount = 10;
+      const badge = document.getElementById('kissCountBadge');
+      if (badge) badge.textContent = kissesCount;
+      const bonusBtn = document.getElementById('bonusGiftBtn');
+      if (bonusBtn) bonusBtn.classList.remove('hidden');
+      alert('Bonus button unlocked on the Home screen!');
+    }
+
+    function resetKissCount() {
+      kissesCount = 0;
+      bonusGiftClaimed = false;
+      const badge = document.getElementById('kissCountBadge');
+      if (badge) badge.textContent = '0';
+      const bonusBtn = document.getElementById('bonusGiftBtn');
+      if (bonusBtn) bonusBtn.classList.add('hidden');
+      alert('Kisses counter reset to 0!');
+    }
+
+    /* =========================================================
+       GAME 3: GOLD FOIL SCRATCH CARD (3 Cards, 1 Active, Single Prize)
+       ========================================================= */
+    let scratchCardsInited = false;
     let scratchRevealed = false;
+    let activeScratchCardIndex = null;
 
     function initScratchCanvas() {
       const pData = customPrizes.scratch || DEFAULT_PRIZES.scratch;
-      const titleEl = document.getElementById('scratchPrizeTitle');
-      if (titleEl) titleEl.textContent = pData.title;
+      const titleLabels = document.querySelectorAll('.scratchPrizeTitleLabel');
+      titleLabels.forEach(el => {
+        el.textContent = pData.title;
+      });
 
-      if (scratchCanvasInited) return;
-      scratchCanvasInited = true;
+      if (scratchCardsInited) return;
+      scratchCardsInited = true;
 
-      const canvas = document.getElementById('scratchCanvas');
+      for (let cardIdx = 0; cardIdx < 3; cardIdx++) {
+        setupScratchCard(cardIdx, pData);
+      }
+    }
+
+    function lockOtherScratchCards(chosenIdx) {
+      if (activeScratchCardIndex !== null) return;
+      activeScratchCardIndex = chosenIdx;
+
+      for (let i = 0; i < 3; i++) {
+        if (i !== chosenIdx) {
+          const wrap = document.getElementById(`scratchCardWrap-${i}`);
+          const overlay = document.getElementById(`scratchLockOverlay-${i}`);
+          if (wrap) {
+            wrap.classList.add('opacity-50', 'pointer-events-none');
+          }
+          if (overlay) {
+            overlay.classList.remove('hidden');
+          }
+        }
+      }
+    }
+
+    function setupScratchCard(cardIdx, pData) {
+      const canvas = document.getElementById(`scratchCanvas-${cardIdx}`);
       if (!canvas) return;
 
       const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * 2 || 600;
-      canvas.height = rect.height * 2 || 450;
+      canvas.width = (rect.width || 300) * 2;
+      canvas.height = (rect.height || 170) * 2;
 
       const ctx = canvas.getContext('2d');
       ctx.scale(2, 2);
 
-      // Gold shimmer foil gradient
-      const grad = ctx.createLinearGradient(0, 0, rect.width, rect.height);
+      const renderW = rect.width || 300;
+      const renderH = rect.height || 170;
+
+      // Golden foil gradient
+      const grad = ctx.createLinearGradient(0, 0, renderW, renderH);
       grad.addColorStop(0, '#fef08a');
       grad.addColorStop(0.3, '#facc15');
       grad.addColorStop(0.7, '#ca8a04');
       grad.addColorStop(1, '#eab308');
 
       ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, rect.width, rect.height);
+      ctx.fillRect(0, 0, renderW, renderH);
 
       ctx.fillStyle = '#78350f';
-      ctx.font = 'bold 16px "Plus Jakarta Sans", sans-serif';
+      ctx.font = 'bold 13px "Plus Jakarta Sans", sans-serif';
       ctx.textAlign = 'center';
-      ctx.fillText('✨ Rub with finger to scratch ✨', rect.width / 2, rect.height / 2);
+      ctx.fillText(`✨ Scratch Card #${cardIdx + 1} ✨`, renderW / 2, renderH / 2);
 
       let isDrawing = false;
       let scratchedPixels = 0;
 
       function scratchAt(x, y) {
         if (scratchRevealed || gamePlayState[2].completed) return;
+        if (activeScratchCardIndex !== null && activeScratchCardIndex !== cardIdx) return;
+
+        // Lock out the other two cards upon first touch
+        if (activeScratchCardIndex === null) {
+          lockOtherScratchCards(cardIdx);
+        }
+
         ctx.globalCompositeOperation = 'destination-out';
         ctx.beginPath();
-        ctx.arc(x, y, 22, 0, Math.PI * 2);
+        ctx.arc(x, y, 20, 0, Math.PI * 2);
         ctx.fill();
 
         scratchedPixels++;
         if (scratchedPixels % 12 === 0) playTone('tick');
 
-        // Check scratch surface coverage every 10 scratch strokes
+        // Check scratch surface coverage every 10 strokes
         if (scratchedPixels % 10 === 0 && !scratchRevealed) {
           const w = canvas.width;
           const h = canvas.height;
-          // Sample pixel alpha values across the canvas (step size of 16 for mobile performance)
           const imgData = ctx.getImageData(0, 0, w, h);
           const data = imgData.data;
           let transparentPixels = 0;
@@ -2792,7 +2737,7 @@
           const percentCleared = Math.min(100, Math.round((transparentPixels / totalSampled) * 100));
           const progressEl = document.getElementById('scratchProgressText');
           if (progressEl) {
-            progressEl.textContent = `${percentCleared}% Scratched`;
+            progressEl.textContent = `Card #${cardIdx + 1}: ${percentCleared}% Scratched`;
           }
 
           // Trigger reveal only when 90% or more has been scratched
@@ -2812,7 +2757,7 @@
               desc: pData.desc,
               icon: '✨',
               gameId: 'game-2',
-              claimedAt: 'Game 3: Gold Scratch'
+              claimedAt: `Game 3: Gold Scratch (Card #${cardIdx + 1})`
             };
             gamePlayState[2].completed = true;
             gamePlayState[2].prizeWon = winningPrize;
